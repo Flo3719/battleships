@@ -1,3 +1,4 @@
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -14,15 +15,45 @@ import java.util.Map;
 
 public class GUIController {
     public GridPane enemyGrid;
+    public GridPane friendGrid;
     public Label friendNameLabel;
     public Label enemyNameLabel;
 
     public Button friendPlayButton0;
 
+    @FXML
+    public void initialize(){
+        addPlayButtons(friendGrid);
+    }
 
     public void handleButtonClick(Event evt){
         System.out.println(((Control)evt.getSource()).getId());
         friendNameLabel.setText(((Control)evt.getSource()).getId());
-        friendPlayButton0.setText("hi");
+    }
+
+    public void addPlayButtons(GridPane grid){
+
+
+//        Button button = new Button("~");
+//        grid.add(button, getColumn(5), getRow(5));
+        Button buttons[] = new Button[150];
+        //List<Button> buttons = new ArrayList<>();
+        for(int i = 0; i<=149; i++){
+            Button button = new Button(Integer.toString(i));
+            buttons[i] = button;
+            button.setId("friendPlayButton"+i);
+
+            buttons[i].setOnAction((ActionEvent event) -> {
+                handleButtonClick(event);
+            });
+            grid.add(buttons[i], getColumn(i), getRow(i));
+        }
+    }
+
+    public int getRow(int index){
+        return (index/10);
+    }
+    public int getColumn(int index){
+        return (index%15);
     }
 }

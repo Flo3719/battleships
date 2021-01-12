@@ -11,11 +11,16 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("battleships_good_copy.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("battleships_no_buttons.fxml"));
         System.out.println();
         primaryStage.setTitle("Battleships");
-        primaryStage.setScene(new Scene(root, 1182, 487+29));
+        Scene scene = new Scene(root, 1182, 487+29);
+        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    public void addPlayButtons(Parent root){
     }
 
 
