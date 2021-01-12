@@ -7,6 +7,7 @@ import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Paint;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,19 +40,29 @@ public class GUIController {
         Button buttons[] = new Button[150];
         //List<Button> buttons = new ArrayList<>();
         for(int i = 0; i<=149; i++){
+            // define button
             Button button = new Button(Integer.toString(i));
             buttons[i] = button;
-            button.setId("friendPlayButton"+i);
 
+            // set button attributes
+            button.setId("friendPlayButton"+i);
+            button.setText("~");
+            button.setTextFill(Paint.valueOf("White"));
+            button.setMinHeight(37);
+            button.setMinWidth(37);
+            button.setPrefHeight(37);
+            button.setPrefWidth(37);
             buttons[i].setOnAction((ActionEvent event) -> {
                 handleButtonClick(event);
             });
+
+            // add button to grid
             grid.add(buttons[i], getColumn(i), getRow(i));
         }
     }
 
     public int getRow(int index){
-        return (index/10);
+        return index/15 ;
     }
     public int getColumn(int index){
         return (index%15);
