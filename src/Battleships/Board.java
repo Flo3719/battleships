@@ -20,21 +20,25 @@ public class Board {
 		addShips();
 	}
 	public void addShips() {
-		for(int i = 0; i<10; i++) {
-			ships.add(new ShipModel(ShipModel.ShipType.PATROL_BOAT));
-		}
-		for(int i = 0; i<8; i++) {
-			ships.add(new ShipModel(ShipModel.ShipType.SUPER_PATROL));
-		}
-		for(int i = 0; i<5; i++) {
-			ships.add(new ShipModel(ShipModel.ShipType.DESTROYER));
+		for(int i = 0; i<2; i++) {
+			ships.add(new ShipModel(ShipModel.ShipType.CARRIER));
 		}
 		for(int i = 0; i<3; i++) {
 			ships.add(new ShipModel(ShipModel.ShipType.BATTLESHIP));
 		}
-		for(int i = 0; i<2; i++) {
-			ships.add(new ShipModel(ShipModel.ShipType.CARRIER));
+		for(int i = 0; i<5; i++) {
+			ships.add(new ShipModel(ShipModel.ShipType.DESTROYER));
 		}
+		for(int i = 0; i<8; i++) {
+			ships.add(new ShipModel(ShipModel.ShipType.SUPER_PATROL));
+		}
+		for(int i = 0; i<10; i++) {
+			ships.add(new ShipModel(ShipModel.ShipType.PATROL_BOAT));
+		}
+		
+		
+		
+		
 	}
 	public void positionShips() {
 		for(ShipModel ship: ships) {
