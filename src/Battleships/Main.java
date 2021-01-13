@@ -20,10 +20,6 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public void addPlayButtons(Parent root){
-    }
-
-
     public static void main(String[] args) {
         launch(args);
     }
