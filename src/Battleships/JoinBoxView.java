@@ -15,7 +15,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class JoinBox {
+public class JoinBoxView {
 
     public static void display(){
         Stage joinStage = new Stage();

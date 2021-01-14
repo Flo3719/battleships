@@ -13,13 +13,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="403.0" prefWidth="1182.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Battleships.GUIController">
+<VBox prefHeight="403.0" prefWidth="1182.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Battleships.MainView">
     <children>
         <MenuBar>
             <menus>
                 <Menu mnemonicParsing="false" text="Game">
                     <items>
-                        <MenuItem fx:id="joinMenuItem" mnemonicParsing="false" text="Join" onAction="#handleJoinClick"/>
+                        <MenuItem fx:id="joinMenuItem" mnemonicParsing="false" text="Join" />
                         <MenuItem fx:id="giveUpMenuItem" mnemonicParsing="false" text="Give Up" />
                     </items>
                 </Menu>
