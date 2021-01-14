@@ -9,9 +9,11 @@ public class MainViewController implements MainViewDelegate{
 
     //Singleton
     public static MainViewDelegate sharedInstance = new MainViewController();
-    private MainViewController(){
+    private MainViewController(){}
 
-    }
+    // To Manipulate the game implement "MainViewController.sharedInstance" for example by creating an instance variable of type "MainViewDelegate" called "controller"
+    // and assign it to it. (For example like in "MainView.java")
+    // To make manipulations that directly involve the view, use the .view attribute of the sharedInstance.
 
     @Override
     public MainView getView() {

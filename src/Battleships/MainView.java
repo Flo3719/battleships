@@ -35,7 +35,6 @@ public class MainView {
             controller.handleJoinClick(event);
         });
     }
-
     public void setFriendScoreLabel(int points){
         friendScoreLabel.setText(Integer.toString(points) + " Points");
     }
@@ -66,13 +65,11 @@ public class MainView {
             throw new Exception("Invalid side. Pass 'friend' or 'enemy'");
         }
     }
-
-    //TODO: remove this and replace it by a check in the actual Map/list where the state is saved. The view should not store data.
+    //TODO: remove the following and replace it by a check in the actual Map/list where the state is saved. The view should not store data.
     public String getPlayField(int index){
         Button button = (Button)friendGrid.getChildren().get(index+1);
         return button.getText();
     }
-
     public void addPlayButtons(GridPane grid, String playerSide){
         Button buttons[] = new Button[150];
         for(int i = 0; i<=149; i++){
@@ -94,7 +91,6 @@ public class MainView {
             grid.add(buttons[i], getColumn(i), getRow(i));
         }
     }
-
     public int getRow(int index){
         return index/15 ;
     }
