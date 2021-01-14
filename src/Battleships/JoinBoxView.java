@@ -1,6 +1,7 @@
 package Battleships;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -16,9 +17,16 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class JoinBoxView {
+    public JoinBoxViewDelegate controller;
 
-    public static void display(){
+    public void initialize() {
+        this.controller = JoinBoxViewController.sharedInstance;
+        this.controller.setView(this);
+    }
+
+    public void display(){
         Stage joinStage = new Stage();
+        initialize();
 
         // Labels and TextFields
         Label nameLabel = new Label("Name:");
@@ -33,8 +41,8 @@ public class JoinBoxView {
         Button hostButton = new Button();
         joinButton.setText("Join");
         hostButton.setText("Host");
-        //joinButton.setOnAction(event -> JoinServer(nameTextField, ipTextField, portTextField));
-        //hostButton.setOnAction(event -> HostServer(nameTextField, portTextField));
+        joinButton.setOnAction(event -> controller.handleJoinClick(nameTextField.getText(), ipTextField.getText(), portTextField.getText()));
+        hostButton.setOnAction(event -> controller.handleHostClick(nameTextField.getText(), portTextField.getText()));
 
         // Layout Boxes
         HBox nameBox = new HBox(10, nameLabel, nameTextField);

@@ -11,8 +11,8 @@ public class MainViewController implements MainViewDelegate{
     public static MainViewDelegate sharedInstance = new MainViewController();
     private MainViewController(){}
 
-    // To Manipulate the game implement "MainViewController.sharedInstance" for example by creating an instance variable of type "MainViewDelegate" called "controller"
-    // and assign it to it. (For example like in "MainView.java")
+    // To Manipulate the game implement "MainViewController.sharedInstance" for example by creating an instance variable
+    // of type "MainViewDelegate" called "controller" and assign it to it. (For example like in "MainView.java")
     // To make manipulations that directly involve the view, use the .view attribute of the sharedInstance.
 
     @Override
@@ -38,7 +38,8 @@ public class MainViewController implements MainViewDelegate{
 
     @Override
     public void handleJoinClick(Event evt) {
-        JoinBoxView.display();
+        JoinBoxView joinBoxView = new JoinBoxView();
+        joinBoxView.display();
         this.view.setEnemyScoreLabel(2);
         this.view.setFriendScoreLabel(3);
         this.view.setTimeLabel(1038);
