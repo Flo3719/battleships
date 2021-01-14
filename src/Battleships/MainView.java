@@ -27,13 +27,15 @@ public class MainView {
     @FXML
     public void initialize(){
         this.controller = MainViewController.sharedInstance;
-        this.controller.setView(this);
+
 
         addPlayButtons(friendGrid, "friend");
         addPlayButtons(enemyGrid, "enemy");
         joinMenuItem.setOnAction((ActionEvent event)->{
             controller.handleJoinClick(event);
         });
+
+        this.controller.setView(this);
     }
     public void setFriendScoreLabel(int points){
         friendScoreLabel.setText(Integer.toString(points) + " Points");
@@ -54,15 +56,13 @@ public class MainView {
     public void setEnemyNameLabel(String name){
         enemyNameLabel.setText(name + "'s Field");
     }
-    public void setPlayField(Character indicator, String side, int index) throws Exception{
+    public void setPlayField(Character indicator, String side, int index){
         if(side.equals("friend")){
             Button button = (Button)friendGrid.getChildren().get(index+1);
             button.setText(indicator.toString());
         }else if(side.equals("enemy")){
             Button button = (Button)friendGrid.getChildren().get(index+1);
             button.setText(indicator.toString());
-        }else {
-            throw new Exception("Invalid side. Pass 'friend' or 'enemy'");
         }
     }
     //TODO: remove the following and replace it by a check in the actual Map/list where the state is saved. The view should not store data.

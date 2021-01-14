@@ -9,4 +9,5 @@ public interface MainViewDelegate {
     public void handleButtonClick(Event evt);
     public void handleJoinClick(Event evt);
     //public void setPlayField(int index);
+    public void addShips(Board board);
 }

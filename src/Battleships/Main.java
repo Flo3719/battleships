@@ -18,6 +18,7 @@ public class Main extends Application {
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
+        //MainViewController.sharedInstance.addShips(board);
     }
 
     public static void main(String[] args) {

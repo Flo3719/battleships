@@ -7,6 +7,8 @@ public class BoardDemo {
 		BoardView boardView = new BoardView();
 		
 		BoardController controller = new BoardController(board, boardView);
+
+
 		
 		controller.initCompBoard();
 		controller.updateView();
