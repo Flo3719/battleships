@@ -7,8 +7,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
+
+import java.awt.*;
 
 public class MainView {
     public GridPane enemyGrid;
@@ -60,6 +64,7 @@ public class MainView {
         if(side.equals("friend")){
             Button button = (Button)friendGrid.getChildren().get(index+1);
             button.setText(indicator.toString());
+            button.setStyle("-fx-background-color: grey;");
         }else if(side.equals("enemy")){
             Button button = (Button)friendGrid.getChildren().get(index+1);
             button.setText(indicator.toString());
