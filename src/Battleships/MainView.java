@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.effect.Effect;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
@@ -60,14 +61,14 @@ public class MainView {
     public void setEnemyNameLabel(String name){
         enemyNameLabel.setText(name + "'s Field");
     }
-    public void setPlayField(Character indicator, String side, int index){
+    public void setPlayField(String indicator, String side, int index){
         if(side.equals("friend")){
             Button button = (Button)friendGrid.getChildren().get(index+1);
             button.setText(indicator.toString());
             button.setStyle("-fx-background-color: grey;");
         }else if(side.equals("enemy")){
             Button button = (Button)friendGrid.getChildren().get(index+1);
-            button.setText(indicator.toString());
+            button.setText(indicator);
         }
     }
     //TODO: remove the following and replace it by a check in the actual Map/list where the state is saved. The view should not store data.
@@ -92,6 +93,9 @@ public class MainView {
             buttons[i].setOnAction((ActionEvent event) -> {
                 controller.handleButtonClick(event);
             });
+            if(playerSide.equals("enemy")){
+                button.getStyleClass().add("enemy-button");
+            }
             // add button to grid
             grid.add(buttons[i], getColumn(i), getRow(i));
         }

@@ -2,6 +2,6 @@
     -fx-background-color: darkblue;
 }
 
-.toggle-button:selected {
-    -fx-background-color: yellow;
+.enemy-button:hover {
+    -fx-background-color: red;
 }

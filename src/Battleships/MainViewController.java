@@ -8,12 +8,12 @@ import java.util.ArrayList;
 
 public class MainViewController implements MainViewDelegate{
     protected MainView view;
-
-    Board board = new Board();
+    private Board board;
 
     //Singleton
     public static MainViewDelegate sharedInstance = new MainViewController();
     private MainViewController(){
+        this.board = new Board();
     }
 
     // To Manipulate the game implement "MainViewController.sharedInstance" for example by creating an instance variable
@@ -53,8 +53,8 @@ public class MainViewController implements MainViewDelegate{
         this.view.setFriendNameLabel("Florian");
         this.view.setEnemyNameLabel("Koen");
         try{
-            this.view.setPlayField('X', "friend", 10);
-            //TODO create custom exception!
+            //this.view.setPlayField('X', "friend", 10);
+        // TODO create custom exception!
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -71,29 +71,22 @@ public class MainViewController implements MainViewDelegate{
                 if(pos.ship != null) {
                     switch (pos.ship.shipType) {
                         case PATROL_BOAT:
-                            System.out.print("P");
-                            this.view.setPlayField('P', "friend", getIndex(x, y));
+                            //TODO implement enum for indicators + add to the setPlayField funtion that it changes the color according to indicator/as param
+                            this.view.setPlayField("P", "friend", getIndex(x, y));
                             break;
                         case SUPER_PATROL:
-                            System.out.print("S");
-                            this.view.setPlayField('S', "friend", getIndex(x, y));
+                            this.view.setPlayField("S", "friend", getIndex(x, y));
                             break;
                         case DESTROYER:
-                            System.out.print("D");
-                            this.view.setPlayField('D', "friend", getIndex(x, y));
+                            this.view.setPlayField("D", "friend", getIndex(x, y));
                             break;
                         case BATTLESHIP:
-                            System.out.print("B");
-                            this.view.setPlayField('B', "friend", getIndex(x, y));
+                            this.view.setPlayField("B", "friend", getIndex(x, y));
                             break;
                         case CARRIER:
-                            System.out.print("C");
-                            this.view.setPlayField('C', "friend", getIndex(x, y));
+                            this.view.setPlayField("C", "friend", getIndex(x, y));
                             break;
                     }
-                }
-                else {
-                    System.out.print(" ");
                 }
             }
         }
