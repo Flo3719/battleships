@@ -8,4 +8,5 @@ public interface JoinBoxViewDelegate {
     public void setView(JoinBoxView view);
     public void handleHostClick(String name,String port);
     public void handleJoinClick(String name,String ip,String port);
+    public void showMessage(String message);
 }
