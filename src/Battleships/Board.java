@@ -35,10 +35,6 @@ public class Board {
 		for(int i = 0; i<10; i++) {
 			ships.add(new ShipModel(ShipModel.ShipType.PATROL_BOAT));
 		}
-		
-		
-		
-		
 	}
 	public void positionShips() {
 		for(ShipModel ship: ships) {

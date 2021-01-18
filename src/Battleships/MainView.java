@@ -33,11 +33,10 @@ public class MainView {
     public void initialize(){
         this.controller = MainViewController.sharedInstance;
 
-
         addPlayButtons(friendGrid, "friend");
         addPlayButtons(enemyGrid, "enemy");
         joinMenuItem.setOnAction((ActionEvent event)->{
-            controller.handleJoinClick();
+            controller.handleMenuJoinClick();
             //controller.handleJoinClick(event);
         });
 

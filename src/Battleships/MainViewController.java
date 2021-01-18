@@ -32,7 +32,7 @@ public class MainViewController implements MainViewDelegate{
         this.board.positionShips();
         this.addShips(this.board);
         //Regarding Requirement C02 (launch it on initialization)
-        handleJoinClick();
+        handleMenuJoinClick();
         //handleJoinClick(event);
     }
 
@@ -47,14 +47,14 @@ public class MainViewController implements MainViewDelegate{
         }
     }
 
-    public void handleJoinClick() {
+    public void handleMenuJoinClick() {
         JoinBoxView joinBoxView = new JoinBoxView();
         joinBoxView.display();
-        this.view.setEnemyScoreLabel(2);
-        this.view.setFriendScoreLabel(3);
-        this.view.setTimeLabel(1038);
-        this.view.setFriendNameLabel("Florian");
-        this.view.setEnemyNameLabel("Koen");
+//        this.view.setEnemyScoreLabel(2);
+//        this.view.setFriendScoreLabel(3);
+//        this.view.setTimeLabel(1038);
+//        this.view.setFriendNameLabel("Florian");
+//        this.view.setEnemyNameLabel("Koen");
         try{
             //this.view.setPlayField('X', "friend", 10);
         // TODO create custom exception!

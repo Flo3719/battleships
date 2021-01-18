@@ -7,7 +7,7 @@ public interface MainViewDelegate {
     public MainView getView();
     public void initialize(MainView view);
     public void handleButtonClick(Event evt);
-    public void handleJoinClick();
+    public void handleMenuJoinClick();
     //public void handleJoinClick(Event evt);
     //public void setPlayField(int index);
     public void addShips(Board board);
