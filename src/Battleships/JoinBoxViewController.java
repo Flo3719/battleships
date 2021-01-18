@@ -34,6 +34,8 @@ public class JoinBoxViewController implements JoinBoxViewDelegate{
         server = new Server(this);
         server.setup(port);
         System.out.println("Hosting on port " + port + " as " + name);
+        Thread serverThread = new Thread(server);
+        serverThread.start();
     }
 
     @Override
