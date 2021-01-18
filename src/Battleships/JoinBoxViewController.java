@@ -38,7 +38,19 @@ public class JoinBoxViewController implements JoinBoxViewDelegate{
 
     @Override
     public void handleJoinClick(String name,String ip,String port) {
-        //TODO Implement joining of a server
+        int portHost;
+        if(port.equals("")){
+            // Requirement S01
+            portHost = defaultPort;
+            view.controller.showMessage("Default Port is being used.");
+        }else{
+            portHost = Integer.parseInt(port);
+        }
+        Client client = new Client();
+        client.start(name, ip, portHost);
+        if (client.isConnected()) {
+        	//TODO add client to list of clients in server class
+        }
         System.out.println("Joining on address " + ip + ":" + port + " as " + name);
     }
 
