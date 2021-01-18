@@ -26,10 +26,14 @@ public class MainViewController implements MainViewDelegate{
     }
 
     @Override
-    public void setView(MainView view) {
+    public void initialize(MainView view) {
         this.view = view;
+        //TODO: fix this. the ships should not be placed before joining/hosting.Maybe separate setView method again?
         this.board.positionShips();
         this.addShips(this.board);
+        //Regarding Requirement C02 (launch it on initialization)
+        handleJoinClick();
+        //handleJoinClick(event);
     }
 
     @Override
@@ -43,8 +47,7 @@ public class MainViewController implements MainViewDelegate{
         }
     }
 
-    @Override
-    public void handleJoinClick(Event evt) {
+    public void handleJoinClick() {
         JoinBoxView joinBoxView = new JoinBoxView();
         joinBoxView.display();
         this.view.setEnemyScoreLabel(2);

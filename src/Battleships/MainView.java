@@ -37,10 +37,11 @@ public class MainView {
         addPlayButtons(friendGrid, "friend");
         addPlayButtons(enemyGrid, "enemy");
         joinMenuItem.setOnAction((ActionEvent event)->{
-            controller.handleJoinClick(event);
+            controller.handleJoinClick();
+            //controller.handleJoinClick(event);
         });
 
-        this.controller.setView(this);
+        this.controller.initialize(this);
     }
     public void setFriendScoreLabel(int points){
         friendScoreLabel.setText(Integer.toString(points) + " Points");

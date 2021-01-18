@@ -66,13 +66,4 @@ public class JoinBoxView {
         joinStage.showAndWait();
 
     }
-
-    //@Override
-    //public void start(Stage joinStage) throws Exception{
-
-    //}
-
-    //public static void main(String[] args) {
-        //launch(args);
-    //}
 }
