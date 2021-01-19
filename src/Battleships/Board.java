@@ -42,21 +42,36 @@ public class Board {
 			while(!positioned) {
 				int randomX = ThreadLocalRandom.current().nextInt(0, WIDTH);
 				int randomY = ThreadLocalRandom.current().nextInt(0, HEIGHT);
-				if(tryEast(ship, randomX, randomY)){
-					placeEast(ship, randomX, randomY);
-					positioned = true;
+				int randomOrientation = ThreadLocalRandom.current().nextInt(1, 5);
+				switch (randomOrientation) {
+				case 1:
+					if(tryEast(ship, randomX, randomY)){
+						placeEast(ship, randomX, randomY);
+						positioned = true;
+						System.out.println(randomOrientation);
 				}
-				else if(trySouth(ship, randomX, randomY)) {
-					placeSouth(ship, randomX, randomY);
-					positioned = true;
+					break;
+				case 2:
+					if(trySouth(ship, randomX, randomY)) {
+						placeSouth(ship, randomX, randomY);
+						positioned = true;
+						System.out.println(randomOrientation);
 				}
-				else if(tryWest(ship, randomX, randomY)) {
-					placeWest(ship, randomX, randomY);
-					positioned = true;
+					break;
+				case 3:
+					if(tryWest(ship, randomX, randomY)) {
+						placeWest(ship, randomX, randomY);
+						positioned = true;
+						System.out.println(randomOrientation);
 				}
-				else if(tryNorth(ship, randomX, randomY)) {
-					placeNorth(ship, randomX, randomY);
-					positioned = true;
+					break;
+				case 4:
+					if(tryNorth(ship, randomX, randomY)) {
+						placeNorth(ship, randomX, randomY);
+						positioned = true;
+						System.out.println(randomOrientation);
+				}
+					break;
 				}
 			}
 		}

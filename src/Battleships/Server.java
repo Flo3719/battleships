@@ -45,6 +45,9 @@ public class Server implements Runnable {
                             new GameClientHandler(sock, this, name);
                     clients.add(handler);
                     System.out.println(clients.size());
+                    if (clients.size() == 2) {
+                    	
+                    }
                     new Thread(handler).start();
                 }
                 //TODO create suitable exception
