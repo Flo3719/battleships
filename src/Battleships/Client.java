@@ -15,12 +15,17 @@ public class Client {
 	private BufferedReader in;
 	private BufferedWriter out;
 	//public HotelClientTUI tui;
+	
+	private String name;
 
 	/**
 	 * Constructs a new HotelClient. Initialises the view.
 	 */
 	public Client() {
 		//this.tui = new HotelClientTUI(this);
+	}
+	public String getName() {
+		return name;
 	}
 
 	/**
@@ -69,6 +74,7 @@ public class Client {
 	 */
 	public void createConnection(String name, String ip, int portHost) {
 		clearConnection();
+		this.name = name;
 		while (serverSock == null) {
 			String host = ip;
 			int port = portHost;

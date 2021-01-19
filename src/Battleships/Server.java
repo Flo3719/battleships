@@ -5,7 +5,9 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Server implements Runnable {
 
@@ -20,7 +22,7 @@ public class Server implements Runnable {
 
     /** The view of this HotelServer */
     private JoinBoxViewController view;
-
+    
     public Server(JoinBoxViewController view){
         this.view = view;
     }
@@ -44,7 +46,6 @@ public class Server implements Runnable {
                     clients.add(handler);
                     System.out.println(clients.size());
                     new Thread(handler).start();
-
                 }
                 //TODO create suitable exception
             } catch (Exception e) {

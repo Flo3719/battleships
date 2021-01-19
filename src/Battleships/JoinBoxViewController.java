@@ -50,9 +50,7 @@ public class JoinBoxViewController implements JoinBoxViewDelegate{
         }
         Client client = new Client();
         client.start(name, ip, portHost);
-        if (client.isConnected()) {
-        	//TODO add client to list of clients in server class
-        }
+        
         System.out.println("Joining on address " + ip + ":" + port + " as " + name);
     }
 

@@ -76,19 +76,19 @@ public class MainViewController implements MainViewDelegate{
                         case PATROL_BOAT:
                             //TODO implement enum for indicators + add to the setPlayField funtion that it changes the color according to indicator/as param
                             //TODO add numbers to the indicator P1, C1, C2, etc
-                            this.view.setPlayField("P", "friend", getIndex(x, y));
+                            this.view.setPlayField(pos.ship.shipType.identifier, "friend", getIndex(x, y));
                             break;
                         case SUPER_PATROL:
-                            this.view.setPlayField("S", "friend", getIndex(x, y));
+                            this.view.setPlayField(pos.ship.shipType.identifier, "friend", getIndex(x, y));
                             break;
                         case DESTROYER:
-                            this.view.setPlayField("D", "friend", getIndex(x, y));
+                            this.view.setPlayField(pos.ship.shipType.identifier, "friend", getIndex(x, y));
                             break;
                         case BATTLESHIP:
-                            this.view.setPlayField("B", "friend", getIndex(x, y));
+                            this.view.setPlayField(pos.ship.shipType.identifier, "friend", getIndex(x, y));
                             break;
                         case CARRIER:
-                            this.view.setPlayField("C", "friend", getIndex(x, y));
+                            this.view.setPlayField(pos.ship.shipType.identifier, "friend", getIndex(x, y));
                             break;
                     }
                 }
