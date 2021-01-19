@@ -61,11 +61,11 @@ public class MainView {
     public void setEnemyNameLabel(String name){
         enemyNameLabel.setText(name + "'s Field");
     }
-    public void setPlayField(String indicator, String side, int index){
+    public void setPlayField(String indicator, String side, int index, String color){
         if(side.equals("friend")){
             Button button = (Button)friendGrid.getChildren().get(index+1);
             button.setText(indicator.toString());
-            button.setStyle("-fx-background-color: grey;");
+            button.setStyle(color);
         }else if(side.equals("enemy")){
             Button button = (Button)friendGrid.getChildren().get(index+1);
             button.setText(indicator);
