@@ -40,8 +40,9 @@ public class Client {
 	 * @param ip 
 	 * @param name 
 	 */
-	public void start(String name, String ip, int portHost) {
+	public void start(String name, String ip, int portHost) throws ServerNotAvailableException, ProtocolException {
 		createConnection(name, ip, portHost);
+		handleHello();
 		/*try {
 			createConnection();
 			} catch (ExitProgram exitprogram) {
@@ -50,11 +51,36 @@ public class Client {
 		try {
 			handleHello();
 			tui.start();
-		} catch (ServerUnavailableException e) {
+		} catch (ServerNotAvailableException e) {
 			e.printStackTrace();
 		} catch (ProtocolException e) {
 			e.printStackTrace();
 		}*/
+	}
+
+	/**
+	 * Sends a message to the connected server, followed by a new line.
+	 * The stream is then flushed.
+	 *
+	 * @param msg the message to write to the OutputStream.
+	 * @throws ServerNotAvailableException if IO errors occur.
+	 */
+	public synchronized void sendMessage(String msg)
+			throws ServerNotAvailableException {
+		if (out != null) {
+			try {
+				out.write(msg);
+				out.newLine();
+				out.flush();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+				throw new ServerNotAvailableException("Could not write "
+						+ "to server.");
+			}
+		} else {
+			throw new ServerNotAvailableException("Could not write "
+					+ "to server.");
+		}
 	}
 
 	/**
@@ -123,5 +149,43 @@ public class Client {
 		serverSock = null;
 		in = null;
 		out = null;
+	}
+
+	//@Override
+	public void handleHello()
+			throws ServerNotAvailableException, ProtocolException {
+		sendMessage(ProtocolMessages.HELLO + ProtocolMessages.DELIMITER + name);
+		String response = readLineFromServer();
+		if(!response.startsWith(Character.toString(ProtocolMessages.HELLO))){
+			throw new ProtocolException("Handshake failed. response was: " + response);
+		};
+		System.out.println("Welcome to the Hotel booking system of hotel: " + response.split(ProtocolMessages.DELIMITER)[1]);
+	}
+
+	/**
+	 * Reads and returns one line from the server.
+	 *
+	 * @return the line sent by the server.
+	 * @throws ServerNotAvailableException if IO errors occur.
+	 */
+	public String readLineFromServer()
+			throws ServerNotAvailableException {
+		if (in != null) {
+			try {
+				// Read and return answer from Server
+				String answer = in.readLine();
+				if (answer == null) {
+					throw new ServerNotAvailableException("Could not read "
+							+ "from server.");
+				}
+				return answer;
+			} catch (IOException e) {
+				throw new ServerNotAvailableException("Could not read "
+						+ "from server.");
+			}
+		} else {
+			throw new ServerNotAvailableException("Could not read "
+					+ "from server.");
+		}
 	}
 }

@@ -2,6 +2,8 @@ package Battleships;
 
 import javafx.event.Event;
 
+import java.net.ProtocolException;
+
 public class JoinBoxViewController implements JoinBoxViewDelegate{
     protected JoinBoxView view;
     private Server server;
@@ -39,7 +41,7 @@ public class JoinBoxViewController implements JoinBoxViewDelegate{
     }
 
     @Override
-    public void handleJoinClick(String name,String ip,String port) {
+    public void handleJoinClick(String name,String ip,String port){
         int portHost;
         if(port.equals("")){
             // Requirement S01
@@ -49,8 +51,14 @@ public class JoinBoxViewController implements JoinBoxViewDelegate{
             portHost = Integer.parseInt(port);
         }
         Client client = new Client();
-        client.start(name, ip, portHost);
-        
+        try{
+            client.start(name, ip, portHost);
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (ServerNotAvailableException e) {
+            e.printStackTrace();
+        }
+
         System.out.println("Joining on address " + ip + ":" + port + " as " + name);
     }
 

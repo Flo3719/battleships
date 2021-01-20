@@ -40,10 +40,12 @@ public class Server implements Runnable {
                     Socket sock = ssock.accept();
                     String name = "Client "
                             + String.format("%02d", next_client_no++);
+                    //String name = clients.get(next_client_no).getName();
                     view.showMessage("New client [" + name + "] connected!");
                     GameClientHandler handler =
                             new GameClientHandler(sock, this, name);
                     clients.add(handler);
+                    System.out.println(name + ": " + handler.getName());
                     System.out.println(clients.size());
                     if (clients.size() == 2) {
                     	
@@ -86,6 +88,12 @@ public class Server implements Runnable {
 
     // The following Methods might be better placed in the gameClientHandler if
     // we decide to use it.
+
+    //@Override
+    public String getHello(String name) {
+        System.out.println("Hello " + name + "!");
+        return ProtocolMessages.HELLO + ProtocolMessages.DELIMITER + name;
+    }
 
     public boolean checkPlayerName(String name){
         //TODO implement Requirement S02
