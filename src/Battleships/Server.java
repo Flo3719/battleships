@@ -47,9 +47,6 @@ public class Server implements Runnable {
                     clients.add(handler);
                     System.out.println(name + ": " + handler.getName());
                     System.out.println(clients.size());
-                    if (clients.size() == 2) {
-                    	
-                    }
                     new Thread(handler).start();
                 }
                 //TODO create suitable exception
