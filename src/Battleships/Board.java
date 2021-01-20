@@ -48,28 +48,24 @@ public class Board {
 					if(tryEast(ship, randomX, randomY)){
 						placeEast(ship, randomX, randomY);
 						positioned = true;
-						System.out.println(randomOrientation);
 				}
 					break;
 				case 2:
 					if(trySouth(ship, randomX, randomY)) {
 						placeSouth(ship, randomX, randomY);
 						positioned = true;
-						System.out.println(randomOrientation);
 				}
 					break;
 				case 3:
 					if(tryWest(ship, randomX, randomY)) {
 						placeWest(ship, randomX, randomY);
 						positioned = true;
-						System.out.println(randomOrientation);
 				}
 					break;
 				case 4:
 					if(tryNorth(ship, randomX, randomY)) {
 						placeNorth(ship, randomX, randomY);
 						positioned = true;
-						System.out.println(randomOrientation);
 				}
 					break;
 				}
@@ -151,5 +147,30 @@ public class Board {
 			ship.positions.add(pos);
 			pos.ship = ship;
 		}
+	}
+	public int getY(int index) {
+		int y = index / 10;
+		return y;
+	}
+	
+	public int getX(int index) {
+		int rest = index % 10;
+		return rest;
+	}
+	public String toString() {
+		String result = "";
+		for(int i = 0; i < HEIGHT; i++) {
+			for(int j = 0; j < WIDTH; j++) {
+				if(positions[j][i].ship != null) {
+					result = result + positions[j][i].ship.shipName;
+				}
+				else {
+					result = result + "X";
+				}
+				result = result + ";";
+			}
+			
+		}
+		return result;
 	}
 }

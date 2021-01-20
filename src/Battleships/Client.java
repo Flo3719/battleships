@@ -8,6 +8,8 @@ import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.ProtocolException;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Client {
@@ -27,7 +29,7 @@ public class Client {
 	public String getName() {
 		return name;
 	}
-
+	
 	/**
 	 * Starts a new HotelClient by creating a connection, followed by the 
 	 * HELLO handshake as defined in the protocol. After a successful 
