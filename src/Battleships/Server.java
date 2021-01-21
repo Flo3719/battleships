@@ -20,6 +20,8 @@ public class Server implements Runnable {
     /** List of HotelClientHandlers, one for each connected client */
     private List<GameClientHandler> clients;
 
+    private GameClientHandler waitingClient;
+
     /** Next client number, increasing for every new connection */
     private int next_client_no;
 
@@ -52,6 +54,7 @@ public class Server implements Runnable {
                     out.flush();
 
                     if(nameAvailable(name)){
+                        System.out.println("SERVER: NAME AVAILABLE");
                         view.showMessage("SERVER: New client " + name +  " connected!");
                         GameClientHandler handler =
                                 new GameClientHandler(sock, this, name);
@@ -59,10 +62,14 @@ public class Server implements Runnable {
                         System.out.println("SERVER: " + clients.size());
                         new Thread(handler).start();
                         //TODO TBD
-                        if(clients.size() == 2){
-                            Game game = new Game(clients.get(0), clients.get(1));
+                        if(waitingClient != null){
+                            System.out.println("SERVER: Player " + name + " is matched with player " + waitingClient.getName());
+                            Game game = new Game(waitingClient, clients.get(clients.size()-1));
+                            waitingClient = null;
+                        }else{
+                            System.out.println("SERVER: Player " + name + " is waiting for a partner to match");
+                            waitingClient = clients.get(clients.size()-1);
                         }
-                        System.out.println("SERVER: NAME AVAILABLE");
                     }else{
                         System.out.println("SERVER: NAME TAKEN");
                     }
