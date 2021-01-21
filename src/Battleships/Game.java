@@ -1,5 +1,6 @@
 package Battleships;
 
+import java.io.IOException;
 import java.util.Timer;
 
 public class Game {
@@ -17,7 +18,9 @@ public class Game {
      * @invariant the length of the array equals NUMBER_PLAYERS
      * @invariant all array items are never null
      */
-    private Player[] players;
+    private GameClientHandler[] players;
+
+    private Board[] boards;
 
     /**
      * Index of the current player.
@@ -33,11 +36,29 @@ public class Game {
      * @param s0 the first player
      * @param s1 the second player
      */
-    public Game(Player s0, Player s1) {
-        players = new Player[NUMBER_PLAYERS];
+    public Game(GameClientHandler s0, GameClientHandler s1) {
+        players = new GameClientHandler[NUMBER_PLAYERS];
         players[0] = s0;
         players[1] = s1;
         current = 0;
         timer = new Timer();
+        askNames();
+    }
+
+    public void askNames(){
+        try {
+            boolean sameNames = true;
+            players[0].sendNameRequest();
+            while(sameNames){
+                players[1].sendNameRequest();
+                if(players[0].getName().equals(players[1].getName())){
+                    players[1].sendOut(String.valueOf(ProtocolMessages.NAMETAKEN));
+                }else{
+                    sameNames = false;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

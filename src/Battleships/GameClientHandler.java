@@ -33,8 +33,17 @@ public class GameClientHandler implements Runnable {
         }
     }
 
+    public void sendNameRequest() throws IOException {
+        //TODO check protocol
+        out.write("GN");
+    }
+
     public String getName(){
-        return name;
+        return this.name;
+    }
+
+    public void sendOut(String msg) throws IOException {
+        out.write(msg);
     }
 
     public GameClientHandler(Socket sock, Server server, String player) {
@@ -54,8 +63,10 @@ public class GameClientHandler implements Runnable {
         String[] message = msg.split(ProtocolMessages.DELIMITER);
         switch(message[0].charAt(0)){
             case ProtocolMessages.HELLO:
-                this.name = message[1];
                 out.write(server.getHello(message[1]));
+                break;
+            case ProtocolMessages.NAME:
+                this.name = message[1];
                 break;
 //            case ProtocolMessages.ACT:
 //                out.write(server.doAct(message[1], message[2]));

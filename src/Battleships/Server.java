@@ -35,19 +35,20 @@ public class Server implements Runnable {
             try {
 //                // Sets up the hotel application
 //                //setup();
-//
                 while (true) {
                     Socket sock = ssock.accept();
                     String name = "Client "
                             + String.format("%02d", next_client_no++);
-                    //String name = clients.get(next_client_no).getName();
                     view.showMessage("New client [" + name + "] connected!");
                     GameClientHandler handler =
                             new GameClientHandler(sock, this, name);
                     clients.add(handler);
-                    System.out.println(name + ": " + handler.getName());
                     System.out.println(clients.size());
                     new Thread(handler).start();
+                    //TODO TBD
+                    if(clients.size() == 2){
+                        Game game = new Game(clients.get(0), clients.get(1));
+                    }
                 }
                 //TODO create suitable exception
             } catch (Exception e) {
@@ -88,8 +89,12 @@ public class Server implements Runnable {
 
     //@Override
     public String getHello(String name) {
-        System.out.println("Hello " + name + "!");
+        // TODO check protocol
         return ProtocolMessages.HELLO + ProtocolMessages.DELIMITER + name;
+    }
+
+    public List<GameClientHandler> getClients(){
+        return clients;
     }
 
     public boolean checkPlayerName(String name){

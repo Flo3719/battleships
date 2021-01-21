@@ -17,7 +17,7 @@ public class Client {
 	private BufferedReader in;
 	private BufferedWriter out;
 	//public HotelClientTUI tui;
-	
+
 	private String name;
 
 	/**
@@ -158,6 +158,7 @@ public class Client {
 			throws ServerNotAvailableException, ProtocolException {
 		sendMessage(ProtocolMessages.HELLO + ProtocolMessages.DELIMITER + name);
 		String response = readLineFromServer();
+		System.out.println(response);
 		if(!response.startsWith(Character.toString(ProtocolMessages.HELLO))){
 			throw new ProtocolException("Handshake failed. response was: " + response);
 		};

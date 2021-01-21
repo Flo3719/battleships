@@ -26,4 +26,6 @@ public class ProtocolMessages {
     public static final char PRINT = 'p';
     public static final char BILL = 'b';
     public static final char HELP = 'h';
+    public static final char NAME = 'n';
+    public static final char NAMETAKEN = 't';
 }
