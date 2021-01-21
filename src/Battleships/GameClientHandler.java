@@ -1,4 +1,4 @@
-package Battleships;
+ package Battleships;
 
 import java.io.*;
 import java.net.Socket;
@@ -60,7 +60,7 @@ public class GameClientHandler implements Runnable {
         }
     }
     private void handleCommand(String msg) throws IOException {
-        String[] message = msg.split(ProtocolMessages.DELIMITER);
+        String[] message = msg.split(ProtocolMessages.CS);
         switch(message[0].charAt(0)){
             //case ProtocolMessages.HELLO:
             //    out.write(server.getHello(message[1]));

@@ -157,20 +157,20 @@ public class Client {
 	//@Override
 	public void doHandshake()
 			throws ServerNotAvailableException, ProtocolException {
-		sendMessage(ProtocolMessages.HELLO + ProtocolMessages.DELIMITER + name);
+		sendMessage(ProtocolMessages.HELLO + ProtocolMessages.CS + name);
 		String response = readLineFromServer();
 		System.out.println("CLIENT: " + response);
-		if(!response.startsWith(Character.toString(ProtocolMessages.HELLO))){
+		if(!response.contains(ProtocolMessages.HELLO)){
 			throw new ProtocolException("CLIENT: Handshake failed. response was: " + response);
 		};
-		System.out.println("CLIENT: server responded with 'handshake done with " + response.split(ProtocolMessages.DELIMITER)[1] + "'");
+		System.out.println("CLIENT: server responded with 'handshake done with " + response.split(ProtocolMessages.CS)[1] + "'");
 	}
 
-
+	//TODO: This can be removed?
 	public void handleGetName() throws ServerNotAvailableException, IOException {
 		String response = readLineFromServer();
 		if(response.equals(ProtocolMessages.GETNAME)){
-			out.write(ProtocolMessages.NAME + ProtocolMessages.DELIMITER + name);
+			out.write(ProtocolMessages.NAME + ProtocolMessages.CS + name);
 		}
 	}
 

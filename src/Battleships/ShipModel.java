@@ -8,11 +8,11 @@ public class ShipModel {
 	public ArrayList<PositionModel> positions = new ArrayList<>();
 	public String shipName;
 	
-	public static int counterCBoat = 0;
-	public static int counterBBoat = 0;
-	public static int counterDBoat = 0;
-	public static int counterSBoat = 0;
-	public static int counterPBoat = 0;
+	public static int counterCBoat = -1;
+	public static int counterBBoat = -1;
+	public static int counterDBoat = -1;
+	public static int counterSBoat = -1;
+	public static int counterPBoat = -1;
 	
 	public ShipModel(ShipType shipType) {
 		this.shipType = shipType;

@@ -47,7 +47,7 @@ public class Server implements Runnable {
                             new OutputStreamWriter(sock.getOutputStream()));
 
                     String msg = in.readLine();
-                    String name = msg.split(ProtocolMessages.DELIMITER)[1];
+                    String name = msg.split(ProtocolMessages.CS)[1];
 
                     out.write(handshakeMessage(name));
                     out.newLine();
@@ -113,7 +113,7 @@ public class Server implements Runnable {
 
     //@Override
     public String handshakeMessage(String name) {
-        return ProtocolMessages.HELLO + ProtocolMessages.DELIMITER + name;
+        return ProtocolMessages.HELLO + ProtocolMessages.CS + name;
     }
 
     public boolean nameAvailable(String name){
