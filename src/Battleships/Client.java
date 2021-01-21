@@ -44,8 +44,8 @@ public class Client {
 	 */
 	public void start(String name, String ip, int portHost) throws ServerNotAvailableException, IOException {
 		createConnection(name, ip, portHost);
-		handleHello();
-		handleGetName();
+		doHandshake();
+		//handleGetName();
 		/*try {
 			createConnection();
 			} catch (ExitProgram exitprogram) {
@@ -111,7 +111,7 @@ public class Client {
 			// try to open a Socket to the server
 			try {
 				InetAddress addr = InetAddress.getByName(host);
-				System.out.println("Attempting to connect to " + addr + ":" 
+				System.out.println("CLIENT: Attempting to connect to " + addr + ":"
 					+ port + "...");
 				serverSock = new Socket(addr, port);
 				in = new BufferedReader(new InputStreamReader(
@@ -119,7 +119,7 @@ public class Client {
 				out = new BufferedWriter(new OutputStreamWriter(
 						serverSock.getOutputStream()));
 			} catch (IOException e) {
-				System.out.println("ERROR: could not create a socket on " 
+				System.out.println("CLIENT: ERROR: could not create a socket on "
 					+ host + " and port " + port + ".");
 
 				//Do you want to try again? (ask user, to be implemented)
@@ -129,7 +129,7 @@ public class Client {
 			}
 		}
 		if (serverSock != null) {
-			System.out.println("Connected");
+			System.out.println("CLIENT: Connected");
 		}
 	}
 	
@@ -155,16 +155,17 @@ public class Client {
 	}
 
 	//@Override
-	public void handleHello()
+	public void doHandshake()
 			throws ServerNotAvailableException, ProtocolException {
 		sendMessage(ProtocolMessages.HELLO + ProtocolMessages.DELIMITER + name);
 		String response = readLineFromServer();
-		System.out.println(response);
+		System.out.println("CLIENT: " + response);
 		if(!response.startsWith(Character.toString(ProtocolMessages.HELLO))){
-			throw new ProtocolException("Handshake failed. response was: " + response);
+			throw new ProtocolException("CLIENT: Handshake failed. response was: " + response);
 		};
-		System.out.println("Welcome to the Hotel booking system of hotel: " + response.split(ProtocolMessages.DELIMITER)[1]);
+		System.out.println("CLIENT: server responded with 'handshake done with " + response.split(ProtocolMessages.DELIMITER)[1] + "'");
 	}
+
 
 	public void handleGetName() throws ServerNotAvailableException, IOException {
 		String response = readLineFromServer();

@@ -42,23 +42,23 @@ public class Game {
         players[1] = s1;
         current = 0;
         timer = new Timer();
-        askNames();
+        System.out.println("GAME: game was created with player " + players[0].getName() + "&" + players[1].getName());
     }
 
-    public void askNames(){
-        try {
-            boolean sameNames = true;
-            players[0].sendNameRequest();
-            while(sameNames){
-                players[1].sendNameRequest();
-                if(players[0].getName().equals(players[1].getName())){
-                    players[1].sendOut(String.valueOf(ProtocolMessages.NAMETAKEN));
-                }else{
-                    sameNames = false;
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void askNames(){
+//        try {
+//            boolean sameNames = true;
+//            players[0].sendNameRequest();
+//            while(sameNames){
+//                players[1].sendNameRequest();
+//                if(players[0].getName().equals(players[1].getName())){
+//                    players[1].sendOut(String.valueOf(ProtocolMessages.NAMETAKEN));
+//                }else{
+//                    sameNames = false;
+//                }
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

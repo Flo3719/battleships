@@ -1,6 +1,6 @@
 package Battleships;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -13,6 +13,9 @@ public class Server implements Runnable {
 
     /** The ServerSocket of this HotelServer */
     private ServerSocket ssock;
+
+    private BufferedReader in;
+    private BufferedWriter out;
 
     /** List of HotelClientHandlers, one for each connected client */
     private List<GameClientHandler> clients;
@@ -33,21 +36,35 @@ public class Server implements Runnable {
         clients = new ArrayList<>();
         while (openNewSocket) {
             try {
-//                // Sets up the hotel application
-//                //setup();
                 while (true) {
                     Socket sock = ssock.accept();
-                    //String name = "Client "
-                    //        + String.format("%02d", next_client_no++);
-                    view.showMessage("New client connected!");
-                    GameClientHandler handler =
-                            new GameClientHandler(sock, this);
-                    clients.add(handler);
-                    System.out.println(clients.size());
-                    new Thread(handler).start();
-                    //TODO TBD
-                    if(clients.size() == 2){
-                        Game game = new Game(clients.get(0), clients.get(1));
+
+                    in = new BufferedReader(
+                            new InputStreamReader(sock.getInputStream()));
+                    out = new BufferedWriter(
+                            new OutputStreamWriter(sock.getOutputStream()));
+
+                    String msg = in.readLine();
+                    String name = msg.split(ProtocolMessages.DELIMITER)[1];
+
+                    out.write(handshakeMessage(name));
+                    out.newLine();
+                    out.flush();
+
+                    if(nameAvailable(name)){
+                        view.showMessage("SERVER: New client " + name +  " connected!");
+                        GameClientHandler handler =
+                                new GameClientHandler(sock, this, name);
+                        clients.add(handler);
+                        System.out.println("SERVER: " + clients.size());
+                        new Thread(handler).start();
+                        //TODO TBD
+                        if(clients.size() == 2){
+                            Game game = new Game(clients.get(0), clients.get(1));
+                        }
+                        System.out.println("SERVER: NAME AVAILABLE");
+                    }else{
+                        System.out.println("SERVER: NAME TAKEN");
                     }
                 }
                 //TODO create suitable exception
@@ -72,11 +89,11 @@ public class Server implements Runnable {
         while (ssock == null) {
             // try to open a new ServerSocket
             try {
-                view.showMessage("Attempting to open a socket at 127.0.0.1 "
+                view.showMessage("SERVER: Attempting to open a socket at 127.0.0.1 "
                         + "on port " + port + "...");
                 ssock = new ServerSocket(port, 0,
                         InetAddress.getByName("127.0.0.1"));
-                view.showMessage("Server started at port " + port);
+                view.showMessage("SERVER: Server started at port " + port);
             } catch (IOException e) {
                 view.showMessage("ERROR: could not create a socket on "
                         + "127.0.0.1" + " and port " + port + ".");
@@ -88,9 +105,17 @@ public class Server implements Runnable {
     // we decide to use it.
 
     //@Override
-    public String getHello(String name) {
-        // TODO check protocol
+    public String handshakeMessage(String name) {
         return ProtocolMessages.HELLO + ProtocolMessages.DELIMITER + name;
+    }
+
+    public boolean nameAvailable(String name){
+        for(GameClientHandler gch : clients){
+            if(gch.getName().equals(name)){
+                return false;
+            }
+        }
+        return true;
     }
 
     public List<GameClientHandler> getClients(){

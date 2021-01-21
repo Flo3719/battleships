@@ -36,7 +36,7 @@ public class JoinBoxViewController implements JoinBoxViewDelegate{
         }
         server = new Server(this);
         server.setup(port);
-        System.out.println("Hosting on port " + port + " as " + name);
+        System.out.println("SERVER: Hosting on port " + port + " as " + name);
         Thread serverThread = new Thread(server);
         serverThread.start();
     }
@@ -47,7 +47,7 @@ public class JoinBoxViewController implements JoinBoxViewDelegate{
         if(port.equals("")){
             // Requirement S01
             portHost = defaultPort;
-            view.controller.showMessage("Default Port is being used.");
+            view.controller.showMessage("SERVER: Default Port is being used.");
         }else{
             portHost = Integer.parseInt(port);
         }
@@ -61,8 +61,6 @@ public class JoinBoxViewController implements JoinBoxViewDelegate{
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        System.out.println("Joining on address " + ip + ":" + port + " as " + name);
     }
 
     @Override

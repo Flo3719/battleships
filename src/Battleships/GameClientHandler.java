@@ -46,7 +46,7 @@ public class GameClientHandler implements Runnable {
         out.write(msg);
     }
 
-    public GameClientHandler(Socket sock, Server server) {
+    public GameClientHandler(Socket sock, Server server, String name) {
         try {
             in = new BufferedReader(
                     new InputStreamReader(sock.getInputStream()));
@@ -54,6 +54,7 @@ public class GameClientHandler implements Runnable {
                     new OutputStreamWriter(sock.getOutputStream()));
             this.sock = sock;
             this.server = server;
+            this.name = name;
         } catch (IOException e) {
             //shutdown();
         }
@@ -61,9 +62,9 @@ public class GameClientHandler implements Runnable {
     private void handleCommand(String msg) throws IOException {
         String[] message = msg.split(ProtocolMessages.DELIMITER);
         switch(message[0].charAt(0)){
-            case ProtocolMessages.HELLO:
-                out.write(server.getHello(message[1]));
-                break;
+            //case ProtocolMessages.HELLO:
+            //    out.write(server.getHello(message[1]));
+            //    break;
             case ProtocolMessages.NAME:
                 this.name = message[1];
                 break;
