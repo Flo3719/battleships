@@ -13,7 +13,7 @@ public class GameClientHandler implements Runnable {
     private Server server;
 
     /** Name of this Player */
-    private String name;
+    private String name = "unnamed";
 
     @Override
     public void run() {
@@ -35,7 +35,7 @@ public class GameClientHandler implements Runnable {
 
     public void sendNameRequest() throws IOException {
         //TODO check protocol
-        out.write("GN");
+        out.write(ProtocolMessages.GETNAME);
     }
 
     public String getName(){
@@ -46,7 +46,7 @@ public class GameClientHandler implements Runnable {
         out.write(msg);
     }
 
-    public GameClientHandler(Socket sock, Server server, String player) {
+    public GameClientHandler(Socket sock, Server server) {
         try {
             in = new BufferedReader(
                     new InputStreamReader(sock.getInputStream()));
@@ -54,7 +54,6 @@ public class GameClientHandler implements Runnable {
                     new OutputStreamWriter(sock.getOutputStream()));
             this.sock = sock;
             this.server = server;
-            this.name = player;
         } catch (IOException e) {
             //shutdown();
         }

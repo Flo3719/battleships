@@ -2,6 +2,7 @@ package Battleships;
 
 import javafx.event.Event;
 
+import java.io.IOException;
 import java.net.ProtocolException;
 
 public class JoinBoxViewController implements JoinBoxViewDelegate{
@@ -56,6 +57,8 @@ public class JoinBoxViewController implements JoinBoxViewDelegate{
         } catch (ProtocolException e) {
             e.printStackTrace();
         } catch (ServerNotAvailableException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

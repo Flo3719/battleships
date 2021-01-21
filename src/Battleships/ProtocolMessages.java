@@ -28,4 +28,5 @@ public class ProtocolMessages {
     public static final char HELP = 'h';
     public static final char NAME = 'n';
     public static final char NAMETAKEN = 't';
+    public static final char GETNAME = 'g';
 }

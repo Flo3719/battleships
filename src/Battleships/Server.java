@@ -37,11 +37,11 @@ public class Server implements Runnable {
 //                //setup();
                 while (true) {
                     Socket sock = ssock.accept();
-                    String name = "Client "
-                            + String.format("%02d", next_client_no++);
-                    view.showMessage("New client [" + name + "] connected!");
+                    //String name = "Client "
+                    //        + String.format("%02d", next_client_no++);
+                    view.showMessage("New client connected!");
                     GameClientHandler handler =
-                            new GameClientHandler(sock, this, name);
+                            new GameClientHandler(sock, this);
                     clients.add(handler);
                     System.out.println(clients.size());
                     new Thread(handler).start();

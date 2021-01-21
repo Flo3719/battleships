@@ -42,9 +42,10 @@ public class Client {
 	 * @param ip 
 	 * @param name 
 	 */
-	public void start(String name, String ip, int portHost) throws ServerNotAvailableException, ProtocolException {
+	public void start(String name, String ip, int portHost) throws ServerNotAvailableException, IOException {
 		createConnection(name, ip, portHost);
 		handleHello();
+		handleGetName();
 		/*try {
 			createConnection();
 			} catch (ExitProgram exitprogram) {
@@ -163,6 +164,13 @@ public class Client {
 			throw new ProtocolException("Handshake failed. response was: " + response);
 		};
 		System.out.println("Welcome to the Hotel booking system of hotel: " + response.split(ProtocolMessages.DELIMITER)[1]);
+	}
+
+	public void handleGetName() throws ServerNotAvailableException, IOException {
+		String response = readLineFromServer();
+		if(response.equals(ProtocolMessages.GETNAME)){
+			out.write(ProtocolMessages.NAME + ProtocolMessages.DELIMITER + name);
+		}
 	}
 
 	/**
