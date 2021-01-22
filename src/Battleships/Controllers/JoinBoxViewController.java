@@ -1,11 +1,13 @@
-package Battleships;
+package Battleships.Controllers;
 
-import javafx.event.Event;
+import Battleships.Models.JoinBoxViewDelegate;
+import Battleships.Models.Exceptions.ServerNotAvailableException;
+import Battleships.Views.JoinBoxView;
 
 import java.io.IOException;
 import java.net.ProtocolException;
 
-public class JoinBoxViewController implements JoinBoxViewDelegate{
+public class JoinBoxViewController implements JoinBoxViewDelegate {
     protected JoinBoxView view;
     private Server server;
     final private int defaultPort = 4242;
@@ -51,7 +53,7 @@ public class JoinBoxViewController implements JoinBoxViewDelegate{
         }else{
             portHost = Integer.parseInt(port);
         }
-        Client client = new Client();
+        ClientController client = new ClientController();
         try{
             client.start(name, ip, portHost);
         } catch (ProtocolException e) {

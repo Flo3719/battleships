@@ -1,4 +1,6 @@
-package Battleships;
+package Battleships.Models;
+
+import Battleships.Models.ShipModel;
 
 public class PositionModel {
 	public int x;

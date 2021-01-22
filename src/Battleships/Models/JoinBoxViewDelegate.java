@@ -1,8 +1,6 @@
-package Battleships;
+package Battleships.Models;
 
-import javafx.event.Event;
-
-import java.net.ProtocolException;
+import Battleships.Views.JoinBoxView;
 
 public interface JoinBoxViewDelegate {
     public static JoinBoxViewDelegate sharedInstance = null;

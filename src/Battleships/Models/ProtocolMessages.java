@@ -1,4 +1,4 @@
-package Battleships;
+package Battleships.Models;
 
 public class ProtocolMessages {
 	//--------------General Implementation--------------//

@@ -1,19 +1,14 @@
-package Battleships;
+package Battleships.Views;
 
+import Battleships.Controllers.MainViewController;
+import Battleships.Models.MainViewDelegate;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.effect.Effect;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
-
-import java.awt.*;
 
 public class MainView {
     public GridPane enemyGrid;

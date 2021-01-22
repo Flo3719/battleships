@@ -1,4 +1,7 @@
-package Battleships;
+package Battleships.Views;
+
+import Battleships.Models.Board;
+import Battleships.Models.PositionModel;
 
 public class BoardView {
 	public void printBoard(Board board) {

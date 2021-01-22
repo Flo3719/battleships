@@ -1,5 +1,6 @@
-package Battleships;
+package Battleships.Models;
 
+import Battleships.Views.MainView;
 import javafx.event.Event;
 
 public interface MainViewDelegate {

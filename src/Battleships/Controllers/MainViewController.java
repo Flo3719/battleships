@@ -1,12 +1,14 @@
-package Battleships;
+package Battleships.Controllers;
 
+import Battleships.Models.MainViewDelegate;
+import Battleships.Models.Board;
+import Battleships.Models.PositionModel;
+import Battleships.Views.JoinBoxView;
+import Battleships.Views.MainView;
 import javafx.event.Event;
-import javafx.scene.Scene;
 import javafx.scene.control.Control;
 
-import java.util.ArrayList;
-
-public class MainViewController implements MainViewDelegate{
+public class MainViewController implements MainViewDelegate {
     protected MainView view;
     private Board board;
 

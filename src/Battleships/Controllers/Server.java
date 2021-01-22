@@ -1,13 +1,16 @@
-package Battleships;
+package Battleships.Controllers;
+
+import Battleships.Controllers.GameClientHandler;
+import Battleships.Controllers.JoinBoxViewController;
+import Battleships.Models.GameModel;
+import Battleships.Models.ProtocolMessages;
 
 import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Server implements Runnable {
 
@@ -64,7 +67,7 @@ public class Server implements Runnable {
                         //TODO TBD
                         if(waitingClient != null){
                             System.out.println("SERVER: Player " + name + " is matched with player " + waitingClient.getName());
-                            Game game = new Game(waitingClient, clients.get(clients.size()-1));
+                            GameModel game = new GameModel(waitingClient, clients.get(clients.size()-1));
                             waitingClient = null;
                         }else{
                             System.out.println("SERVER: Player " + name + " is waiting for a partner to match");

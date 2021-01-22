@@ -1,9 +1,10 @@
-package Battleships;
+package Battleships.Models;
 
-import java.io.IOException;
+import Battleships.Controllers.GameClientHandler;
+
 import java.util.Timer;
 
-public class Game {
+public class GameModel {
 
 	public static final int NUMBER_PLAYERS = 2;
     /**
@@ -36,7 +37,7 @@ public class Game {
      * @param s0 the first player
      * @param s1 the second player
      */
-    public Game(GameClientHandler s0, GameClientHandler s1) {
+    public GameModel(GameClientHandler s0, GameClientHandler s1) {
         players = new GameClientHandler[NUMBER_PLAYERS];
         players[0] = s0;
         players[1] = s1;

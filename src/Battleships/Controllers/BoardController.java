@@ -1,4 +1,7 @@
-package Battleships;
+package Battleships.Controllers;
+
+import Battleships.Models.Board;
+import Battleships.Views.BoardView;
 
 public class BoardController {
 	private Board model;

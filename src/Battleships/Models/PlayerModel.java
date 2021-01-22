@@ -1,6 +1,8 @@
-package Battleships;
+package Battleships.Models;
 
-public class Player {
+import Battleships.Models.Board;
+
+public class PlayerModel {
 	// -- Instance variables -----------------------------------------
 
     private String name;
@@ -18,7 +20,7 @@ public class Player {
      * @throws PlayerGenerationException if a problem occurs generating the
      * data for this user, mainly the board.
      */
-    public Player(String name) //throws PlayerGenerationException 
+    public PlayerModel(String name) //throws PlayerGenerationException
     {
         this.name = name;
         this.board = new Board();

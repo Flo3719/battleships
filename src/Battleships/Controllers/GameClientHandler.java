@@ -1,4 +1,6 @@
- package Battleships;
+ package Battleships.Controllers;
+
+import Battleships.Models.ProtocolMessages;
 
 import java.io.*;
 import java.net.Socket;

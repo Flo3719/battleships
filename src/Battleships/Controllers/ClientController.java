@@ -1,4 +1,7 @@
-package Battleships;
+package Battleships.Controllers;
+
+import Battleships.Models.ProtocolMessages;
+import Battleships.Models.Exceptions.ServerNotAvailableException;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -8,11 +11,9 @@ import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.ProtocolException;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
 
 
-public class Client {
+public class ClientController {
 	private Socket serverSock;
 	private BufferedReader in;
 	private BufferedWriter out;
@@ -23,7 +24,7 @@ public class Client {
 	/**
 	 * Constructs a new HotelClient. Initialises the view.
 	 */
-	public Client() {
+	public ClientController() {
 		//this.tui = new HotelClientTUI(this);
 	}
 	public String getName() {

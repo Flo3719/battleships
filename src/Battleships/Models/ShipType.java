@@ -1,4 +1,4 @@
-package Battleships;
+package Battleships.Models;
 
 public enum ShipType {
 	PATROL_BOAT(ProtocolMessages.PATROL, 1, "-fx-background-color: grey;"),
