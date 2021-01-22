@@ -45,7 +45,6 @@ public class Client {
 	public void start(String name, String ip, int portHost) throws ServerNotAvailableException, IOException {
 		createConnection(name, ip, portHost);
 		doHandshake();
-		//handleGetName();
 		/*try {
 			createConnection();
 			} catch (ExitProgram exitprogram) {
@@ -164,14 +163,6 @@ public class Client {
 			throw new ProtocolException("CLIENT: Handshake failed. response was: " + response);
 		};
 		System.out.println("CLIENT: server responded with 'handshake done with " + response.split(ProtocolMessages.CS)[1] + "'");
-	}
-
-	//TODO: This can be removed?
-	public void handleGetName() throws ServerNotAvailableException, IOException {
-		String response = readLineFromServer();
-		if(response.equals(ProtocolMessages.GETNAME)){
-			out.write(ProtocolMessages.NAME + ProtocolMessages.CS + name);
-		}
 	}
 
 	/**

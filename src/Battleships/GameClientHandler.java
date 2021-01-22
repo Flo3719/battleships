@@ -21,7 +21,6 @@ public class GameClientHandler implements Runnable {
         try {
             msg = in.readLine();
             while (msg != null) {
-                //System.out.println("> [" + player + "] sends: " + msg);
                 handleCommand(msg);
                 out.newLine();
                 out.flush();
@@ -33,17 +32,8 @@ public class GameClientHandler implements Runnable {
         }
     }
 
-    public void sendNameRequest() throws IOException {
-        //TODO check protocol
-        out.write(ProtocolMessages.GETNAME);
-    }
-
     public String getName(){
         return this.name;
-    }
-
-    public void sendOut(String msg) throws IOException {
-        out.write(msg);
     }
 
     public GameClientHandler(Socket sock, Server server, String name) {
@@ -65,9 +55,6 @@ public class GameClientHandler implements Runnable {
             //case ProtocolMessages.HELLO:
             //    out.write(server.getHello(message[1]));
             //    break;
-            case ProtocolMessages.NAME:
-                this.name = message[1];
-                break;
 //            case ProtocolMessages.ACT:
 //                out.write(server.doAct(message[1], message[2]));
 //                break;
