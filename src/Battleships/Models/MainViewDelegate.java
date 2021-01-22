@@ -12,4 +12,5 @@ public interface MainViewDelegate {
     //public void handleJoinClick(Event evt);
     //public void setPlayField(int index);
     public void addShips(Board board);
+    public void handleStartClick(Event evt);
 }

@@ -43,7 +43,6 @@ public class GameModel {
         players[1] = s1;
         current = 0;
         timer = new Timer();
-        System.out.println("GAME: game was created with player " + players[0].getName() + "&" + players[1].getName());
     }
 
 //    public void askNames(){
@@ -62,4 +61,8 @@ public class GameModel {
 //            e.printStackTrace();
 //        }
 //    }
+
+    public GameClientHandler getPlayer(int player){
+        return players[player];
+    }
 }

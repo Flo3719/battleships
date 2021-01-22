@@ -24,6 +24,8 @@ public class MainView {
 
     public MainViewDelegate controller;
 
+    public MenuItem startMenuItem;
+
     @FXML
     public void initialize(){
         this.controller = MainViewController.sharedInstance;
@@ -32,6 +34,10 @@ public class MainView {
         addPlayButtons(enemyGrid, "enemy");
         joinMenuItem.setOnAction((ActionEvent event)->{
             controller.handleMenuJoinClick();
+            //controller.handleJoinClick(event);
+        });
+        startMenuItem.setOnAction((ActionEvent event)->{
+            controller.handleStartClick(event);
             //controller.handleJoinClick(event);
         });
 

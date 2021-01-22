@@ -49,6 +49,11 @@ public class MainViewController implements MainViewDelegate {
         }
     }
 
+    @Override
+    public void handleStartClick(Event evt){
+
+    }
+
     public void handleMenuJoinClick() {
         JoinBoxView joinBoxView = new JoinBoxView();
         joinBoxView.display();

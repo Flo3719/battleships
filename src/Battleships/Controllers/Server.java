@@ -52,7 +52,12 @@ public class Server implements Runnable {
                     String msg = in.readLine();
                     String name = msg.split(ProtocolMessages.CS)[1];
 
-                    out.write(handshakeMessage(name));
+                    if (waitingClient != null) {
+                        handshakeToAll(handshakeMessage(waitingClient.getName(), name));
+                        out.write(handshakeMessage(name, waitingClient.getName()));
+                    }else{
+                        out.write(handshakeMessage(name));
+                    }
                     out.newLine();
                     out.flush();
 
@@ -64,10 +69,9 @@ public class Server implements Runnable {
                         clients.add(handler);
                         System.out.println("SERVER: " + clients.size());
                         new Thread(handler).start();
-                        //TODO TBD
                         if(waitingClient != null){
                             System.out.println("SERVER: Player " + name + " is matched with player " + waitingClient.getName());
-                            GameModel game = new GameModel(waitingClient, clients.get(clients.size()-1));
+                            GameController game = new GameController(waitingClient, clients.get(clients.size()-1));
                             waitingClient = null;
                         }else{
                             System.out.println("SERVER: Player " + name + " is waiting for a partner to match");
@@ -111,12 +115,26 @@ public class Server implements Runnable {
         }
     }
 
+    public void handshakeToAll(String message){
+        for(GameClientHandler gch : clients){
+            try {
+                gch.sendOut(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     // The following Methods might be better placed in the gameClientHandler if
     // we decide to use it.
 
     //@Override
     public String handshakeMessage(String name) {
         return ProtocolMessages.HELLO + ProtocolMessages.CS + name;
+    }
+    //@Override
+    public String handshakeMessage(String name1, String name2) {
+        return ProtocolMessages.HELLO + ProtocolMessages.CS + name1 + " " + name2;
     }
 
     public boolean nameAvailable(String name){

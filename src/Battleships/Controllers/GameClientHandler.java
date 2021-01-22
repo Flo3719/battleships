@@ -51,6 +51,13 @@ public class GameClientHandler implements Runnable {
             //shutdown();
         }
     }
+
+    public void sendOut(String message) throws IOException {
+        out.write(message);
+        out.newLine();
+        out.flush();
+    }
+
     private void handleCommand(String msg) throws IOException {
         String[] message = msg.split(ProtocolMessages.CS);
         switch(message[0].charAt(0)){
