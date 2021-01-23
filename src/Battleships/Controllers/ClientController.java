@@ -1,5 +1,6 @@
 package Battleships.Controllers;
 
+import Battleships.Models.Board;
 import Battleships.Models.ProtocolMessages;
 import Battleships.Models.Exceptions.ServerNotAvailableException;
 
@@ -20,13 +21,19 @@ public class ClientController {
 	//public HotelClientTUI tui;
 
 	private String name;
+	
+	private Board board;
 
 	/**
 	 * Constructs a new HotelClient. Initialises the view.
 	 */
-	public ClientController() {
-		//this.tui = new HotelClientTUI(this);
+	public ClientController(Board board) {
+		this.board = board;
 	}
+	//public ClientController(Board board) {
+		//this.board = board;
+		//this.tui = new HotelClientTUI(this);
+	//}
 	public String getName() {
 		return name;
 	}
@@ -46,6 +53,7 @@ public class ClientController {
 	public void start(String name, String ip, int portHost) throws ServerNotAvailableException, IOException {
 		createConnection(name, ip, portHost);
 		doHandshake();
+		//System.out.println(board.toString());
 		System.out.println(readLineFromServer());
 		//getPlayerNames();
 		//waitForStartGame();

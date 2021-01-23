@@ -56,7 +56,7 @@ public class MainViewController implements MainViewDelegate {
 
     public void handleMenuJoinClick() {
         JoinBoxView joinBoxView = new JoinBoxView();
-        joinBoxView.display();
+        joinBoxView.display(this.board);
 //        this.view.setEnemyScoreLabel(2);
 //        this.view.setFriendScoreLabel(3);
 //        this.view.setTimeLabel(1038);

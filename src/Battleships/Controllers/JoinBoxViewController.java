@@ -1,5 +1,6 @@
 package Battleships.Controllers;
 
+import Battleships.Models.Board;
 import Battleships.Models.JoinBoxViewDelegate;
 import Battleships.Models.Exceptions.ServerNotAvailableException;
 import Battleships.Views.JoinBoxView;
@@ -42,9 +43,8 @@ public class JoinBoxViewController implements JoinBoxViewDelegate {
         Thread serverThread = new Thread(server);
         serverThread.start();
     }
-
     @Override
-    public void handleJoinClick(String name,String ip,String port){
+    public void handleJoinClick(String name,String ip,String port, Board board){
         int portHost;
         if(port.equals("")){
             // Requirement S01
@@ -53,7 +53,7 @@ public class JoinBoxViewController implements JoinBoxViewDelegate {
         }else{
             portHost = Integer.parseInt(port);
         }
-        ClientController client = new ClientController();
+        ClientController client = new ClientController(board);
         try{
             client.start(name, ip, portHost);
         } catch (ProtocolException e) {

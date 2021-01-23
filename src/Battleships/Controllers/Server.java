@@ -97,7 +97,9 @@ public class Server implements Runnable {
         }
  //       view.showMessage("See you later!");
     }
-
+    public GameClientHandler getWaitingClient() {
+    	return waitingClient;
+    }
     public void setup(int port) {
         ssock = null;
         while (ssock == null) {
