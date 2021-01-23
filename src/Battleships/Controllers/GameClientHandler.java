@@ -73,8 +73,8 @@ public class GameClientHandler implements Runnable {
     	List<String> al = new ArrayList<>();
     	al = Arrays.asList(splitArray);
     	Iterator<String> it = al.iterator();
-    	for (int i = 0; i < resultBoard.HEIGHT; i++) {
-    		for (int j = 0; j < resultBoard.WIDTH; j++) {
+    	for (int i = 0; i < Board.HEIGHT; i++) {
+    		for (int j = 0; j < Board.WIDTH; j++) {
     			String test = it.next();
     			if (!test.equals("0")) {
     				for (ShipModel s : resultBoard.ships) {
@@ -88,11 +88,7 @@ public class GameClientHandler implements Runnable {
     			
     		}
     	}
-    	return board;
-    }
-    
-    public Board getBoard() {
-    	return this.board;
+    	return resultBoard;
     }
 
     private void handleCommand(String msg) throws IOException {

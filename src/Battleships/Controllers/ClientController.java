@@ -46,8 +46,9 @@ public class ClientController {
 	public void start(String name, String ip, int portHost) throws ServerNotAvailableException, IOException {
 		createConnection(name, ip, portHost);
 		doHandshake();
-		System.out.println(readLineFromServer());
-
+		//System.out.println(readLineFromServer());
+		getPlayerNames();
+		//waitForStartGame();
 		/*try {
 			createConnection();
 			} catch (ExitProgram exitprogram) {
@@ -63,6 +64,13 @@ public class ClientController {
 		}*/
 	}
 
+	public void waitForStartGame() throws ServerNotAvailableException {
+		String msg = readLineFromServer();
+		if (msg.contains(ProtocolMessages.START)) {
+			
+		}
+		
+	}
 	/**
 	 * Sends a message to the connected server, followed by a new line.
 	 * The stream is then flushed.
@@ -167,7 +175,14 @@ public class ClientController {
 		};
 		System.out.println("CLIENT: server responded with 'handshake done with " + response.split(ProtocolMessages.CS)[1] + "'");
 	}
-
+	public void getPlayerNames() throws ServerNotAvailableException, ProtocolException {
+		String response = readLineFromServer();
+		if(response.contains(ProtocolMessages.HELLO) && response.contains(name)) {
+			System.out.println("SERVER: " + response);
+		} else {
+			throw new ProtocolException("CLIENT: server responded with: " + response);
+		}
+	}
 	/**
 	 * Reads and returns one line from the server.
 	 *
