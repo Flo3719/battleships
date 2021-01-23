@@ -24,6 +24,8 @@ public class GameClientHandler implements Runnable {
     /** Name of this Player */
     private String name = "unnamed";
 
+    private Board board;
+    
     @Override
     public void run() {
         String msg;
@@ -64,7 +66,7 @@ public class GameClientHandler implements Runnable {
         out.newLine();
         out.flush();
     }
-    public Board toBoard(String stringBoard) {
+    public void toBoard(String stringBoard) {
     	Board resultBoard = new Board();
     	resultBoard.addShips();
     	String[] splitArray = stringBoard.split(",");
@@ -86,7 +88,7 @@ public class GameClientHandler implements Runnable {
     			
     		}
     	}
-    	return resultBoard;
+    	this.board = resultBoard;
     }
 
 

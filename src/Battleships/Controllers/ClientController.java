@@ -46,8 +46,8 @@ public class ClientController {
 	public void start(String name, String ip, int portHost) throws ServerNotAvailableException, IOException {
 		createConnection(name, ip, portHost);
 		doHandshake();
-		//System.out.println(readLineFromServer());
-		getPlayerNames();
+		System.out.println(readLineFromServer());
+		//getPlayerNames();
 		//waitForStartGame();
 		/*try {
 			createConnection();
