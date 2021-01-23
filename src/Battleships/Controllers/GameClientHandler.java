@@ -23,9 +23,10 @@ public class GameClientHandler implements Runnable {
 
     /** Name of this Player */
     private String name = "unnamed";
-
-    private Board board;
+    private boolean leader;
     
+    private Board board;
+
     @Override
     public void run() {
         String msg;
@@ -45,6 +46,10 @@ public class GameClientHandler implements Runnable {
 
     public String getName(){
         return this.name;
+    }
+
+    public Board getBoard(){
+        return this.board;
     }
 
     public GameClientHandler(Socket sock, Server server, String name) {
@@ -90,21 +95,19 @@ public class GameClientHandler implements Runnable {
     	}
     	return resultBoard;
     }
-
+    public void setLeader(boolean value){
+        leader = value;
+    }
 
     private void handleCommand(String msg) throws IOException {
         String[] message = msg.split(ProtocolMessages.CS);
         switch(message[0]){
+            //case ProtocolMessages.HELLO:
+            //    out.write(server.getHello(message[1]));
+            //    break;
             case ProtocolMessages.BOARD:
-                for (GameClientHandler gch : server.getClients()) {
-                	if (gch.name.equals(message[1])) {
-                		gch.board = toBoard(message[2]);
-                	}
-                }
-                break;
-//            case ProtocolMessages.ACT:
-//                out.write(server.doAct(message[1], message[2]));
-//                break;
+            	  this.board = toBoard(message[2]);
+            	  break;
 //            case ProtocolMessages.BILL:
 //                out.write(server.doBill(message[1], message[2]));
 //                break;

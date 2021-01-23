@@ -65,4 +65,9 @@ public class GameModel {
     public GameClientHandler getPlayer(int player){
         return players[player];
     }
+    
+    public void setBoard() {
+    	boards[0] = players[0].getBoard();
+    	boards[1] = players[1].getBoard();
+    }
 }

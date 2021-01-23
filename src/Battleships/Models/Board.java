@@ -165,7 +165,7 @@ public class Board {
 					result = result + positions[j][i].ship.shipName;
 				}
 				else {
-					result = result + "X";
+					result = result + "0";
 				}
 				result = result + ";";
 			}
