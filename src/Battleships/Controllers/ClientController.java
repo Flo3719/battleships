@@ -22,11 +22,13 @@ public class ClientController {
 
 	private String name;
 	private boolean leader;
-
+	private Board board;
 	/**
 	 * Constructs a new HotelClient. Initialises the view.
+	 * @param board 
 	 */
-	public ClientController() {
+	public ClientController(Board board) {
+		this.board = board;
 	}
 	//public ClientController(Board board) {
 		//this.board = board;
@@ -61,7 +63,7 @@ public class ClientController {
 			MainViewController.sharedInstance.getView().enemyNameLabel.setText(handshakeResult[2]);
 			System.out.println("CLIENT " + name + " got player names");
 			System.out.println("CLIENT " + this.name + ": WAITING FOR GAME TO START");
-			//waitForStartGame();
+			waitForStartGame();
 		}
 		//
 		/*try {
@@ -82,8 +84,8 @@ public class ClientController {
 	public void waitForStartGame() throws ServerNotAvailableException, IOException {
 		String msg = readLineFromServer();
 		if (msg.contains(ProtocolMessages.START)) {
-			//out.write(ProtocolMessages.BOARD + name + board.toString());
-
+			out.write(ProtocolMessages.BOARD + name + board.toString());
+			System.out.println(board.toString());
 		}
 		
 	}
