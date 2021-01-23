@@ -72,10 +72,10 @@ public class ClientController {
 		}*/
 	}
 
-	public void waitForStartGame() throws ServerNotAvailableException {
+	public void waitForStartGame() throws ServerNotAvailableException, IOException {
 		String msg = readLineFromServer();
 		if (msg.contains(ProtocolMessages.START)) {
-			//TODO: implement
+			out.write(ProtocolMessages.BOARD + name + board.toString());
 		}
 		
 	}

@@ -66,7 +66,7 @@ public class GameClientHandler implements Runnable {
         out.newLine();
         out.flush();
     }
-    public void toBoard(String stringBoard) {
+    public Board toBoard(String stringBoard) {
     	Board resultBoard = new Board();
     	resultBoard.addShips();
     	String[] splitArray = stringBoard.split(",");
@@ -88,16 +88,20 @@ public class GameClientHandler implements Runnable {
     			
     		}
     	}
-    	this.board = resultBoard;
+    	return resultBoard;
     }
 
 
     private void handleCommand(String msg) throws IOException {
         String[] message = msg.split(ProtocolMessages.CS);
-        switch(message[0].charAt(0)){
-            //case ProtocolMessages.HELLO:
-            //    out.write(server.getHello(message[1]));
-            //    break;
+        switch(message[0]){
+            case ProtocolMessages.BOARD:
+                for (GameClientHandler gch : server.getClients()) {
+                	if (gch.name.equals(message[1])) {
+                		gch.board = toBoard(message[2]);
+                	}
+                }
+                break;
 //            case ProtocolMessages.ACT:
 //                out.write(server.doAct(message[1], message[2]));
 //                break;
