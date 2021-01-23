@@ -1,9 +1,16 @@
  package Battleships.Controllers;
 
+import Battleships.Models.Board;
+import Battleships.Models.PositionModel;
 import Battleships.Models.ProtocolMessages;
+import Battleships.Models.ShipModel;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 public class GameClientHandler implements Runnable {
     /** The socket and In- and OutputStreams */
@@ -16,6 +23,8 @@ public class GameClientHandler implements Runnable {
 
     /** Name of this Player */
     private String name = "unnamed";
+    
+    private Board board;
 
     @Override
     public void run() {
@@ -57,16 +66,44 @@ public class GameClientHandler implements Runnable {
         out.newLine();
         out.flush();
     }
+    public Board toBoard(String stringBoard) {
+    	Board resultBoard = new Board();
+    	resultBoard.addShips();
+    	String[] splitArray = stringBoard.split(",");
+    	List<String> al = new ArrayList<>();
+    	al = Arrays.asList(splitArray);
+    	Iterator<String> it = al.iterator();
+    	for (int i = 0; i < resultBoard.HEIGHT; i++) {
+    		for (int j = 0; j < resultBoard.WIDTH; j++) {
+    			String test = it.next();
+    			if (!test.equals("0")) {
+    				for (ShipModel s : resultBoard.ships) {
+    					if (s.shipName.equals(test)) {
+    						resultBoard.positions[j][i].ship = s;
+    						PositionModel pos = resultBoard.positions[j][i];
+    						s.positions.add(pos);
+    					}
+    				}
+    			}
+    			
+    		}
+    	}
+    	return board;
+    }
+    
+    public Board getBoard() {
+    	return this.board;
+    }
 
     private void handleCommand(String msg) throws IOException {
         String[] message = msg.split(ProtocolMessages.CS);
-        switch(message[0].charAt(0)){
+        switch(message[0]){
             //case ProtocolMessages.HELLO:
             //    out.write(server.getHello(message[1]));
             //    break;
-//            case ProtocolMessages.ACT:
-//                out.write(server.doAct(message[1], message[2]));
-//                break;
+            case ProtocolMessages.BOARD:
+            	  this.board = toBoard(message[2]);
+            	  break;
 //            case ProtocolMessages.BILL:
 //                out.write(server.doBill(message[1], message[2]));
 //                break;
