@@ -26,6 +26,8 @@ public class GameClientHandler implements Runnable {
     private boolean leader;
     
     private Board board;
+    
+    private GameController game;
 
     @Override
     public void run() {
@@ -61,9 +63,16 @@ public class GameClientHandler implements Runnable {
             this.sock = sock;
             this.server = server;
             this.name = name;
+            this.game = game;
         } catch (IOException e) {
             //shutdown();
         }
+    }
+    public void setGame(GameController game) {
+    	this.game = game;
+    }
+    public GameController getGame() {
+    	return this.game;
     }
 
     public void sendOut(String message) throws IOException {
@@ -108,9 +117,9 @@ public class GameClientHandler implements Runnable {
             case ProtocolMessages.BOARD:
             	  this.board = toBoard(message[2]);
             	  break;
-//            case ProtocolMessages.BILL:
-//                out.write(server.doBill(message[1], message[2]));
-//                break;
+            case ProtocolMessages.START:
+                server.sendStart(this.game);
+                break;
 //            case ProtocolMessages.IN:
 //                out.write(server.doIn(message[1]));
 //                break;

@@ -152,7 +152,13 @@ public class Server implements Runnable {
     public List<GameClientHandler> getClients(){
         return clients;
     }
-
+    public void sendStart(GameController game) throws IOException {
+    	for (GameClientHandler gch : clients) {
+    		if (gch.getGame().equals(game)) {
+    			gch.sendOut(ProtocolMessages.START + "0");
+    		}
+    	}
+    }
     public boolean checkPlayerName(String name){
         //TODO implement Requirement S02
         return true;

@@ -57,6 +57,7 @@ public class ClientController {
 		if(handshakeResult.length == 2){
 			getPlayerNames();
 			System.out.println("CLIENT " + this.name + ": PRESS BUTTON TO START GAME");
+			startGame();
 		}else{
 			//TODO clean this up
 			MainViewController.sharedInstance.getView().friendNameLabel.setText(handshakeResult[1]);
@@ -79,6 +80,9 @@ public class ClientController {
 		} catch (ProtocolException e) {
 			e.printStackTrace();
 		}*/
+	}
+	public void startGame() throws IOException {
+		out.write(ProtocolMessages.START);
 	}
 
 	public void waitForStartGame() throws ServerNotAvailableException, IOException {

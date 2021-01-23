@@ -7,6 +7,8 @@ public class GameController {
 
     public GameController(GameClientHandler s0, GameClientHandler s1){
         this.model = new GameModel(s0, s1);
+        s0.setGame(this);
+        s1.setGame(this);
     }
 
     public void startGame(){

@@ -51,7 +51,7 @@ public class MainViewController implements MainViewDelegate {
 
     @Override
     public void handleStartClick(Event evt){
-
+    	//startGame();
     }
 
     public void handleMenuJoinClick() {
