@@ -23,6 +23,8 @@ public class GameClientHandler implements Runnable {
 
     /** Name of this Player */
     private String name = "unnamed";
+
+    private boolean leader;
     
     private Board board;
 
@@ -45,6 +47,10 @@ public class GameClientHandler implements Runnable {
 
     public String getName(){
         return this.name;
+    }
+
+    public Board getBoard(){
+        return this.board;
     }
 
     public GameClientHandler(Socket sock, Server server, String name) {
@@ -89,6 +95,10 @@ public class GameClientHandler implements Runnable {
     		}
     	}
     	return resultBoard;
+    }
+
+    public void setLeader(boolean value){
+        leader = value;
     }
 
     private void handleCommand(String msg) throws IOException {

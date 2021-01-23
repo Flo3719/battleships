@@ -76,6 +76,7 @@ public class Server implements Runnable {
                         }else{
                             System.out.println("SERVER: Player " + name + " is waiting for a partner to match");
                             waitingClient = clients.get(clients.size()-1);
+                            waitingClient.setLeader(true);
                         }
                     }else{
                         System.out.println("SERVER: NAME TAKEN");

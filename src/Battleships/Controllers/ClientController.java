@@ -1,5 +1,6 @@
 package Battleships.Controllers;
 
+import Battleships.Models.Board;
 import Battleships.Models.ProtocolMessages;
 import Battleships.Models.Exceptions.ServerNotAvailableException;
 
@@ -20,12 +21,12 @@ public class ClientController {
 	//public HotelClientTUI tui;
 
 	private String name;
+	private boolean leader;
 
 	/**
 	 * Constructs a new HotelClient. Initialises the view.
 	 */
 	public ClientController() {
-		//this.tui = new HotelClientTUI(this);
 	}
 	public String getName() {
 		return name;
@@ -45,10 +46,19 @@ public class ClientController {
 	 */
 	public void start(String name, String ip, int portHost) throws ServerNotAvailableException, IOException {
 		createConnection(name, ip, portHost);
-		doHandshake();
-		//System.out.println(readLineFromServer());
-		getPlayerNames();
-		//waitForStartGame();
+		String handshakeResult[] = doHandshake();
+		if(handshakeResult.length == 2){
+			getPlayerNames();
+			System.out.println("CLIENT " + this.name + ": PRESS BUTTON TO START GAME");
+		}else{
+			//TODO clean this up
+			MainViewController.sharedInstance.getView().friendNameLabel.setText(handshakeResult[1]);
+			MainViewController.sharedInstance.getView().enemyNameLabel.setText(handshakeResult[2]);
+			System.out.println("CLIENT " + name + " got player names");
+			System.out.println("CLIENT " + this.name + ": WAITING FOR GAME TO START");
+			//waitForStartGame();
+		}
+		//
 		/*try {
 			createConnection();
 			} catch (ExitProgram exitprogram) {
@@ -165,20 +175,27 @@ public class ClientController {
 	}
 
 	//@Override
-	public void doHandshake()
+	public String[] doHandshake()
 			throws ServerNotAvailableException, ProtocolException {
 		sendMessage(ProtocolMessages.HELLO + ProtocolMessages.CS + name);
 		String response = readLineFromServer();
 		System.out.println("CLIENT: " + response);
+		if(response.split(ProtocolMessages.CS).length == 2){
+			System.out.println("CLIENT: Client is leader.");
+		}
 		if(!response.contains(ProtocolMessages.HELLO)){
 			throw new ProtocolException("CLIENT: Handshake failed. response was: " + response);
 		};
 		System.out.println("CLIENT: server responded with 'handshake done with " + response.split(ProtocolMessages.CS)[1] + "'");
+		return response.split(ProtocolMessages.CS);
 	}
 	public void getPlayerNames() throws ServerNotAvailableException, ProtocolException {
 		String response = readLineFromServer();
 		if(response.contains(ProtocolMessages.HELLO) && response.contains(name)) {
-			System.out.println("SERVER: " + response);
+			System.out.println("CLIENT: " + response);
+			MainViewController.sharedInstance.getView().friendNameLabel.setText(response.split(ProtocolMessages.CS)[1]);
+			MainViewController.sharedInstance.getView().enemyNameLabel.setText(response.split(ProtocolMessages.CS)[2]);
+
 		} else {
 			throw new ProtocolException("CLIENT: server responded with: " + response);
 		}
