@@ -1,9 +1,16 @@
  package Battleships.Controllers;
 
+import Battleships.Models.Board;
+import Battleships.Models.PositionModel;
 import Battleships.Models.ProtocolMessages;
+import Battleships.Models.ShipModel;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 public class GameClientHandler implements Runnable {
     /** The socket and In- and OutputStreams */
@@ -57,6 +64,31 @@ public class GameClientHandler implements Runnable {
         out.newLine();
         out.flush();
     }
+    public Board toBoard(String stringBoard) {
+    	Board resultBoard = new Board();
+    	resultBoard.addShips();
+    	String[] splitArray = stringBoard.split(",");
+    	List<String> al = new ArrayList<>();
+    	al = Arrays.asList(splitArray);
+    	Iterator<String> it = al.iterator();
+    	for (int i = 0; i < Board.HEIGHT; i++) {
+    		for (int j = 0; j < Board.WIDTH; j++) {
+    			String test = it.next();
+    			if (!test.equals("0")) {
+    				for (ShipModel s : resultBoard.ships) {
+    					if (s.shipName.equals(test)) {
+    						resultBoard.positions[j][i].ship = s;
+    						PositionModel pos = resultBoard.positions[j][i];
+    						s.positions.add(pos);
+    					}
+    				}
+    			}
+    			
+    		}
+    	}
+    	return resultBoard;
+    }
+
 
     private void handleCommand(String msg) throws IOException {
         String[] message = msg.split(ProtocolMessages.CS);
