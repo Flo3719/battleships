@@ -4,6 +4,7 @@ import Battleships.Models.Board;
 import Battleships.Models.PlayerModel;
 import Battleships.Models.ProtocolMessages;
 import Battleships.Models.Exceptions.ServerNotAvailableException;
+import javafx.application.Platform;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -24,6 +25,8 @@ public class ClientController {
 
 	private boolean leader;
 	private Board board;
+
+	private ClientTimeHandler clientTimeHandler;
 	
 	private PlayerModel player;
 	/**
@@ -34,6 +37,10 @@ public class ClientController {
 	public ClientController(Board board, MainViewController mainViewController) {
 		this.board = board;
 		this.mainViewController = mainViewController;
+	}
+
+	public MainViewController getMainViewController(){
+		return mainViewController;
 	}
 	//public ClientController(Board board) {
 		//this.board = board;
@@ -95,12 +102,14 @@ public class ClientController {
 
 	public void waitForStartGame() throws ServerNotAvailableException, IOException {
 		String msg = readLineFromServer();
+		clientTimeHandler = new ClientTimeHandler(this);
+		Thread clientTimeHandlerThread = new Thread(clientTimeHandler);
+		clientTimeHandlerThread.start();
 		if (msg.contains(ProtocolMessages.START)) {
 			out.write(ProtocolMessages.BOARD + ProtocolMessages.CS + this.player.getName() + ProtocolMessages.CS  + board.toString());
 			out.newLine();
 			out.flush();
 		}
-		
 	}
 	/**
 	 * Sends a message to the connected server, followed by a new line.
@@ -138,7 +147,7 @@ public class ClientController {
 	 * @param ip 
 	 * @param name 
 	 * 
-	 * @throws ExitProgram if a connection is not established and the user 
+	 * @throws  if a connection is not established and the user
 	 * 				       indicates to want to exit the program.
 	 * @ensures serverSock contains a valid socket connection to a server
 	 */

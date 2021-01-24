@@ -120,6 +120,7 @@ public class GameClientHandler implements Runnable {
             	  break;
             case ProtocolMessages.START:
                 server.sendStart(this.game);
+                this.game.startGame();
                 break;
 //            case ProtocolMessages.IN:
 //                out.write(server.doIn(message[1]));

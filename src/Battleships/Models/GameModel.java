@@ -8,9 +8,9 @@ public class GameModel {
 
 	public static final int NUMBER_PLAYERS = 2;
     /**
-     * The maximum game time in milliseconds. The maximum game time is 5 minutes.
+     * The maximum game time in seconds. The maximum game time is 5 minutes.
      */
-    private static final int MAXIMUM_GAME_TIME = 5*60*1000;
+    private static final int MAXIMUM_GAME_TIME = 5*60;
     private boolean timeOver = false;
     private Timer timer;
     
@@ -42,7 +42,7 @@ public class GameModel {
         players[0] = s0;
         players[1] = s1;
         current = 0;
-        timer = new Timer();
+        //timer = new Timer();
     }
 
 //    public void askNames(){
@@ -69,5 +69,9 @@ public class GameModel {
     public void setBoard() {
     	boards[0] = players[0].getBoard();
     	boards[1] = players[1].getBoard();
+    }
+
+    public int getMaximumGameTime(){
+        return MAXIMUM_GAME_TIME;
     }
 }

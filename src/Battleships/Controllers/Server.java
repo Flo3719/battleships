@@ -71,7 +71,7 @@ public class Server implements Runnable {
                         new Thread(handler).start();
                         if(waitingClient != null){
                             System.out.println("SERVER: Player " + name + " is matched with player " + waitingClient.getName());
-                            GameController game = new GameController(waitingClient, clients.get(clients.size()-1));
+                            GameController game = new GameController(this, waitingClient, clients.get(clients.size()-1));
                             waitingClient = null;
                         }else{
                             System.out.println("SERVER: Player " + name + " is waiting for a partner to match");
@@ -122,6 +122,16 @@ public class Server implements Runnable {
         for(GameClientHandler gch : clients){
             try {
                 gch.sendOut(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void sendTimeUpdate(int seconds){
+        for(GameClientHandler gch : clients){
+            try {
+                gch.sendOut(ProtocolMessages.TIME + ProtocolMessages.CS + seconds);
             } catch (IOException e) {
                 e.printStackTrace();
             }

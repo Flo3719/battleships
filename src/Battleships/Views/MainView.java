@@ -5,6 +5,7 @@ import java.io.IOException;
 import Battleships.Controllers.MainViewController;
 import Battleships.Models.MainViewDelegate;
 import Battleships.Models.Exceptions.ServerNotAvailableException;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -58,11 +59,16 @@ public class MainView {
         enemyScoreLabel.setText(Integer.toString(points) + " Points");
     }
     public void setTimeLabel(int seconds){
-        int onlyMinutes = seconds/60;
-        int onlySeconds = seconds%60;
-        String minutesFormatted = String.format("%02d", onlyMinutes);
-        String secondsFormatted = String.format("%02d", onlySeconds);
-        timeLabel.setText(minutesFormatted + ":" + secondsFormatted);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                int onlyMinutes = seconds/60;
+                int onlySeconds = seconds%60;
+                String minutesFormatted = String.format("%02d", onlyMinutes);
+                String secondsFormatted = String.format("%02d", onlySeconds);
+                timeLabel.setText(minutesFormatted + ":" + secondsFormatted);
+            }
+        });
     }
     public void setFriendNameLabel(String name){
         friendNameLabel.setText(name + "'s Field");
