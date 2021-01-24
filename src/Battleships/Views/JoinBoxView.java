@@ -4,6 +4,7 @@ import Battleships.Controllers.ClientController;
 import Battleships.Controllers.JoinBoxViewController;
 import Battleships.Models.Board;
 import Battleships.Models.JoinBoxViewDelegate;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class JoinBoxView {
     public JoinBoxViewDelegate controller;
@@ -66,6 +68,8 @@ public class JoinBoxView {
         // Stage
         joinStage.setTitle("Battleships - Join or Host");
         joinStage.setScene(scene);
+        joinStage.setOnCloseRequest((WindowEvent evt)->{
+            Platform.exit();});
         joinStage.showAndWait();
 
     }
