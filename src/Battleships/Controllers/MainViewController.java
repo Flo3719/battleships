@@ -53,15 +53,18 @@ public class MainViewController implements MainViewDelegate {
 	}
 
 	@Override
-	public void handleButtonClick(Event evt) throws OutOfTurnException {
+	public void handleButtonClick(Event evt) throws OutOfTurnException, IOException {
 		if (this.clientController.myTurn) {
-			System.out.println(((Control) evt.getSource()).getId());
+			String id = ((Control) evt.getSource()).getId();
+			System.out.println(id);
 			String button[];
-			button = ((Control) evt.getSource()).getId().split("PlayButton");
+			button = id.split("PlayButton");
 			if (button[0].equals("enemy")) {
 				// tryAttack(button[1]);
 				System.out.println("enemy field attacked");
+				clientController.Attack(button[1]);
 			}
+			
 		}
 		else
 		{

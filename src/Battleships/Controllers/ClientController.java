@@ -3,6 +3,7 @@ package Battleships.Controllers;
 import Battleships.Models.Board;
 import Battleships.Models.PlayerModel;
 import Battleships.Models.ProtocolMessages;
+import Battleships.Models.ShipType;
 import Battleships.Models.Exceptions.ServerNotAvailableException;
 import javafx.application.Platform;
 
@@ -72,7 +73,6 @@ public class ClientController implements Runnable {
 		out.flush();
 	}
 
-
 	/**
 	 * Sends a message to the connected server, followed by a new line. The stream
 	 * is then flushed.
@@ -124,7 +124,7 @@ public class ClientController implements Runnable {
 				System.out.println(
 						"CLIENT: ERROR: could not create a socket on " + this.ip + " and port " + this.Port + ".");
 
-  				// Do you want to try again? (ask user, to be implemented)
+				// Do you want to try again? (ask user, to be implemented)
 				// if(false) {
 				// throw new ExitProgram("User indicated to exit.");
 				// }
@@ -278,6 +278,7 @@ public class ClientController implements Runnable {
 				myTurn = true;
 			} else {
 				System.out.println("It is the turn of: " + this.opponent.getName());
+				myTurn = false;
 			}
 			break;
 		case ProtocolMessages.START:
@@ -296,6 +297,69 @@ public class ClientController implements Runnable {
 				});
 			}
 			break;
+		case ProtocolMessages.HIT:
+			if (myTurn) {
+				Platform.runLater(new Runnable() {
+
+					@Override
+					public void run() {
+						mainViewController.view.setPlayField("X", "enemy", Integer.parseInt(message[1]),
+								"-fx-background-color: orange;");
+					}
+				});
+			}
+			break;
+		case ProtocolMessages.MISS:
+			if (myTurn) {
+				Platform.runLater(new Runnable() {
+
+					@Override
+					public void run() {
+						mainViewController.view.setPlayField("O", "enemy", Integer.parseInt(message[1]),
+								"-fx-background-color: beige;");
+					}
+				});
+			}
+			break;
+		case ProtocolMessages.DESTROY:
+			if (myTurn) {
+				ShipType shipType = GetShipTypeByIdentifier(message[1]);
+				int orientation = Integer.parseInt(message[3]);
+				int index = Integer.parseInt(message[2]);
+
+				Platform.runLater(new Runnable() {
+
+					@Override
+					public void run() {
+						for (int i = 0; i < shipType.length; i++) {
+							if (orientation == 0) {
+								mainViewController.view.setPlayField(shipType.identifier, "enemy", index + i,
+										shipType.color);
+							} else {
+								mainViewController.view.setPlayField(shipType.identifier, "enemy", index + i * 15,
+										shipType.color);
+							}
+						}
+					}
+				});
+			}
+			break;
 		}
+	}
+
+	public void Attack(String id) throws IOException {
+		out.write(ProtocolMessages.ATTACK + ProtocolMessages.CS + id);
+		out.newLine();
+		out.flush();
+
+	}
+
+	public ShipType GetShipTypeByIdentifier(String identifier) {
+		for (ShipType shipType : ShipType.values()) {
+			if (shipType.identifier.equals(identifier))
+				return shipType;
+		}
+
+		return null;
 	}
 }

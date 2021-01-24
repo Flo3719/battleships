@@ -16,6 +16,41 @@ public class ShipModel {
 	public int getLength() {
 		return shipType.length;
 	}
+	public int getOrientation(){
+		if(this.getLength() == 1) {
+			return 1;
+		}
+		else {
+			if (positions.get(0).x == positions.get(1).x) {
+				return 1;
+			}
+			else {
+				return 0;
+			}
+		}
+	}
+	
+	public int GetMarkerIndex()
+	{
+		PositionModel best = this.positions.get(0);
+		
+		if(getOrientation() == 0)
+		{
+			for(PositionModel pos : positions) {
+				if(pos.x < best.x)
+					best =  pos;
+			}
+		}
+		else
+		{
+			for(PositionModel pos : positions) {
+				if(pos.y < best.y)
+					best =  pos;
+			}
+		}
+			
+		return best.index(); 
+	}
 	
 	public boolean Sunk() {
 		for(PositionModel pos : positions) {

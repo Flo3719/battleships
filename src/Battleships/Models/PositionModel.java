@@ -14,4 +14,10 @@ public class PositionModel {
 		this.hasBeenGuessed = false;
 		this.ship = null;
 	}
+
+	public int index()
+	{
+		return y * 15 + x;
+	}
+	
 }

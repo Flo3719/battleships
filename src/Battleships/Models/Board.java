@@ -149,12 +149,12 @@ public class Board {
 		}
 	}
 	public int getY(int index) {
-		int y = index / 10;
+		int y = index / 15;
 		return y;
 	}
 	
 	public int getX(int index) {
-		int rest = index % 10;
+		int rest = index % 15;
 		return rest;
 	}
 	public String toString() {

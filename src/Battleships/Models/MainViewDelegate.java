@@ -11,7 +11,7 @@ public interface MainViewDelegate {
     public static MainViewDelegate sharedInstance = null;
     public MainView getView();
     public void initialize(MainView view);
-    public void handleButtonClick(Event evt) throws OutOfTurnException;
+    public void handleButtonClick(Event evt) throws OutOfTurnException, IOException;
     public void handleMenuJoinClick();
     //public void handleJoinClick(Event evt);
     //public void setPlayField(int index);
