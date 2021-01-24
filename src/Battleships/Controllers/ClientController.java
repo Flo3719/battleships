@@ -23,6 +23,7 @@ public class ClientController {
 	//public HotelClientTUI tui;
 
 	private boolean leader;
+	private Board board;
 	
 	private PlayerModel player;
 	/**
@@ -30,8 +31,8 @@ public class ClientController {
 	 * @param board 
 	 * @param mainViewController 
 	 */
-	public ClientController(MainViewController mainViewController) {
-		this.player.setBoard(mainViewController.getBoard());
+	public ClientController(Board board, MainViewController mainViewController) {
+		this.board = board;
 		this.mainViewController = mainViewController;
 	}
 	//public ClientController(Board board) {
@@ -56,13 +57,11 @@ public class ClientController {
 
 		String handshakeResult[] = doHandshake();
 		if(handshakeResult.length == 2){
-			// If the length is 2, this client is the leader.
 			getPlayerNames();
 			this.mainViewController.joinBoxView.joinStage.close();
 			System.out.println("CLIENT " + this.player.getName() + ": PRESS BUTTON TO START GAME");
 			//startGame();
 		}else{
-			// If the length is not 2 -> the length is 1 and the client is not the leader.
 			//TODO clean this up
 			MainViewController.sharedInstance.getView().friendNameLabel.setText(handshakeResult[1]);
 			MainViewController.sharedInstance.getView().enemyNameLabel.setText(handshakeResult[2]);
@@ -70,7 +69,7 @@ public class ClientController {
 			System.out.println("CLIENT " + this.player.getName() + ": WAITING FOR GAME TO START");
 			waitForStartGame();
 			this.mainViewController.joinBoxView.joinStage.close();
-		}
+			}
 
 		//
 		/*try {
@@ -97,10 +96,11 @@ public class ClientController {
 	public void waitForStartGame() throws ServerNotAvailableException, IOException {
 		String msg = readLineFromServer();
 		if (msg.contains(ProtocolMessages.START)) {
-			out.write(ProtocolMessages.BOARD + ProtocolMessages.CS + this.player.getName() + ProtocolMessages.CS  + player.getBoard().toString());
+			out.write(ProtocolMessages.BOARD + ProtocolMessages.CS + this.player.getName() + ProtocolMessages.CS  + board.toString());
 			out.newLine();
 			out.flush();
 		}
+		
 	}
 	/**
 	 * Sends a message to the connected server, followed by a new line.

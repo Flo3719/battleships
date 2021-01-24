@@ -47,10 +47,6 @@ public class PlayerModel {
         return board;
     }
 
-    public void setBoard(Board board){
-        this.board = board;
-    }
-
     /**
      * Returns the score of the player.
      */

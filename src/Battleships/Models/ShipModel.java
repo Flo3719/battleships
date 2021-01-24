@@ -23,5 +23,6 @@ public class ShipModel {
 				return false;
 		}
 		return true;
+		
 	}
 }
