@@ -29,6 +29,8 @@ public class ClientController implements Runnable {
 	public int Port;
 	public String ip;
 
+	private ClientTimeHandler clientTimeHandler;
+
 	/**
 	 * Constructs a new HotelClient. Initialises the view.
 	 * 
@@ -43,6 +45,10 @@ public class ClientController implements Runnable {
 	// this.board = board;
 	// this.tui = new HotelClientTUI(this);
 	// }
+
+	public MainViewController getMainViewController(){
+		return mainViewController;
+	}
 
 	/**
 	 * Starts a new HotelClient by creating a connection, followed by the HELLO
