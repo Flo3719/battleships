@@ -46,7 +46,7 @@ public class ClientController implements Runnable {
 	// this.tui = new HotelClientTUI(this);
 	// }
 
-	public MainViewController getMainViewController(){
+	public MainViewController getMainViewController() {
 		return mainViewController;
 	}
 
@@ -63,33 +63,6 @@ public class ClientController implements Runnable {
 	 * @param ip
 	 * @param name
 	 */
-	public void start(String name, String ip, int portHost) throws ServerNotAvailableException, IOException {
-		createConnection();
-
-		String handshakeResult[] = doHandshake();
-		if (handshakeResult.length == 2) {
-			getPlayerNames();
-			this.mainViewController.joinBoxView.joinStage.close();
-			System.out.println("CLIENT " + this.player.getName() + ": PRESS BUTTON TO START GAME");
-			// startGame();
-		} else {
-			// TODO clean this up
-			MainViewController.sharedInstance.getView().friendNameLabel.setText(handshakeResult[1]);
-			MainViewController.sharedInstance.getView().enemyNameLabel.setText(handshakeResult[2]);
-			System.out.println("CLIENT " + name + " got player names");
-			System.out.println("CLIENT " + this.player.getName() + ": WAITING FOR GAME TO START");
-			waitForStartGame();
-			this.mainViewController.joinBoxView.joinStage.close();
-		}
-
-		//
-		/*
-		 * try { createConnection(); } catch (ExitProgram exitprogram) {
-		 * exitprogram.printStackTrace(); } try { handleHello(); tui.start(); } catch
-		 * (ServerNotAvailableException e) { e.printStackTrace(); } catch
-		 * (ProtocolException e) { e.printStackTrace(); }
-		 */
-	}
 
 	public void startGame() throws IOException, ServerNotAvailableException {
 		out.write(ProtocolMessages.START);
@@ -100,7 +73,7 @@ public class ClientController implements Runnable {
 
 	public void waitForStartGame() throws ServerNotAvailableException, IOException {
 		String msg = readLineFromServer();
-		clientTimeHandler = new ClientTimeHandler(this);
+		//clientTimeHandler = new ClientTimeHandler(this);
 		Thread clientTimeHandlerThread = new Thread(clientTimeHandler);
 		clientTimeHandlerThread.start();
 		if (msg.contains(ProtocolMessages.START)) {
@@ -212,7 +185,7 @@ public class ClientController implements Runnable {
 
 	public void getPlayerNames() throws ServerNotAvailableException, ProtocolException {
 		String response = readLineFromServer();
-		if(response.contains(ProtocolMessages.HELLO) && response.contains(this.player.getName())) {
+		if (response.contains(ProtocolMessages.HELLO) && response.contains(this.player.getName())) {
 			System.out.println("CLIENT: " + response);
 			MainViewController.sharedInstance.getView().friendNameLabel.setText(response.split(ProtocolMessages.CS)[1]);
 			MainViewController.sharedInstance.getView().enemyNameLabel.setText(response.split(ProtocolMessages.CS)[2]);
@@ -288,6 +261,33 @@ public class ClientController implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		String msg;
+		try {
+			msg = in.readLine();
+			while (msg != null) {
+				handleCommand(msg);
+				out.newLine();
+				out.flush();
+				msg = in.readLine();
+			}
+			// shutdown();
+		} catch (IOException e) {
+			// shutdown();
+		}
 	}
 
+	private void handleCommand(String msg) throws IOException {
+		String[] message = msg.split(ProtocolMessages.CS);
+		switch (message[0]) {
+		// case ProtocolMessages.HELLO:
+		// out.write(server.getHello(message[1]));
+		// break;
+		case ProtocolMessages.TIME:
+			System.out.println(msg);
+			this.getMainViewController().view.setTimeLabel(Integer.parseInt(message[1]));
+			break;
+
+		}
+	}
 }
