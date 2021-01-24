@@ -12,7 +12,10 @@ public class GameController {
     }
 
     public void startGame(){
-
         System.out.println("GAME: game was created with player " + model.getPlayer(0).getName() + " & " + model.getPlayer(1).getName());
+    }
+
+    public GameModel getModel(){
+        return this.model;
     }
 }

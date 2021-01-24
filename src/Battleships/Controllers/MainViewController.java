@@ -22,7 +22,7 @@ public class MainViewController implements MainViewDelegate {
     public static MainViewDelegate sharedInstance = new MainViewController();
     private MainViewController(){
         this.board = new Board();
-        this.clientController = new ClientController(board, this);
+        this.clientController = new ClientController(this);
     }
 
     // To Manipulate the game implement "MainViewController.sharedInstance" for example by creating an instance variable
@@ -80,6 +80,10 @@ public class MainViewController implements MainViewDelegate {
 
     private int getIndex(int col, int row){
         return row*15+col;
+    }
+
+    public Board getBoard(){
+        return this.board;
     }
 
     public void addShips(Board board){
