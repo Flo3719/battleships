@@ -21,19 +21,19 @@ public class Board {
 	}
 	public void addShips() {
 		for(int i = 0; i<2; i++) {
-			ships.add(new ShipModel(ShipType.CARRIER));
+			ships.add(new ShipModel(ShipType.CARRIER, i));
 		}
 		for(int i = 0; i<3; i++) {
-			ships.add(new ShipModel(ShipType.BATTLESHIP));
+			ships.add(new ShipModel(ShipType.BATTLESHIP, i));
 		}
 		for(int i = 0; i<5; i++) {
-			ships.add(new ShipModel(ShipType.DESTROYER));
+			ships.add(new ShipModel(ShipType.DESTROYER, i));
 		}
 		for(int i = 0; i<8; i++) {
-			ships.add(new ShipModel(ShipType.SUPER_PATROL));
+			ships.add(new ShipModel(ShipType.SUPER_PATROL, i));
 		}
 		for(int i = 0; i<10; i++) {
-			ships.add(new ShipModel(ShipType.PATROL_BOAT));
+			ships.add(new ShipModel(ShipType.PATROL_BOAT, i));
 		}
 	}
 	public void positionShips() {
@@ -167,7 +167,7 @@ public class Board {
 				else {
 					result = result + "0";
 				}
-				result = result + ";";
+				result = result + ",";
 			}
 			
 		}

@@ -1,7 +1,10 @@
 package Battleships.Views;
 
+import java.io.IOException;
+
 import Battleships.Controllers.MainViewController;
 import Battleships.Models.MainViewDelegate;
+import Battleships.Models.Exceptions.ServerNotAvailableException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -37,7 +40,12 @@ public class MainView {
             //controller.handleJoinClick(event);
         });
         startMenuItem.setOnAction((ActionEvent event)->{
-            controller.handleStartClick(event);
+            try {
+				controller.handleStartClick(event);
+			} catch (IOException | ServerNotAvailableException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
             //controller.handleJoinClick(event);
         });
 

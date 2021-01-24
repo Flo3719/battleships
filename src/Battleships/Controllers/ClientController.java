@@ -57,7 +57,7 @@ public class ClientController {
 		if(handshakeResult.length == 2){
 			getPlayerNames();
 			System.out.println("CLIENT " + this.name + ": PRESS BUTTON TO START GAME");
-			startGame();
+			//startGame();
 		}else{
 			//TODO clean this up
 			MainViewController.sharedInstance.getView().friendNameLabel.setText(handshakeResult[1]);
@@ -65,7 +65,8 @@ public class ClientController {
 			System.out.println("CLIENT " + name + " got player names");
 			System.out.println("CLIENT " + this.name + ": WAITING FOR GAME TO START");
 			waitForStartGame();
-		}
+			}
+
 		//
 		/*try {
 			createConnection();
@@ -81,15 +82,19 @@ public class ClientController {
 			e.printStackTrace();
 		}*/
 	}
-	public void startGame() throws IOException {
+	public void startGame() throws IOException, ServerNotAvailableException {
 		out.write(ProtocolMessages.START);
+		out.newLine();
+		out.flush();
+		waitForStartGame();
 	}
 
 	public void waitForStartGame() throws ServerNotAvailableException, IOException {
 		String msg = readLineFromServer();
 		if (msg.contains(ProtocolMessages.START)) {
-			out.write(ProtocolMessages.BOARD + name + board.toString());
-			System.out.println(board.toString());
+			out.write(ProtocolMessages.BOARD + ProtocolMessages.CS + name + ProtocolMessages.CS  + board.toString());
+			out.newLine();
+			out.flush();
 		}
 		
 	}

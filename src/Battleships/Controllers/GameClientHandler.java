@@ -96,6 +96,7 @@ public class GameClientHandler implements Runnable {
     						resultBoard.positions[j][i].ship = s;
     						PositionModel pos = resultBoard.positions[j][i];
     						s.positions.add(pos);
+    						break;
     					}
     				}
     			}

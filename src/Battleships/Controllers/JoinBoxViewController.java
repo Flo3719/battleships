@@ -44,7 +44,7 @@ public class JoinBoxViewController implements JoinBoxViewDelegate {
         serverThread.start();
     }
     @Override
-    public void handleJoinClick(String name,String ip,String port, Board board){
+    public void handleJoinClick(String name,String ip,String port, Board board, ClientController client){
         int portHost;
         if(port.equals("")){
             // Requirement S01
@@ -53,7 +53,7 @@ public class JoinBoxViewController implements JoinBoxViewDelegate {
         }else{
             portHost = Integer.parseInt(port);
         }
-        ClientController client = new ClientController(board);
+        //ClientController client = new ClientController(board);
         try{
             client.start(name, ip, portHost);
         } catch (ProtocolException e) {

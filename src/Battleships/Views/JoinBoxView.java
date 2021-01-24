@@ -1,5 +1,6 @@
 package Battleships.Views;
 
+import Battleships.Controllers.ClientController;
 import Battleships.Controllers.JoinBoxViewController;
 import Battleships.Models.Board;
 import Battleships.Models.JoinBoxViewDelegate;
@@ -14,8 +15,13 @@ import javafx.stage.Stage;
 
 public class JoinBoxView {
     public JoinBoxViewDelegate controller;
+    private ClientController clientController;
 
-    public void initialize() {
+    public JoinBoxView(ClientController clientController) {
+		this.clientController = clientController;
+	}
+
+	public void initialize() {
         this.controller = JoinBoxViewController.sharedInstance;
         this.controller.setView(this);
     }
@@ -37,7 +43,7 @@ public class JoinBoxView {
         Button hostButton = new Button();
         joinButton.setText("Join");
         hostButton.setText("Host");
-        joinButton.setOnAction(event -> controller.handleJoinClick(nameTextField.getText(), ipTextField.getText(), portTextField.getText(), board));
+        joinButton.setOnAction(event -> controller.handleJoinClick(nameTextField.getText(), ipTextField.getText(), portTextField.getText(), board, this.clientController));
         hostButton.setOnAction(event -> controller.handleHostClick(nameTextField.getText(), portTextField.getText()));
 
         // Layout Boxes

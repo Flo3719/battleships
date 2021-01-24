@@ -1,8 +1,12 @@
 package Battleships.Controllers;
 
 import Battleships.Models.MainViewDelegate;
+
+import java.io.IOException;
+
 import Battleships.Models.Board;
 import Battleships.Models.PositionModel;
+import Battleships.Models.Exceptions.ServerNotAvailableException;
 import Battleships.Views.JoinBoxView;
 import Battleships.Views.MainView;
 import javafx.event.Event;
@@ -11,11 +15,13 @@ import javafx.scene.control.Control;
 public class MainViewController implements MainViewDelegate {
     protected MainView view;
     private Board board;
+    private ClientController clientController;
 
     //Singleton
     public static MainViewDelegate sharedInstance = new MainViewController();
     private MainViewController(){
         this.board = new Board();
+        this.clientController = new ClientController(board);
     }
 
     // To Manipulate the game implement "MainViewController.sharedInstance" for example by creating an instance variable
@@ -50,12 +56,12 @@ public class MainViewController implements MainViewDelegate {
     }
 
     @Override
-    public void handleStartClick(Event evt){
-    	//startGame();
+    public void handleStartClick(Event evt) throws IOException, ServerNotAvailableException{
+    	this.clientController.startGame();
     }
 
     public void handleMenuJoinClick() {
-        JoinBoxView joinBoxView = new JoinBoxView();
+        JoinBoxView joinBoxView = new JoinBoxView(this.clientController);
         joinBoxView.display(this.board);
 //        this.view.setEnemyScoreLabel(2);
 //        this.view.setFriendScoreLabel(3);
