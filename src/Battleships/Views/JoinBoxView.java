@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 public class JoinBoxView {
     public JoinBoxViewDelegate controller;
     private ClientController clientController;
+    public Stage joinStage;
 
     public JoinBoxView(ClientController clientController) {
 		this.clientController = clientController;
@@ -27,7 +28,7 @@ public class JoinBoxView {
     }
 
     public void display(Board board){
-        Stage joinStage = new Stage();
+        this.joinStage = new Stage();
         initialize();
 
         // Labels and TextFields

@@ -18,6 +18,7 @@ public class ClientController {
 	private Socket serverSock;
 	private BufferedReader in;
 	private BufferedWriter out;
+	private MainViewController mainViewController;
 	//public HotelClientTUI tui;
 
 	private String name;
@@ -26,9 +27,11 @@ public class ClientController {
 	/**
 	 * Constructs a new HotelClient. Initialises the view.
 	 * @param board 
+	 * @param mainViewController 
 	 */
-	public ClientController(Board board) {
+	public ClientController(Board board, MainViewController mainViewController) {
 		this.board = board;
+		this.mainViewController = mainViewController;
 	}
 	//public ClientController(Board board) {
 		//this.board = board;
@@ -56,6 +59,7 @@ public class ClientController {
 		String handshakeResult[] = doHandshake();
 		if(handshakeResult.length == 2){
 			getPlayerNames();
+			this.mainViewController.joinBoxView.joinStage.close();
 			System.out.println("CLIENT " + this.name + ": PRESS BUTTON TO START GAME");
 			//startGame();
 		}else{
@@ -65,6 +69,7 @@ public class ClientController {
 			System.out.println("CLIENT " + name + " got player names");
 			System.out.println("CLIENT " + this.name + ": WAITING FOR GAME TO START");
 			waitForStartGame();
+			this.mainViewController.joinBoxView.joinStage.close();
 			}
 
 		//

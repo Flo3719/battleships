@@ -16,12 +16,13 @@ public class MainViewController implements MainViewDelegate {
     protected MainView view;
     private Board board;
     private ClientController clientController;
-
+    public JoinBoxView joinBoxView;
+    
     //Singleton
     public static MainViewDelegate sharedInstance = new MainViewController();
     private MainViewController(){
         this.board = new Board();
-        this.clientController = new ClientController(board);
+        this.clientController = new ClientController(board, this);
     }
 
     // To Manipulate the game implement "MainViewController.sharedInstance" for example by creating an instance variable
@@ -61,8 +62,9 @@ public class MainViewController implements MainViewDelegate {
     }
 
     public void handleMenuJoinClick() {
-        JoinBoxView joinBoxView = new JoinBoxView(this.clientController);
+        this.joinBoxView = new JoinBoxView(this.clientController);
         joinBoxView.display(this.board);
+        
 //        this.view.setEnemyScoreLabel(2);
 //        this.view.setFriendScoreLabel(3);
 //        this.view.setTimeLabel(1038);
