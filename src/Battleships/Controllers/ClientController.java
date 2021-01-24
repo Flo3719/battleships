@@ -15,84 +15,76 @@ import java.net.InetAddress;
 import java.net.ProtocolException;
 import java.net.Socket;
 
-
-public class ClientController {
+public class ClientController implements Runnable {
 	private Socket serverSock;
 	private BufferedReader in;
 	private BufferedWriter out;
-	private MainViewController mainViewController;
-	//public HotelClientTUI tui;
+	final MainViewController mainViewController;
+	// public HotelClientTUI tui;
 
 	private boolean leader;
 	private Board board;
 
-	private ClientTimeHandler clientTimeHandler;
-	
-	private PlayerModel player;
+	public PlayerModel player;
+	public int Port;
+	public String ip;
+
 	/**
 	 * Constructs a new HotelClient. Initialises the view.
-	 * @param board 
-	 * @param mainViewController 
+	 * 
+	 * @param board
+	 * @param mainViewController
 	 */
 	public ClientController(Board board, MainViewController mainViewController) {
 		this.board = board;
 		this.mainViewController = mainViewController;
 	}
+	// public ClientController(Board board) {
+	// this.board = board;
+	// this.tui = new HotelClientTUI(this);
+	// }
 
-	public MainViewController getMainViewController(){
-		return mainViewController;
-	}
-	//public ClientController(Board board) {
-		//this.board = board;
-		//this.tui = new HotelClientTUI(this);
-	//}
-	
 	/**
-	 * Starts a new HotelClient by creating a connection, followed by the 
-	 * HELLO handshake as defined in the protocol. After a successful 
-	 * connection and handshake, the view is started. The view asks for 
-	 * used input and handles all further calls to methods of this class. 
+	 * Starts a new HotelClient by creating a connection, followed by the HELLO
+	 * handshake as defined in the protocol. After a successful connection and
+	 * handshake, the view is started. The view asks for used input and handles all
+	 * further calls to methods of this class.
 	 * 
-	 * When errors occur, or when the user terminates a server connection, the
-	 * user is asked whether a new connection should be made.
-	 * @param portHost 
-	 * @param ip 
-	 * @param name 
+	 * When errors occur, or when the user terminates a server connection, the user
+	 * is asked whether a new connection should be made.
+	 * 
+	 * @param portHost
+	 * @param ip
+	 * @param name
 	 */
 	public void start(String name, String ip, int portHost) throws ServerNotAvailableException, IOException {
-		createConnection(name, ip, portHost);
+		createConnection();
 
 		String handshakeResult[] = doHandshake();
-		if(handshakeResult.length == 2){
+		if (handshakeResult.length == 2) {
 			getPlayerNames();
 			this.mainViewController.joinBoxView.joinStage.close();
 			System.out.println("CLIENT " + this.player.getName() + ": PRESS BUTTON TO START GAME");
-			//startGame();
-		}else{
-			//TODO clean this up
+			// startGame();
+		} else {
+			// TODO clean this up
 			MainViewController.sharedInstance.getView().friendNameLabel.setText(handshakeResult[1]);
 			MainViewController.sharedInstance.getView().enemyNameLabel.setText(handshakeResult[2]);
 			System.out.println("CLIENT " + name + " got player names");
 			System.out.println("CLIENT " + this.player.getName() + ": WAITING FOR GAME TO START");
 			waitForStartGame();
 			this.mainViewController.joinBoxView.joinStage.close();
-			}
+		}
 
 		//
-		/*try {
-			createConnection();
-			} catch (ExitProgram exitprogram) {
-			exitprogram.printStackTrace();
-		}
-		try {
-			handleHello();
-			tui.start();
-		} catch (ServerNotAvailableException e) {
-			e.printStackTrace();
-		} catch (ProtocolException e) {
-			e.printStackTrace();
-		}*/
+		/*
+		 * try { createConnection(); } catch (ExitProgram exitprogram) {
+		 * exitprogram.printStackTrace(); } try { handleHello(); tui.start(); } catch
+		 * (ServerNotAvailableException e) { e.printStackTrace(); } catch
+		 * (ProtocolException e) { e.printStackTrace(); }
+		 */
 	}
+
 	public void startGame() throws IOException, ServerNotAvailableException {
 		out.write(ProtocolMessages.START);
 		out.newLine();
@@ -106,20 +98,21 @@ public class ClientController {
 		Thread clientTimeHandlerThread = new Thread(clientTimeHandler);
 		clientTimeHandlerThread.start();
 		if (msg.contains(ProtocolMessages.START)) {
-			out.write(ProtocolMessages.BOARD + ProtocolMessages.CS + this.player.getName() + ProtocolMessages.CS  + board.toString());
+			out.write(ProtocolMessages.BOARD + ProtocolMessages.CS + this.player.getName() + ProtocolMessages.CS
+					+ board.toString());
 			out.newLine();
 			out.flush();
 		}
 	}
+
 	/**
-	 * Sends a message to the connected server, followed by a new line.
-	 * The stream is then flushed.
+	 * Sends a message to the connected server, followed by a new line. The stream
+	 * is then flushed.
 	 *
 	 * @param msg the message to write to the OutputStream.
 	 * @throws ServerNotAvailableException if IO errors occur.
 	 */
-	public synchronized void sendMessage(String msg)
-			throws ServerNotAvailableException {
+	public synchronized void sendMessage(String msg) throws ServerNotAvailableException {
 		if (out != null) {
 			try {
 				out.write(msg);
@@ -127,67 +120,57 @@ public class ClientController {
 				out.flush();
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
-				throw new ServerNotAvailableException("Could not write "
-						+ "to server.");
+				throw new ServerNotAvailableException("Could not write " + "to server.");
 			}
 		} else {
-			throw new ServerNotAvailableException("Could not write "
-					+ "to server.");
+			throw new ServerNotAvailableException("Could not write " + "to server.");
 		}
 	}
 
 	/**
-	 * Creates a connection to the server. Requests the IP and port to 
-	 * connect to at the view (TUI).
+	 * Creates a connection to the server. Requests the IP and port to connect to at
+	 * the view (TUI).
 	 * 
-	 * The method continues to ask for an IP and port and attempts to connect 
-	 * until a connection is established or until the user indicates to exit 
-	 * the program.
-	 * @param portHost 
-	 * @param ip 
-	 * @param name 
+	 * The method continues to ask for an IP and port and attempts to connect until
+	 * a connection is established or until the user indicates to exit the program.
 	 * 
-	 * @throws  if a connection is not established and the user
-	 * 				       indicates to want to exit the program.
+	 * @param portHost
+	 * @param ip
+	 * @param name
+	 * 
+	 * @throws ExitProgram if a connection is not established and the user indicates
+	 *                     to want to exit the program.
 	 * @ensures serverSock contains a valid socket connection to a server
 	 */
-	public void createConnection(String name, String ip, int portHost) {
+	public void createConnection() {
 		clearConnection();
-		player = new PlayerModel(name);
 		while (serverSock == null) {
-			String host = ip;
-			int port = portHost;
-
 			// try to open a Socket to the server
 			try {
-				InetAddress addr = InetAddress.getByName(host);
-				System.out.println("CLIENT: Attempting to connect to " + addr + ":"
-					+ port + "...");
-				serverSock = new Socket(addr, port);
-				in = new BufferedReader(new InputStreamReader(
-						serverSock.getInputStream()));
-				out = new BufferedWriter(new OutputStreamWriter(
-						serverSock.getOutputStream()));
+				InetAddress addr = InetAddress.getByName(this.ip);
+				System.out.println("CLIENT: Attempting to connect to " + addr + ":" + this.Port + "...");
+				serverSock = new Socket(addr, this.Port);
+				in = new BufferedReader(new InputStreamReader(serverSock.getInputStream()));
+				out = new BufferedWriter(new OutputStreamWriter(serverSock.getOutputStream()));
 			} catch (IOException e) {
-				System.out.println("CLIENT: ERROR: could not create a socket on "
-					+ host + " and port " + port + ".");
+				System.out.println(
+						"CLIENT: ERROR: could not create a socket on " + this.ip + " and port " + this.Port + ".");
 
-				//Do you want to try again? (ask user, to be implemented)
-				//if(false) {
-					//throw new ExitProgram("User indicated to exit.");
-				//}
+				// Do you want to try again? (ask user, to be implemented)
+				// if(false) {
+				// throw new ExitProgram("User indicated to exit.");
+				// }
 			}
 		}
 		if (serverSock != null) {
 			System.out.println("CLIENT: Connected");
 		}
 	}
-	
+
 	public boolean isConnected() {
-		if(serverSock != null) {
+		if (serverSock != null) {
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
@@ -195,8 +178,8 @@ public class ClientController {
 	/**
 	 * Resets the serverSocket and In- and OutputStreams to null.
 	 * 
-	 * Always make sure to close current connections via shutdown() 
-	 * before calling this method!
+	 * Always make sure to close current connections via shutdown() before calling
+	 * this method!
 	 */
 	public void clearConnection() {
 		serverSock = null;
@@ -204,21 +187,23 @@ public class ClientController {
 		out = null;
 	}
 
-	//@Override
-	public String[] doHandshake()
-			throws ServerNotAvailableException, ProtocolException {
+	// @Override
+	public String[] doHandshake() throws ServerNotAvailableException, ProtocolException {
 		sendMessage(ProtocolMessages.HELLO + ProtocolMessages.CS + this.player.getName());
 		String response = readLineFromServer();
 		System.out.println("CLIENT: " + response);
-		if(response.split(ProtocolMessages.CS).length == 2){
+		if (response.split(ProtocolMessages.CS).length == 2) {
 			System.out.println("CLIENT: Client is leader.");
 		}
-		if(!response.contains(ProtocolMessages.HELLO)){
+		if (!response.contains(ProtocolMessages.HELLO)) {
 			throw new ProtocolException("CLIENT: Handshake failed. response was: " + response);
-		};
-		System.out.println("CLIENT: server responded with 'handshake done with " + response.split(ProtocolMessages.CS)[1] + "'");
+		}
+		;
+		System.out.println(
+				"CLIENT: server responded with 'handshake done with " + response.split(ProtocolMessages.CS)[1] + "'");
 		return response.split(ProtocolMessages.CS);
 	}
+
 	public void getPlayerNames() throws ServerNotAvailableException, ProtocolException {
 		String response = readLineFromServer();
 		if(response.contains(ProtocolMessages.HELLO) && response.contains(this.player.getName())) {
@@ -229,30 +214,73 @@ public class ClientController {
 			throw new ProtocolException("CLIENT: server responded with: " + response);
 		}
 	}
+
 	/**
 	 * Reads and returns one line from the server.
 	 *
 	 * @return the line sent by the server.
 	 * @throws ServerNotAvailableException if IO errors occur.
 	 */
-	public String readLineFromServer()
-			throws ServerNotAvailableException {
+	public String readLineFromServer() throws ServerNotAvailableException {
 		if (in != null) {
 			try {
 				// Read and return answer from Server
 				String answer = in.readLine();
 				if (answer == null) {
-					throw new ServerNotAvailableException("Could not read "
-							+ "from server.");
+					throw new ServerNotAvailableException("Could not read " + "from server.");
 				}
 				return answer;
 			} catch (IOException e) {
-				throw new ServerNotAvailableException("Could not read "
-						+ "from server.");
+				throw new ServerNotAvailableException("Could not read " + "from server.");
 			}
 		} else {
-			throw new ServerNotAvailableException("Could not read "
-					+ "from server.");
+			throw new ServerNotAvailableException("Could not read " + "from server.");
+		}
+	}
+
+	@Override
+	public void run() {
+		createConnection();
+
+		String handshakeResult[];
+		try {
+			handshakeResult = doHandshake();
+			if (handshakeResult.length == 2) {
+				getPlayerNames();
+
+				Platform.runLater(new Runnable() {
+
+					@Override
+					public void run() {
+						mainViewController.joinBoxView.joinStage.close();
+					}
+				});
+				System.out.println("CLIENT " + this.player.getName() + ": PRESS BUTTON TO START GAME");
+				// startGame();
+			} else {
+				// TODO clean this up
+				MainViewController.sharedInstance.getView().friendNameLabel.setText(handshakeResult[1]);
+				MainViewController.sharedInstance.getView().enemyNameLabel.setText(handshakeResult[2]);
+				System.out.println("CLIENT " + this.player.getName() + " got player names");
+				System.out.println("CLIENT " + this.player.getName() + ": WAITING FOR GAME TO START");
+				waitForStartGame();
+				Platform.runLater(new Runnable() {
+
+					@Override
+					public void run() {
+						mainViewController.joinBoxView.joinStage.close();
+					}
+				});
+			}
+		} catch (ProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ServerNotAvailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

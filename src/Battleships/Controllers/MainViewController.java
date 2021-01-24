@@ -3,6 +3,7 @@ package Battleships.Controllers;
 import Battleships.Models.MainViewDelegate;
 
 import java.io.IOException;
+import java.util.logging.Handler;
 
 import Battleships.Models.Board;
 import Battleships.Models.PositionModel;
@@ -62,7 +63,7 @@ public class MainViewController implements MainViewDelegate {
     }
 
     public void handleMenuJoinClick() {
-        this.joinBoxView = new JoinBoxView(this.clientController);
+        this.joinBoxView = new JoinBoxView(this.clientController, this.view);
         joinBoxView.display(this.board);
         
 //        this.view.setEnemyScoreLabel(2);

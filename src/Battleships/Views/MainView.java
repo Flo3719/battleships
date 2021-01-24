@@ -2,6 +2,7 @@ package Battleships.Views;
 
 import java.io.IOException;
 
+
 import Battleships.Controllers.MainViewController;
 import Battleships.Models.MainViewDelegate;
 import Battleships.Models.Exceptions.ServerNotAvailableException;
@@ -29,6 +30,7 @@ public class MainView {
     public MainViewDelegate controller;
 
     public MenuItem startMenuItem;
+
 
     @FXML
     public void initialize(){

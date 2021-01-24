@@ -19,9 +19,11 @@ public class JoinBoxView {
     public JoinBoxViewDelegate controller;
     private ClientController clientController;
     public Stage joinStage;
+    public MainView mainView;
 
-    public JoinBoxView(ClientController clientController) {
+    public JoinBoxView(ClientController clientController, MainView view) {
 		this.clientController = clientController;
+		this.mainView = view;
 	}
 
 	public void initialize() {
