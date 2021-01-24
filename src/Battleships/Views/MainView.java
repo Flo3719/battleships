@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import Battleships.Controllers.MainViewController;
 import Battleships.Models.MainViewDelegate;
+import Battleships.Models.Exceptions.OutOfTurnException;
 import Battleships.Models.Exceptions.ServerNotAvailableException;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -108,7 +109,11 @@ public class MainView {
             button.setPrefHeight(37);
             button.setPrefWidth(37);
             buttons[i].setOnAction((ActionEvent event) -> {
-                controller.handleButtonClick(event);
+                try {
+					controller.handleButtonClick(event);
+				} catch (OutOfTurnException e) {
+					System.out.println("It is not your turn... Be patient");
+				}
             });
             if(playerSide.equals("enemy")){
                 button.getStyleClass().add("enemy-button");

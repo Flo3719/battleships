@@ -23,13 +23,14 @@ public class ClientController implements Runnable {
 	// public HotelClientTUI tui;
 
 	private boolean leader;
+	public boolean myTurn;
 	private Board board;
 
 	public PlayerModel player;
+	public PlayerModel opponent;
+
 	public int Port;
 	public String ip;
-
-	private ClientTimeHandler clientTimeHandler;
 
 	/**
 	 * Constructs a new HotelClient. Initialises the view.
@@ -40,6 +41,7 @@ public class ClientController implements Runnable {
 	public ClientController(Board board, MainViewController mainViewController) {
 		this.board = board;
 		this.mainViewController = mainViewController;
+		this.myTurn = false;
 	}
 	// public ClientController(Board board) {
 	// this.board = board;
@@ -68,21 +70,8 @@ public class ClientController implements Runnable {
 		out.write(ProtocolMessages.START);
 		out.newLine();
 		out.flush();
-		waitForStartGame();
 	}
 
-	public void waitForStartGame() throws ServerNotAvailableException, IOException {
-		String msg = readLineFromServer();
-		//clientTimeHandler = new ClientTimeHandler(this);
-		Thread clientTimeHandlerThread = new Thread(clientTimeHandler);
-		clientTimeHandlerThread.start();
-		if (msg.contains(ProtocolMessages.START)) {
-			out.write(ProtocolMessages.BOARD + ProtocolMessages.CS + this.player.getName() + ProtocolMessages.CS
-					+ board.toString());
-			out.newLine();
-			out.flush();
-		}
-	}
 
 	/**
 	 * Sends a message to the connected server, followed by a new line. The stream
@@ -135,7 +124,7 @@ public class ClientController implements Runnable {
 				System.out.println(
 						"CLIENT: ERROR: could not create a socket on " + this.ip + " and port " + this.Port + ".");
 
-				// Do you want to try again? (ask user, to be implemented)
+  				// Do you want to try again? (ask user, to be implemented)
 				// if(false) {
 				// throw new ExitProgram("User indicated to exit.");
 				// }
@@ -187,6 +176,7 @@ public class ClientController implements Runnable {
 		String response = readLineFromServer();
 		if (response.contains(ProtocolMessages.HELLO) && response.contains(this.player.getName())) {
 			System.out.println("CLIENT: " + response);
+			this.opponent = new PlayerModel(response.split(ProtocolMessages.CS)[2]);
 			MainViewController.sharedInstance.getView().friendNameLabel.setText(response.split(ProtocolMessages.CS)[1]);
 			MainViewController.sharedInstance.getView().enemyNameLabel.setText(response.split(ProtocolMessages.CS)[2]);
 		} else {
@@ -225,6 +215,7 @@ public class ClientController implements Runnable {
 		try {
 			handshakeResult = doHandshake();
 			if (handshakeResult.length == 2) {
+				leader = true;
 				getPlayerNames();
 
 				Platform.runLater(new Runnable() {
@@ -238,18 +229,13 @@ public class ClientController implements Runnable {
 				// startGame();
 			} else {
 				// TODO clean this up
+				leader = false;
 				MainViewController.sharedInstance.getView().friendNameLabel.setText(handshakeResult[1]);
 				MainViewController.sharedInstance.getView().enemyNameLabel.setText(handshakeResult[2]);
+				this.opponent = new PlayerModel(handshakeResult[2]);
 				System.out.println("CLIENT " + this.player.getName() + " got player names");
 				System.out.println("CLIENT " + this.player.getName() + ": WAITING FOR GAME TO START");
-				waitForStartGame();
-				Platform.runLater(new Runnable() {
-
-					@Override
-					public void run() {
-						mainViewController.joinBoxView.joinStage.close();
-					}
-				});
+//				waitForStartGame();
 			}
 		} catch (ProtocolException e) {
 			// TODO Auto-generated catch block
@@ -284,10 +270,32 @@ public class ClientController implements Runnable {
 		// out.write(server.getHello(message[1]));
 		// break;
 		case ProtocolMessages.TIME:
-			System.out.println(msg);
 			this.getMainViewController().view.setTimeLabel(Integer.parseInt(message[1]));
 			break;
+		case ProtocolMessages.TURN:
+			if (player.getName().equals(message[1])) {
+				System.out.println("It is your turn!");
+				myTurn = true;
+			} else {
+				System.out.println("It is the turn of: " + this.opponent.getName());
+			}
+			break;
+		case ProtocolMessages.START:
+			out.write(ProtocolMessages.BOARD + ProtocolMessages.CS + this.player.getName() + ProtocolMessages.CS
+					+ board.toString());
+			out.newLine();
+			out.flush();
 
+			if (!leader) {
+				Platform.runLater(new Runnable() {
+
+					@Override
+					public void run() {
+						mainViewController.joinBoxView.joinStage.close();
+					}
+				});
+			}
+			break;
 		}
 	}
 }

@@ -11,7 +11,7 @@ public class GameTimer implements Runnable {
             try {
                 TimeUnit.SECONDS.sleep(1);
                 server.sendTimeUpdate(i);
-                System.out.println("TIMER: " + i);
+//                System.out.println("TIMER: " + i);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

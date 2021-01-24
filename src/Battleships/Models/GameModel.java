@@ -20,6 +20,7 @@ public class GameModel {
      * @invariant all array items are never null
      */
     private GameClientHandler[] players;
+    
 
     private Board[] boards;
 
@@ -27,7 +28,7 @@ public class GameModel {
      * Index of the current player.
      * @invariant the index is always between 0 and {@link #NUMBER_PLAYERS}
      */
-    private int current;
+    public int current;
 
     // -- Constructors -----------------------------------------------
 
