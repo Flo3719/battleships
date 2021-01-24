@@ -1,6 +1,7 @@
 package Battleships.Controllers;
 
 import Battleships.Models.Board;
+import Battleships.Models.PlayerModel;
 import Battleships.Models.ProtocolMessages;
 import Battleships.Models.Exceptions.ServerNotAvailableException;
 
@@ -21,9 +22,10 @@ public class ClientController {
 	private MainViewController mainViewController;
 	//public HotelClientTUI tui;
 
-	private String name;
 	private boolean leader;
 	private Board board;
+	
+	private PlayerModel player;
 	/**
 	 * Constructs a new HotelClient. Initialises the view.
 	 * @param board 
@@ -37,9 +39,6 @@ public class ClientController {
 		//this.board = board;
 		//this.tui = new HotelClientTUI(this);
 	//}
-	public String getName() {
-		return name;
-	}
 	
 	/**
 	 * Starts a new HotelClient by creating a connection, followed by the 
@@ -60,14 +59,14 @@ public class ClientController {
 		if(handshakeResult.length == 2){
 			getPlayerNames();
 			this.mainViewController.joinBoxView.joinStage.close();
-			System.out.println("CLIENT " + this.name + ": PRESS BUTTON TO START GAME");
+			System.out.println("CLIENT " + this.player.getName() + ": PRESS BUTTON TO START GAME");
 			//startGame();
 		}else{
 			//TODO clean this up
 			MainViewController.sharedInstance.getView().friendNameLabel.setText(handshakeResult[1]);
 			MainViewController.sharedInstance.getView().enemyNameLabel.setText(handshakeResult[2]);
 			System.out.println("CLIENT " + name + " got player names");
-			System.out.println("CLIENT " + this.name + ": WAITING FOR GAME TO START");
+			System.out.println("CLIENT " + this.player.getName() + ": WAITING FOR GAME TO START");
 			waitForStartGame();
 			this.mainViewController.joinBoxView.joinStage.close();
 			}
@@ -97,7 +96,7 @@ public class ClientController {
 	public void waitForStartGame() throws ServerNotAvailableException, IOException {
 		String msg = readLineFromServer();
 		if (msg.contains(ProtocolMessages.START)) {
-			out.write(ProtocolMessages.BOARD + ProtocolMessages.CS + name + ProtocolMessages.CS  + board.toString());
+			out.write(ProtocolMessages.BOARD + ProtocolMessages.CS + this.player.getName() + ProtocolMessages.CS  + board.toString());
 			out.newLine();
 			out.flush();
 		}
@@ -145,7 +144,7 @@ public class ClientController {
 	 */
 	public void createConnection(String name, String ip, int portHost) {
 		clearConnection();
-		this.name = name;
+		player = new PlayerModel(name);
 		while (serverSock == null) {
 			String host = ip;
 			int port = portHost;
@@ -199,7 +198,7 @@ public class ClientController {
 	//@Override
 	public String[] doHandshake()
 			throws ServerNotAvailableException, ProtocolException {
-		sendMessage(ProtocolMessages.HELLO + ProtocolMessages.CS + name);
+		sendMessage(ProtocolMessages.HELLO + ProtocolMessages.CS + this.player.getName());
 		String response = readLineFromServer();
 		System.out.println("CLIENT: " + response);
 		if(response.split(ProtocolMessages.CS).length == 2){
@@ -213,7 +212,7 @@ public class ClientController {
 	}
 	public void getPlayerNames() throws ServerNotAvailableException, ProtocolException {
 		String response = readLineFromServer();
-		if(response.contains(ProtocolMessages.HELLO) && response.contains(name)) {
+		if(response.contains(ProtocolMessages.HELLO) && response.contains(this.player.getName())) {
 			System.out.println("CLIENT: " + response);
 			MainViewController.sharedInstance.getView().friendNameLabel.setText(response.split(ProtocolMessages.CS)[1]);
 			MainViewController.sharedInstance.getView().enemyNameLabel.setText(response.split(ProtocolMessages.CS)[2]);
