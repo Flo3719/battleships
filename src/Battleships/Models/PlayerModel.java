@@ -24,6 +24,7 @@ public class PlayerModel {
     {
         this.name = name;
         this.board = new Board();
+        this.score = 0;
         /*try {
 			this.board.generateBoats();
 		} catch (BoatGenerationException e) {
