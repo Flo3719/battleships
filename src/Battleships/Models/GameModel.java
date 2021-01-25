@@ -19,7 +19,8 @@ public class GameModel {
      * @invariant the length of the array equals NUMBER_PLAYERS
      * @invariant all array items are never null
      */
-    private GameClientHandler[] players;
+    public  GameClientHandler[] players;
+    
 
     private Board[] boards;
 
@@ -27,7 +28,7 @@ public class GameModel {
      * Index of the current player.
      * @invariant the index is always between 0 and {@link #NUMBER_PLAYERS}
      */
-    private int current;
+    public int current;
 
     // -- Constructors -----------------------------------------------
 
@@ -64,6 +65,19 @@ public class GameModel {
 
     public GameClientHandler getPlayer(int player){
         return players[player];
+    }
+    
+    public GameClientHandler GetOpponent()
+    {
+    	if(current == 0)
+    		return getPlayer(1);
+    	else
+    		return getPlayer(0);
+    }
+
+    public void switchCurrent()
+    {
+    	this.current = (this.current == 0) ? 1 : 0;
     }
     
     public void setBoard() {

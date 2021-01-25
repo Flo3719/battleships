@@ -122,9 +122,33 @@ public class GameClientHandler implements Runnable {
                 server.sendStart(this.game);
                 this.game.startGame();
                 break;
-//            case ProtocolMessages.IN:
-//                out.write(server.doIn(message[1]));
-//                break;
+            case ProtocolMessages.ATTACK:
+            	int index =Integer.parseInt(message[1]);
+            	 
+                GameClientHandler opponent = this.game.model.GetOpponent();
+                Board opBoard = opponent.board;
+                PositionModel position = opBoard.positions[opBoard.getX(index)][opBoard.getY(index)];
+                position.hasBeenGuessed = true;
+                
+                if(position.ship == null)
+                {
+                	game.sendToGameClients(ProtocolMessages.MISS + ProtocolMessages.CS + index + ProtocolMessages.CS + opponent.getName());
+                	this.game.model.switchCurrent();
+                	server.sendTurnIndicator(game);
+                }
+                else
+                {
+                	if(position.ship.Sunk())
+                	{
+                    	game.sendToGameClients(ProtocolMessages.DESTROY + ProtocolMessages.CS + position.ship.shipType.identifier + ProtocolMessages.CS + position.ship.GetMarkerIndex() + ProtocolMessages.CS + position.ship.getOrientation() + ProtocolMessages.CS + opponent.getName());
+                	}
+                	else
+                	{
+                    	game.sendToGameClients(ProtocolMessages.HIT + ProtocolMessages.CS + index + ProtocolMessages.CS + opponent.getName());
+                	}
+                	
+                }
+                break;
 //            case ProtocolMessages.OUT:
 //                out.write(server.doOut(message[1]));
 //                break;

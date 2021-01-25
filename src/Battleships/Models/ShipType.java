@@ -17,4 +17,6 @@ public enum ShipType {
 		this.color = color;
 		
 	}
+	
+	
 }
