@@ -307,8 +307,11 @@ public class ClientController implements Runnable {
 								"-fx-background-color: orange;");
 					}
 				});
+				player.incrementScore(1);
 			}
-			player.incrementScore(1);
+			else {
+				opponent.incrementScore(1);
+			}
 			displayScoreAfterAttack();
 			break;
 		case ProtocolMessages.MISS:
@@ -344,8 +347,11 @@ public class ClientController implements Runnable {
 						}
 					}
 				});
+				player.incrementScore(2);
 			}
-			player.incrementScore(2);
+			else {
+				opponent.incrementScore(2);
+			}
 			displayScoreAfterAttack();
 			break;
 		}
