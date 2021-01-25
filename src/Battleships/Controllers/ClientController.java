@@ -308,6 +308,8 @@ public class ClientController implements Runnable {
 					}
 				});
 			}
+			player.incrementScore(1);
+			displayScoreAfterAttack();
 			break;
 		case ProtocolMessages.MISS:
 			if (myTurn) {
@@ -343,8 +345,25 @@ public class ClientController implements Runnable {
 					}
 				});
 			}
+			player.incrementScore(2);
+			displayScoreAfterAttack();
 			break;
 		}
+	}
+	public void displayScoreAfterAttack() {
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+				if (myTurn) {
+					mainViewController.view.setFriendScoreLabel(player.getScore());
+				}
+				else {
+					mainViewController.view.setEnemyScoreLabel(opponent.getScore());
+				}
+				
+			}
+		});
 	}
 
 	public void Attack(String id) throws IOException {

@@ -27,6 +27,11 @@ public class GameClientHandler implements Runnable {
     
     private Board board;
     
+    private int score;
+    
+    private final int DESTROY_SCORE = 2;
+    private final int HIT_SCORE = 1;
+    
     private GameController game;
 
     @Override
@@ -52,6 +57,13 @@ public class GameClientHandler implements Runnable {
 
     public Board getBoard(){
         return this.board;
+    }
+    
+    public void setScore(int score) {
+    	this.score = score;
+    }
+    public int getScore() {
+    	return this.score;
     }
 
     public GameClientHandler(Socket sock, Server server, String name) {
@@ -140,10 +152,12 @@ public class GameClientHandler implements Runnable {
                 {
                 	if(position.ship.Sunk())
                 	{
+                		this.score = this.score + DESTROY_SCORE;
                     	game.sendToGameClients(ProtocolMessages.DESTROY + ProtocolMessages.CS + position.ship.shipType.identifier + ProtocolMessages.CS + position.ship.GetMarkerIndex() + ProtocolMessages.CS + position.ship.getOrientation() + ProtocolMessages.CS + opponent.getName());
                 	}
                 	else
                 	{
+                		this.score = this.score + HIT_SCORE;
                     	game.sendToGameClients(ProtocolMessages.HIT + ProtocolMessages.CS + index + ProtocolMessages.CS + opponent.getName());
                 	}
                 	

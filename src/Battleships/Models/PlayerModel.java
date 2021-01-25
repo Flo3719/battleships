@@ -54,4 +54,7 @@ public class PlayerModel {
     public int getScore() {
     	return score;
     }
+    public void incrementScore(int score) {
+    	this.score = this.score + score;
+    }
 }
