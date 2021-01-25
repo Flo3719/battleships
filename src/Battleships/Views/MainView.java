@@ -26,6 +26,9 @@ public class MainView {
     public Label friendScoreLabel;
     public Label enemyScoreLabel;
 
+    public Label enemyTurnIndicator;
+    public Label friendTurnIndicator;
+
     public Label timeLabel;
 
     public MainViewDelegate controller;
@@ -73,6 +76,7 @@ public class MainView {
             }
         });
     }
+
     public void setFriendNameLabel(String name){
         friendNameLabel.setText(name + "'s Field");
     }
@@ -131,5 +135,26 @@ public class MainView {
     }
     public int getColumn(int index){
         return (index%15);
+    }
+
+    public void setTurn(String side){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                switch (side){
+                    case "friend":
+                        friendTurnIndicator.setTextFill(Paint.valueOf("#7FFF00"));
+                        enemyTurnIndicator.setTextFill(Paint.valueOf("#222222"));
+                        break;
+                    case "enemy":
+                        friendTurnIndicator.setTextFill(Paint.valueOf("#222222"));
+                        enemyTurnIndicator.setTextFill(Paint.valueOf("#7FFF00"));
+                        break;
+                    case "none":
+                        friendTurnIndicator.setTextFill(Paint.valueOf("#222222"));
+                        enemyTurnIndicator.setTextFill(Paint.valueOf("#222222"));
+                }
+            }
+        });
     }
 }

@@ -276,9 +276,12 @@ public class ClientController implements Runnable {
 			if (player.getName().equals(message[1])) {
 				System.out.println("It is your turn!");
 				myTurn = true;
+				getMainViewController().view.setTurn("friend");
+
 			} else {
 				System.out.println("It is the turn of: " + this.opponent.getName());
 				myTurn = false;
+				getMainViewController().view.setTurn("enemy");
 			}
 			break;
 		case ProtocolMessages.START:
