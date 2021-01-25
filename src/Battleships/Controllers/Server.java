@@ -137,6 +137,14 @@ public class Server implements Runnable {
             }
         }
     }
+    
+    public void sendTurnIndicator(GameController game) throws IOException {
+    	for(GameClientHandler gch : clients) {
+    		if (gch.getGame().equals(game)) {
+    			gch.sendOut(ProtocolMessages.TURN + ProtocolMessages.CS + game.model.getPlayer(game.model.current).getName());
+    		}
+    	}
+    }
 
     // The following Methods might be better placed in the gameClientHandler if
     // we decide to use it.
@@ -165,7 +173,7 @@ public class Server implements Runnable {
     public void sendStart(GameController game) throws IOException {
     	for (GameClientHandler gch : clients) {
     		if (gch.getGame().equals(game)) {
-    			gch.sendOut(ProtocolMessages.START + "0");
+    			gch.sendOut(ProtocolMessages.START + ProtocolMessages.CS + "0");
     		}
     	}
     }

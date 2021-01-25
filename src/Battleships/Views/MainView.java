@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import Battleships.Controllers.MainViewController;
 import Battleships.Models.MainViewDelegate;
+import Battleships.Models.Exceptions.OutOfTurnException;
 import Battleships.Models.Exceptions.ServerNotAvailableException;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -84,8 +85,9 @@ public class MainView {
             button.setText(indicator.toString());
             button.setStyle(color);
         }else if(side.equals("enemy")){
-            Button button = (Button)friendGrid.getChildren().get(index+1);
+            Button button = (Button)enemyGrid.getChildren().get(index+1);
             button.setText(indicator);
+            button.setStyle(color);
         }
     }
     //TODO: remove the following and replace it by a check in the actual Map/list where the state is saved. The view should not store data.
@@ -94,7 +96,7 @@ public class MainView {
         return button.getText();
     }
     public void addPlayButtons(GridPane grid, String playerSide){
-        Button buttons[] = new Button[150];
+    	Button buttons[] = new Button[150];
         for(int i = 0; i<=149; i++){
             // define button
             Button button = new Button(Integer.toString(i));
@@ -108,7 +110,14 @@ public class MainView {
             button.setPrefHeight(37);
             button.setPrefWidth(37);
             buttons[i].setOnAction((ActionEvent event) -> {
-                controller.handleButtonClick(event);
+                try {
+					controller.handleButtonClick(event);
+				} catch (OutOfTurnException e) {
+					System.out.println("It is not your turn... Be patient");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             });
             if(playerSide.equals("enemy")){
                 button.getStyleClass().add("enemy-button");
