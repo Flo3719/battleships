@@ -32,6 +32,8 @@ public class ClientController implements Runnable {
 
 	public int Port;
 	public String ip;
+	
+	public int timeBeginningTurn;
 
 	/**
 	 * Constructs a new HotelClient. Initialises the view.
@@ -273,6 +275,7 @@ public class ClientController implements Runnable {
 			this.getMainViewController().view.setTimeLabel(Integer.parseInt(message[1]));
 			break;
 		case ProtocolMessages.TURN:
+			this.timeBeginningTurn = this.mainViewController.view.getTimeLabel();
 			if (player.getName().equals(message[1])) {
 				System.out.println("It is your turn!");
 				myTurn = true;
