@@ -389,8 +389,9 @@ public class ClientController implements Runnable {
 	}
 
 	public void Attack(String id) throws IOException {
-		Button button = (Button)this.mainViewController.view.enemyGrid.getChildren().get(Integer.parseInt(id + 1));
-		button.setDisable(true);
+		//Button button = (Button)this.mainViewController.view.enemyGrid.getChildren().get(Integer.parseInt(id + 1));
+		//button.setDisable(true);
+		System.out.println(id);
 		out.write(ProtocolMessages.ATTACK + ProtocolMessages.CS + id);
 		out.newLine();
 		out.flush();

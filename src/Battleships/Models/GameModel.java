@@ -113,22 +113,22 @@ public class GameModel {
 	}
 
 	public GameClientHandler CheckWinnerWhenSamePoints() {
-		int countSelf = 0;
-		int countOpponent = 0;
-		for (ShipModel sh : GetOpponent().getBoard().ships) {
+		int sunkByPlayer1 = 0;
+		int sunkByPlayer0 = 0;
+		for (ShipModel sh : players[0].getBoard().ships) {
 			if (sh.Sunk()) {
-				countOpponent++;
+				sunkByPlayer1++;
 			}
 		}
-		for (ShipModel sh : this.getCurrentPlayer().getBoard().ships) {
+		for (ShipModel sh : players[1].getBoard().ships) {
 			if (sh.Sunk()) {
-				countSelf++;
+				sunkByPlayer0++;
 			}
 		}
-		if (countSelf > countOpponent) {
-			return this.players[current];
-		} else if (countSelf < countOpponent) {
-			return this.GetOpponent();
+		if (sunkByPlayer0 > sunkByPlayer1) {
+			return this.players[0];
+		} else if (sunkByPlayer0 < sunkByPlayer1) {
+			return this.players[1];
 		} else {
 			return checkWinnerWhenSameAmountBoatsDestroyed();
 		}
