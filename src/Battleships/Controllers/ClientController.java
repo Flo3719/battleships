@@ -35,6 +35,7 @@ public class ClientController implements Runnable {
 	public String ip;
 	
 	public int timeBeginningTurn;
+	public int timeLeft = 300;
 
 	/**
 	 * Constructs a new HotelClient. Initialises the view.
@@ -274,9 +275,14 @@ public class ClientController implements Runnable {
 		// break;
 		case ProtocolMessages.TIME:
 			this.getMainViewController().view.setTimeLabel(Integer.parseInt(message[1]));
+			this.timeLeft = Integer.parseInt(message[1]);
+			if (this.timeLeft < this.timeBeginningTurn - 30 && myTurn) {
+				this.sendErrorMessage(ProtocolMessages.ERRORNAMES[6]);
+			}
 			break;
 		case ProtocolMessages.TURN:
 			if (player.getName().equals(message[1])) {
+				this.timeBeginningTurn = this.timeLeft;
 				System.out.println("It is your turn!");
 				myTurn = true;
 				getMainViewController().view.setTurn("friend");

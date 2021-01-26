@@ -61,7 +61,7 @@ public class MainViewController implements MainViewDelegate {
 			String button[];
 			button = id.split("PlayButton");
 			int index = Integer.parseInt(button[1]);
-			if (button[0].equals("enemy") && !this.clientController.opponent.getBoard().positions[board.getX(index)][board.getY(index)].hasBeenGuessed) {
+			if (button[0].equals("enemy")) {
 				System.out.println("enemy field attacked");
 				clientController.Attack(button[1]);
 			} else {

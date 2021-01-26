@@ -203,7 +203,11 @@ public class GameClientHandler implements Runnable {
 		switch(ErrorMessage) {
 		case "InvalidIndex":
 			server.sendTurnIndicator(this.game);
+		case "OutOfTurn":
+        	this.game.model.switchCurrent();
+        	server.sendTurnIndicator(game);
 		}
+
 		
 	}
 }
