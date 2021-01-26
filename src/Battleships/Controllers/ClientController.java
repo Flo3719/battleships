@@ -6,6 +6,7 @@ import Battleships.Models.ProtocolMessages;
 import Battleships.Models.ShipType;
 import Battleships.Models.Exceptions.ServerNotAvailableException;
 import javafx.application.Platform;
+import javafx.scene.control.Button;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -275,7 +276,6 @@ public class ClientController implements Runnable {
 			this.getMainViewController().view.setTimeLabel(Integer.parseInt(message[1]));
 			break;
 		case ProtocolMessages.TURN:
-			this.timeBeginningTurn = this.mainViewController.view.getTimeLabel();
 			if (player.getName().equals(message[1])) {
 				System.out.println("It is your turn!");
 				myTurn = true;
@@ -383,6 +383,8 @@ public class ClientController implements Runnable {
 	}
 
 	public void Attack(String id) throws IOException {
+		Button button = (Button)this.mainViewController.view.enemyGrid.getChildren().get(Integer.parseInt(id + 1));
+		button.setDisable(true);
 		out.write(ProtocolMessages.ATTACK + ProtocolMessages.CS + id);
 		out.newLine();
 		out.flush();

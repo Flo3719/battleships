@@ -76,14 +76,7 @@ public class MainView {
             }
         });
     }
-    
-    public int getTimeLabel(){
-    	int seconds;
-    	String text = timeLabel.getText();
-    	String[] minsAndSecs = text.split(";");
-    	seconds = Integer.parseInt(minsAndSecs[0]) * 60 + Integer.parseInt(minsAndSecs[1]);
-    	return seconds;
-    }
+
 
     public void setFriendNameLabel(String name){
         friendNameLabel.setText(name + "'s Field");
