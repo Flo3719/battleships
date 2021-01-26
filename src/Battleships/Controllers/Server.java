@@ -138,15 +138,14 @@ public class Server implements Runnable {
     }
 
     public void SendTogameClients(String msg, GameController gameController) {
-    	for(GameClientHandler gch : clients) {
-    		if (gch.getGame().equals(gameController)) {
+    	for(GameClientHandler gch : gameController.model.players) {
     			try {
     				gch.sendOut(msg);
     			} catch (IOException e) {
     				// TODO Auto-generated catch block
     				e.printStackTrace();
     			}
-    		}
+    		
     	}
     }
 
