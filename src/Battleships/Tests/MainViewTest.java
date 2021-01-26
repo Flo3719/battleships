@@ -1,9 +1,5 @@
-package Tests;
+package Battleships.Tests;
 
-import Battleships.Controllers.ClientController;
-import Battleships.Controllers.MainViewController;
-import Battleships.Models.Board;
-import Battleships.Views.MainView;
 import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

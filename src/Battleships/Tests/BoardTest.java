@@ -1,4 +1,4 @@
-package Tests;
+package Battleships.Tests;
 
 import Battleships.Models.Board;
 import Battleships.Models.ShipModel;

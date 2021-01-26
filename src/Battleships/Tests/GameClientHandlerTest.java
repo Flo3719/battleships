@@ -1,8 +1,6 @@
-package Tests;
+package Battleships.Tests;
 import java.net.Socket;
 
-import Battleships.Models.ShipModel;
-import Battleships.Models.ShipType;
 import org.junit.jupiter.api.*;
 
 import Battleships.Controllers.ClientController;
