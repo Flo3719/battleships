@@ -1,6 +1,8 @@
 package Tests;
 import java.net.Socket;
 
+import Battleships.Models.ShipModel;
+import Battleships.Models.ShipType;
 import org.junit.jupiter.api.*;
 
 import Battleships.Controllers.ClientController;
@@ -12,8 +14,12 @@ import Battleships.Models.Board;
 import Battleships.Views.JoinBoxView;
 import Battleships.Views.MainView;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class GameClientHandlerTest {
-	
+
+
 	GameClientHandler gch;
 	@BeforeEach
 	public void init() {
@@ -30,6 +36,8 @@ public class GameClientHandlerTest {
 	
 	@Test
 	public void testToBoard() {
-		
+		String testBoard = "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,";
+		Board board = gch.toBoard(testBoard);
+		assertEquals(testBoard, board.toString());
 	}
 }
