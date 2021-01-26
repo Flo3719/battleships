@@ -154,7 +154,7 @@ public class GameClientHandler implements Runnable {
                 	if(position.ship.Sunk())
                 	{
                 		this.score = this.score + DESTROY_SCORE;
-                		if(this.game.model.checkIfWon()) {
+                		if(this.game.model.checkIfCleanSweep()) {
                 			game.sendToGameClients(ProtocolMessages.WON + ProtocolMessages.CS + this.name);
                 		}
                 		else {

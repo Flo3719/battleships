@@ -91,18 +91,24 @@ public class GameModel {
 	public int getMaximumGameTime() {
 		return MAXIMUM_GAME_TIME;
 	}
-
-	public boolean checkIfWon() {
-		if (players[0].getScore() != players[1].getScore()) {
-			boolean won = true;
-			for (ShipModel sh : GetOpponent().getBoard().ships) {
-				if (!sh.Sunk()) {
-					won = false;
-				}
+	public boolean checkIfCleanSweep() {
+		boolean won = true;
+		for (ShipModel sh : GetOpponent().getBoard().ships) {
+			if (!sh.Sunk()) {
+				won = false;
 			}
-			return won;
-		} else {
-			return (CheckWinnerWhenSamePoints().equals(getCurrentPlayer()));
+		}
+		return won;
+	}
+
+	public boolean checkIfWonOnScore(GameClientHandler gameClientHandler) {
+		if (players[0].getScore() > players[1].getScore()) {
+			return players[0].equals(gameClientHandler);
+		} 
+		else if (players[0].getScore() < players[1].getScore()){
+			return players[1].equals(gameClientHandler);
+		}else {
+			return (CheckWinnerWhenSamePoints().equals(gameClientHandler));
 		}
 	}
 
