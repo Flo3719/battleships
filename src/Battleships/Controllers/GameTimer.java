@@ -11,7 +11,7 @@ public class GameTimer implements Runnable {
     private GameController gameController;
     @Override
     public void run() {
-        for(int i = gameTime; i > -1; i--){
+        for(int i = 60; i > -1; i--){
             try {
                 TimeUnit.SECONDS.sleep(1);
                 server.sendTimeUpdate(i, gameController);

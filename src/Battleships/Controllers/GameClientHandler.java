@@ -96,7 +96,7 @@ public class GameClientHandler implements Runnable {
 
 	public Board toBoard(String stringBoard) {
 		Board resultBoard = new Board();
-		resultBoard.addShips();
+		//resultBoard.addShips();
 		String[] splitArray = stringBoard.split(",");
 		List<String> al = new ArrayList<>();
 		al = Arrays.asList(splitArray);
