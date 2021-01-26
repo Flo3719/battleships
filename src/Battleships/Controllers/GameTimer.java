@@ -7,7 +7,7 @@ public class GameTimer implements Runnable {
     private Server server;
     @Override
     public void run() {
-        for(int i = gameTime; i > 0; i--){
+        for(int i = gameTime; i == 0; i--){
             try {
                 TimeUnit.SECONDS.sleep(1);
                 server.sendTimeUpdate(i);
