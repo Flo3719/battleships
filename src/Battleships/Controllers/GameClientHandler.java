@@ -45,9 +45,9 @@ public class GameClientHandler implements Runnable {
 				out.flush();
 				msg = in.readLine();
 			}
-			// shutdown();
+			shutdown();
 		} catch (IOException e) {
-			// shutdown();
+			shutdown();
 		}
 	}
 
@@ -156,6 +156,8 @@ public class GameClientHandler implements Runnable {
                 		game.sendToGameClients(ProtocolMessages.DESTROY + ProtocolMessages.CS + position.ship.shipType.identifier + ProtocolMessages.CS + position.ship.GetMarkerIndex() + ProtocolMessages.CS + position.ship.getOrientation() + ProtocolMessages.CS + opponent.getName());
                 		if(this.game.model.checkIfCleanSweep()) {
                 			game.sendToGameClients(ProtocolMessages.WON + ProtocolMessages.CS + this.name);
+                			this.getGame().model.GetOpponent().shutdown();
+                			this.shutdown();
                 		}
                 	}
                 	else
@@ -186,17 +188,27 @@ public class GameClientHandler implements Runnable {
         }
     }
 
-//    private void shutdown() {
-//        System.out.println("> [" + name + "] Shutting down.");
-//        try {
-//            in.close();
-//            out.close();
-//            sock.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        server.removeClient(this);
-//    }
+    public void shutdown() {
+        System.out.println("> [" + name + "] Shutting down.");
+        if (!this.game.model.hasWinner) {
+        	GameClientHandler automaticWinner;
+        	if (this.game.model.getPlayer(0).equals(this)) {
+        		automaticWinner = this.game.model.getPlayer(1);
+        	}
+        	else {
+        		automaticWinner = this;
+        	}
+        	this.game.model.endGameDueToLostConnection(automaticWinner);
+        }
+        try {
+            in.close();
+            out.close();
+            sock.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        server.getClients().remove(this);
+    }
 
 	private void handleErrorCommand(String ErrorMessage) throws IOException {
 		switch(ErrorMessage) {

@@ -19,6 +19,8 @@ public class GameTimer implements Runnable {
                 	GameClientHandler winner = gameController.model.checkIfWonOnScore();
                 	String msg = ProtocolMessages.WON + ProtocolMessages.CS + winner.getName();
                 	server.SendTogameClients(msg, gameController);
+                	this.gameController.model.getPlayer(0).shutdown();
+                	this.gameController.model.getPlayer(1).shutdown();
                 }
 //                System.out.println("TIMER: " + i);
             } catch (InterruptedException e) {

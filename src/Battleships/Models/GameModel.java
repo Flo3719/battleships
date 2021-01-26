@@ -2,6 +2,7 @@ package Battleships.Models;
 
 import Battleships.Controllers.GameClientHandler;
 
+import java.io.IOException;
 import java.util.Timer;
 
 public class GameModel {
@@ -160,6 +161,15 @@ public class GameModel {
 			}
 		}
 		return null;
+	}
+	public void endGameDueToLostConnection(GameClientHandler gch) {
+		try {
+			gch.getGame().model.hasWinner = true;
+			gch.sendOut(ProtocolMessages.WON + ProtocolMessages.CS + gch.getName());
+			gch.shutdown();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

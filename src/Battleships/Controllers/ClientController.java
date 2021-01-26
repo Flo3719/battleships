@@ -256,9 +256,9 @@ public class ClientController implements Runnable {
 				out.flush();
 				msg = in.readLine();
 			}
-			// shutdown();
+			 closeConnection();
 		} catch (IOException e) {
-			// shutdown();
+			 closeConnection();
 		}
 	}
 
@@ -363,6 +363,7 @@ public class ClientController implements Runnable {
 			break;
 		case ProtocolMessages.WON:
 			System.out.println("Winner: " + message[1]);
+			closeConnection();
 			break;
 		}
 	}
@@ -385,7 +386,6 @@ public class ClientController implements Runnable {
 	public void Attack(String id) throws IOException {
 		Button button = (Button)this.mainViewController.view.enemyGrid.getChildren().get(Integer.parseInt(id) + 1);
 		button.setDisable(true);
-		System.out.println(id);
 		out.write(ProtocolMessages.ATTACK + ProtocolMessages.CS + id);
 		out.newLine();
 		out.flush();
@@ -406,5 +406,15 @@ public class ClientController implements Runnable {
 		out.newLine();
 		out.flush();
 		
+	}
+	public void closeConnection() {
+		System.out.println("Closing the connection...");
+		try {
+			in.close();
+			out.close();
+			serverSock.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
