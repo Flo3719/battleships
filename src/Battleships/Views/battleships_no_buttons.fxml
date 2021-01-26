@@ -135,12 +135,12 @@
                         <Insets bottom="1.0" />
                     </padding>
                 </GridPane>
-            <Label layoutX="481.0" layoutY="22.0" maxWidth="37.0" prefHeight="19.0" text="&lt;" textFill="#222222" fx:id="friendTurnIndicator">
+            <Label layoutX="481.0" layoutY="22.0" maxWidth="37.0" prefHeight="21.0" text="&lt;" textFill="#222222" fx:id="friendTurnIndicator">
                <font>
                   <Font size="30.0" />
                </font>
             </Label>
-            <Label layoutX="682.0" layoutY="22.0" prefHeight="37.0" prefWidth="19.0" text="&gt;" textFill="#222222" fx:id="enemyTurnIndicator">
+            <Label layoutX="682.0" layoutY="22.0" prefHeight="37.0" prefWidth="21.0" text="&gt;" textFill="#222222" fx:id="enemyTurnIndicator">
                <font>
                   <Font size="30.0" />
                </font>
