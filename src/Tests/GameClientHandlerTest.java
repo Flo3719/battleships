@@ -40,4 +40,6 @@ public class GameClientHandlerTest {
 		Board board = gch.toBoard(testBoard);
 		assertEquals(testBoard, board.toString());
 	}
+
+
 }
