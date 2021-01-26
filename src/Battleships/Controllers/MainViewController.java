@@ -7,6 +7,7 @@ import java.util.logging.Handler;
 
 import Battleships.Models.Board;
 import Battleships.Models.PositionModel;
+import Battleships.Models.ProtocolMessages;
 import Battleships.Models.Exceptions.OutOfTurnException;
 import Battleships.Models.Exceptions.ServerNotAvailableException;
 import Battleships.Views.JoinBoxView;
@@ -59,16 +60,15 @@ public class MainViewController implements MainViewDelegate {
 			System.out.println(id);
 			String button[];
 			button = id.split("PlayButton");
-			if (button[0].equals("enemy")) {
-				// tryAttack(button[1]);
+			int index = Integer.parseInt(button[1]);
+			if (button[0].equals("enemy") && !this.clientController.opponent.getBoard().positions[board.getX(index)][board.getY(index)].hasBeenGuessed) {
 				System.out.println("enemy field attacked");
 				clientController.Attack(button[1]);
+			} else {
+				clientController.sendErrorMessage(ProtocolMessages.ERRORNAMES[5]);
 			}
-			
-		}
-		else
-		{
-			throw new OutOfTurnException();
+		} else {
+			System.out.println(ProtocolMessages.OUT_OF_TURN);
 		}
 	}
 

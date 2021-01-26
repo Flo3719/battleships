@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import Battleships.Models.GameModel;
 import Battleships.Models.ProtocolMessages;
+import Battleships.Models.ShipModel;
 import javafx.application.Platform;
 
 public class GameController {
@@ -43,4 +44,5 @@ public class GameController {
 			}
 		}
 	}
+
 }

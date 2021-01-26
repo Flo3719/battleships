@@ -1,11 +1,13 @@
 package Battleships.Models;
 
 public class ProtocolMessages {
-	//--------------General Implementation--------------//
+	// --------------General Implementation--------------//
 	/** Dimensions of a board supported by this protocol. */
-	public static final int[] BOARD_DIMENSIONS = {10, 15};
-	
-	/** Command Separator: Used to separate values of a command sent to the server. */
+	public static final int[] BOARD_DIMENSIONS = { 10, 15 };
+
+	/**
+	 * Command Separator: Used to separate values of a command sent to the server.
+	 */
 	public static final String CS = " ";
 
 	/** Array Separator: Used to separate values of a Board in a String. */
@@ -13,7 +15,7 @@ public class ProtocolMessages {
 
 	/** The time allowed per player turn in seconds. */
 	public static final int TURN_TIME = 30;
-	
+
 	/** The time per game in seconds. */
 	public static final int GAME_TIME = 300;
 
@@ -37,80 +39,117 @@ public class ProtocolMessages {
 
 	/** The String representation of a Patrol type of Boat */
 	public static final String PATROL = "P";
-	
+
 	/** Array of valid column names. */
-	public static final char[] COLUMNS = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'};
-	
+	public static final char[] COLUMNS = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O' };
+
 	/** Array of valid row numbers. */
-	public static final int[] ROWS = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+	public static final int[] ROWS = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
 	/** Array of valid error names. */
-	public static final String[] ERRORNAMES = {"ActionNotPermitted", "DuplicateName", "GameOver", "IllegalCommand", 
-	"IllegalShipPlacement", "InvalidIndex", "OutOfTurn", "TimeOver"};
-	
-	//-----------------Joining A Server-----------------//
-	/** The first message sent by the client to the server to initiate the connection. */
-	public static final String HELLO = "HI";
-	//--------------------------------------------------//
+	public static final String[] ERRORNAMES = { "ActionNotPermitted", "DuplicateName", "GameOver", "IllegalCommand",
+			"IllegalShipPlacement", "InvalidIndex", "OutOfTurn", "TimeOver" };
 
-	
-	//-----------------Starting A Game------------------//
-	/** The message sent by the lobby leader to the server to start the game (leader corresponds to Client1). */
+	// -----------------Joining A Server-----------------//
+	/**
+	 * The first message sent by the client to the server to initiate the
+	 * connection.
+	 */
+	public static final String HELLO = "HI";
+	// --------------------------------------------------//
+
+	// -----------------Starting A Game------------------//
+	/**
+	 * The message sent by the lobby leader to the server to start the game (leader
+	 * corresponds to Client1).
+	 */
 	public static final String START = "S";
 
 	/** Message sent by the client to submit a board object to the server. */
 	public static final String BOARD = "B";
-	//--------------------------------------------------//
-	
-	//-----------------Playing The Game-----------------//
-		/** The server sends this message every {@link END_TIME_UPDATE} seconds to all connected clients. */
-		public static final String TIME = "TIME";
+	// --------------------------------------------------//
 
-		/** The server sends this message to all connected players, indicating whose turn it is. */
-		public static final String TURN = "T";
+	// -----------------Playing The Game-----------------//
+	/**
+	 * The server sends this message every {@link END_TIME_UPDATE} seconds to all
+	 * connected clients.
+	 */
+	public static final String TIME = "TIME";
 
-		/** The client sends this message to launch a missle at a given index. */
-		public static final String ATTACK = "A";
+	/**
+	 * The server sends this message to all connected players, indicating whose turn
+	 * it is.
+	 */
+	public static final String TURN = "T";
 
-		/** The server response to an attack made by the client to an empty field on the board of the opponent. */
-		public static final String MISS = "M";
+	/** The client sends this message to launch a missle at a given index. */
+	public static final String ATTACK = "A";
 
-		/** The server response to an attack made by the client to a field containing a ship on the board of the opponent. */
-		public static final String HIT = "H";
-		
-		/** The server response to an attack made by the client to a field containing the last piece of a ship on the board of the opponent. */
-		public static final String DESTROY = "D";
-		
-		/** The server sends this message to all players after a winner is identified, or after the game time is over. */
-		public static final String WON = "W";
-		//--------------------------------------------------//
+	/**
+	 * The server response to an attack made by the client to an empty field on the
+	 * board of the opponent.
+	 */
+	public static final String MISS = "M";
 
-	
-	
-    /**
-     * Delimiter used to separate arguments sent over the network.
-     */
-    public static final String DELIMITER = ";";
+	/**
+	 * The server response to an attack made by the client to a field containing a
+	 * ship on the board of the opponent.
+	 */
+	public static final String HIT = "H";
 
-    /**
-     * Sent as last line in a multi-line response to indicate the end of the text.
-     */
-    public static final String EOT = "--EOT--";
+	/**
+	 * The server response to an attack made by the client to a field containing the
+	 * last piece of a ship on the board of the opponent.
+	 */
+	public static final String DESTROY = "D";
 
+	/**
+	 * The server sends this message to all players after a winner is identified, or
+	 * after the game time is over.
+	 */
+	public static final String WON = "W";
+	// --------------------------------------------------//
+	// ----------------------Errors----------------------//
+	/**
+	 * When a player causes an error to occur in the server, this command is used.
+	 */
+	public static final String ERROR = "E";
 
-    /**
-     * The following chars are both used by the TUI to receive user input, and the
-     * server and client to distinguish messages.
-     */
-    public static final char EXIT = 'x';
-    public static final char IN = 'i';
-    public static final char OUT = 'o';
-    public static final char ROOM = 'r';
-    public static final char ACT = 'a';
-    public static final char PRINT = 'p';
-    public static final char BILL = 'b';
-    public static final char HELP = 'h';
-    public static final char NAME = 'n';
-    public static final char NAMETAKEN = 't';
-    public static final char GETNAME = 'g';
+	// Please check the protocol descriptor for specifications on every error, and
+	// when it should occura
+	public static final String ACTION_NOT_PERMITTED = ERRORNAMES[0];
+	public static final String DUPLICATE_NAME = ERRORNAMES[1];
+	public static final String GAME_OVER = ERRORNAMES[2];
+	public static final String ILLEGAL_COMMAND = ERRORNAMES[3];
+	public static final String ILLGAL_SHIP_PLACEMENT = ERRORNAMES[4];
+	public static final String INVALID_INDEX = ERRORNAMES[5];
+	public static final String OUT_OF_TURN = ERRORNAMES[6];
+	public static final String TIME_OVER = ERRORNAMES[7];
+	// --------------------------------------------------//
+
+	/**
+	 * Delimiter used to separate arguments sent over the network.
+	 */
+	public static final String DELIMITER = ";";
+
+	/**
+	 * Sent as last line in a multi-line response to indicate the end of the text.
+	 */
+	public static final String EOT = "--EOT--";
+
+	/**
+	 * The following chars are both used by the TUI to receive user input, and the
+	 * server and client to distinguish messages.
+	 */
+	public static final char EXIT = 'x';
+	public static final char IN = 'i';
+	public static final char OUT = 'o';
+	public static final char ROOM = 'r';
+	public static final char ACT = 'a';
+	public static final char PRINT = 'p';
+	public static final char BILL = 'b';
+	public static final char HELP = 'h';
+	public static final char NAME = 'n';
+	public static final char NAMETAKEN = 't';
+	public static final char GETNAME = 'g';
 }

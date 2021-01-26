@@ -357,6 +357,10 @@ public class ClientController implements Runnable {
 			}
 			displayScoreAfterAttack();
 			break;
+		case ProtocolMessages.WON:{
+			
+			System.out.println("Winner: " + message[1]);
+		}
 		}
 	}
 	public void displayScoreAfterAttack() {
@@ -389,5 +393,12 @@ public class ClientController implements Runnable {
 		}
 
 		return null;
+	}
+
+	public void sendErrorMessage(String errorMessage) throws IOException {
+		out.write(ProtocolMessages.ERROR + ProtocolMessages.CS + errorMessage);
+		out.newLine();
+		out.flush();
+		
 	}
 }
