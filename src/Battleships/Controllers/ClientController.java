@@ -127,11 +127,6 @@ public class ClientController implements Runnable {
 			} catch (IOException e) {
 				System.out.println(
 						"CLIENT: ERROR: could not create a socket on " + this.ip + " and port " + this.Port + ".");
-
-				// Do you want to try again? (ask user, to be implemented)
-				// if(false) {
-				// throw new ExitProgram("User indicated to exit.");
-				// }
 			}
 		}
 		if (serverSock != null) {
@@ -366,10 +361,9 @@ public class ClientController implements Runnable {
 			}
 			displayScoreAfterAttack();
 			break;
-		case ProtocolMessages.WON:{
-			
+		case ProtocolMessages.WON:
 			System.out.println("Winner: " + message[1]);
-		}
+			break;
 		}
 	}
 	public void displayScoreAfterAttack() {
@@ -389,8 +383,8 @@ public class ClientController implements Runnable {
 	}
 
 	public void Attack(String id) throws IOException {
-		//Button button = (Button)this.mainViewController.view.enemyGrid.getChildren().get(Integer.parseInt(id + 1));
-		//button.setDisable(true);
+		Button button = (Button)this.mainViewController.view.enemyGrid.getChildren().get(Integer.parseInt(id) + 1);
+		button.setDisable(true);
 		System.out.println(id);
 		out.write(ProtocolMessages.ATTACK + ProtocolMessages.CS + id);
 		out.newLine();

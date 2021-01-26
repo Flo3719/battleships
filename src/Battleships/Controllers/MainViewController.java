@@ -127,4 +127,9 @@ public class MainViewController implements MainViewDelegate {
 			}
 		}
 	}
+
+	@Override
+	public void handleGiveUpClick() {
+		
+	}
 }

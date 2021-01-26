@@ -34,6 +34,7 @@ public class MainView {
     public MainViewDelegate controller;
 
     public MenuItem startMenuItem;
+    public MenuItem giveUpMenuItem;
 
 
     @FXML
@@ -53,6 +54,10 @@ public class MainView {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+            //controller.handleJoinClick(event);
+        });
+        joinMenuItem.setOnAction((ActionEvent event)->{
+            controller.handleGiveUpClick();
             //controller.handleJoinClick(event);
         });
 

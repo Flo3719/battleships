@@ -13,6 +13,7 @@ public class GameModel {
 	private static final int MAXIMUM_GAME_TIME = 5 * 60;
 	private boolean timeOver = false;
 	private Timer timer;
+	public boolean hasWinner = false;
 
 	/**
 	 * The players of the game.
@@ -98,10 +99,14 @@ public class GameModel {
 				won = false;
 			}
 		}
+		if (won) {
+			this.hasWinner = true;
+		}
 		return won;
 	}
 
 	public GameClientHandler checkIfWonOnScore() {
+		this.hasWinner = true;
 		if (players[0].getScore() > players[1].getScore()) {
 			return players[0];
 		} 
