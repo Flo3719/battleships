@@ -20,7 +20,7 @@ public class GameController {
 	}
 
 	public void startGame() {
-		gameTimer = new GameTimer(server, model.getMaximumGameTime());
+		gameTimer = new GameTimer(server, model.getMaximumGameTime(), this);
 		Thread gameTimerThread = new Thread(gameTimer);
 		gameTimerThread.start();
 		try {

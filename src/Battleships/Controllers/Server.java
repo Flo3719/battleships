@@ -127,21 +127,25 @@ public class Server implements Runnable {
             }
         }
     }
-
-    public void sendTimeUpdate(int seconds){
-        for(GameClientHandler gch : clients){
-            try {
-                gch.sendOut(ProtocolMessages.TIME + ProtocolMessages.CS + seconds);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public void sendTimeUpdate(int seconds, GameController gameController){
+    	String message = ProtocolMessages.TIME + ProtocolMessages.CS + seconds;
+        SendTogameClients(message, gameController);
         }
-    }
-    
+
     public void sendTurnIndicator(GameController game) throws IOException {
+    	String message = ProtocolMessages.TURN + ProtocolMessages.CS + game.model.getPlayer(game.model.current).getName();
+    	SendTogameClients(message, game);
+    }
+
+    public void SendTogameClients(String msg, GameController gameController) {
     	for(GameClientHandler gch : clients) {
-    		if (gch.getGame().equals(game)) {
-    			gch.sendOut(ProtocolMessages.TURN + ProtocolMessages.CS + game.model.getPlayer(game.model.current).getName());
+    		if (gch.getGame().equals(gameController)) {
+    			try {
+    				gch.sendOut(msg);
+    			} catch (IOException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
     		}
     	}
     }

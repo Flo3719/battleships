@@ -101,14 +101,14 @@ public class GameModel {
 		return won;
 	}
 
-	public boolean checkIfWonOnScore(GameClientHandler gameClientHandler) {
+	public GameClientHandler checkIfWonOnScore() {
 		if (players[0].getScore() > players[1].getScore()) {
-			return players[0].equals(gameClientHandler);
+			return players[0];
 		} 
 		else if (players[0].getScore() < players[1].getScore()){
-			return players[1].equals(gameClientHandler);
+			return players[1];
 		}else {
-			return (CheckWinnerWhenSamePoints().equals(gameClientHandler));
+			return CheckWinnerWhenSamePoints();
 		}
 	}
 
