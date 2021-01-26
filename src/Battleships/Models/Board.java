@@ -51,8 +51,8 @@ public class Board {
 				}
 					break;
 				case 2:
-					if(trySouth(ship, randomX, randomY)) {
-						placeSouth(ship, randomX, randomY);
+					if(tryNorth(ship, randomX, randomY)) {
+						placeNorth(ship, randomX, randomY);
 						positioned = true;
 				}
 					break;
@@ -63,8 +63,8 @@ public class Board {
 				}
 					break;
 				case 4:
-					if(tryNorth(ship, randomX, randomY)) {
-						placeNorth(ship, randomX, randomY);
+					if(trySouth(ship, randomX, randomY)) {
+						placeSouth(ship, randomX, randomY);
 						positioned = true;
 				}
 					break;
@@ -115,7 +115,7 @@ public class Board {
 		}
 	}
 	
-	private boolean tryNorth(ShipModel ship, int randomX, int randomY) {
+	private boolean trySouth(ShipModel ship, int randomX, int randomY) {
 		for(int i = 0; i < ship.getLength(); i++) {
 			if(!isFreeField(randomX, randomY + i)) {
 				return false;
@@ -124,7 +124,7 @@ public class Board {
 		return true;
 	}
 	
-	public void placeNorth(ShipModel ship, int randomX, int randomY) {
+	public void placeSouth(ShipModel ship, int randomX, int randomY) {
 		for(int i = 0; i < ship.getLength(); i++) {
 			PositionModel pos = positions[randomX][randomY + i];
 			ship.positions.add(pos);
@@ -132,7 +132,7 @@ public class Board {
 		}
 	}
 	
-	private boolean trySouth(ShipModel ship, int randomX, int randomY) {
+	private boolean tryNorth(ShipModel ship, int randomX, int randomY) {
 		for(int i = 0; i < ship.getLength(); i++) {
 			if(!isFreeField(randomX, randomY - i)) {
 				return false;
@@ -141,7 +141,7 @@ public class Board {
 		return true;
 	}
 	
-	public void placeSouth(ShipModel ship, int randomX, int randomY) {
+	public void placeNorth(ShipModel ship, int randomX, int randomY) {
 		for(int i = 0; i < ship.getLength(); i++) {
 			PositionModel pos = positions[randomX][randomY - i];
 			ship.positions.add(pos);

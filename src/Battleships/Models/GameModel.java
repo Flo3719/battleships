@@ -120,7 +120,7 @@ public class GameModel {
 				countOpponent++;
 			}
 		}
-		for (ShipModel sh : this.players[current].getBoard().ships) {
+		for (ShipModel sh : this.getCurrentPlayer().getBoard().ships) {
 			if (sh.Sunk()) {
 				countSelf++;
 			}
