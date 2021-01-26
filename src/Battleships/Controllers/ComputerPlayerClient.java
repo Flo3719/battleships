@@ -2,11 +2,13 @@ package Battleships.Controllers;
 
 import Battleships.Models.Board;
 
-public class ComputerPlayerClient extends ClientController{
+public class ComputerPlayerClient{
+	public Board board;
+	public GameController game;
+	
 
 	public ComputerPlayerClient(Board board, MainViewController mainViewController) {
-		super(board, mainViewController);
-		// TODO Auto-generated constructor stub
+		this.board = board;
 	}
 
 }

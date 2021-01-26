@@ -74,7 +74,6 @@ public class GameClientHandler implements Runnable {
 			this.sock = sock;
 			this.server = server;
 			this.name = name;
-			this.game = game;
 		} catch (IOException e) {
 			// shutdown();
 		}

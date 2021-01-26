@@ -51,7 +51,7 @@ public class Server implements Runnable {
 
                     String msg = in.readLine();
                     String name = msg.split(ProtocolMessages.CS)[1];
-
+                    if(nameAvailable(name)){
                     if (waitingClient != null) {
                         handshakeToAll(handshakeMessage(waitingClient.getName(), name));
                         out.write(handshakeMessage(name, waitingClient.getName()));
@@ -61,7 +61,7 @@ public class Server implements Runnable {
                     out.newLine();
                     out.flush();
 
-                    if(nameAvailable(name)){
+                    
                         System.out.println("SERVER: NAME AVAILABLE");
                         view.showMessage("SERVER: New client " + name +  " connected!");
                         GameClientHandler handler =
