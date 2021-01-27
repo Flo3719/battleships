@@ -275,8 +275,8 @@ public class ClientController implements Runnable {
 			if (this.timeLeft == 0) {
 				this.gameTimeOver = true;
 			}
-			if (this.timeLeft < this.timeBeginningTurn - 30 && myTurn) {
-				this.sendErrorMessage(ProtocolMessages.ERRORNAMES[6]);
+			if (this.timeLeft < this.timeBeginningTurn - ProtocolMessages.TURN_TIME && myTurn) {
+				this.sendErrorMessage(ProtocolMessages.ERRORNAMES[7]);
 			}
 			break;
 		case ProtocolMessages.TURN:
