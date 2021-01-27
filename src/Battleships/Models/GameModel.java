@@ -171,5 +171,11 @@ public class GameModel {
 			e.printStackTrace();
 		}
 	}
+	
+	public void endGameDueToWin() {
+    	this.hasWinner = true;
+    	this.getPlayer(0).shutdown();
+    	this.getPlayer(1).shutdown();
+	}
 
 }

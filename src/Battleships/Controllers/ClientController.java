@@ -209,7 +209,9 @@ public class ClientController implements Runnable {
 	@Override
 	public void run() {
 		createConnection();
-
+		if (this.player.getName().equals("pc")) {
+			System.out.println("Playing against a computer player");
+		} else {
 		String handshakeResult[];
 		try {
 			handshakeResult = doHandshake();
@@ -245,6 +247,7 @@ public class ClientController implements Runnable {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
 		}
 
 		String msg;
@@ -363,6 +366,7 @@ public class ClientController implements Runnable {
 			break;
 		case ProtocolMessages.WON:
 			System.out.println("Winner: " + message[1]);
+			//TODO: dialog box
 			closeConnection();
 			break;
 		}
@@ -413,6 +417,7 @@ public class ClientController implements Runnable {
 			in.close();
 			out.close();
 			serverSock.close();
+			System.exit(0);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

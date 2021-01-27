@@ -45,7 +45,7 @@ public class GameClientHandler implements Runnable {
 				out.flush();
 				msg = in.readLine();
 			}
-			shutdown();
+			//shutdown();
 		} catch (IOException e) {
 			shutdown();
 		}
@@ -75,7 +75,7 @@ public class GameClientHandler implements Runnable {
 			this.server = server;
 			this.name = name;
 		} catch (IOException e) {
-			// shutdown();
+			shutdown();
 		}
 	}
 
@@ -156,8 +156,7 @@ public class GameClientHandler implements Runnable {
                 		game.sendToGameClients(ProtocolMessages.DESTROY + ProtocolMessages.CS + position.ship.shipType.identifier + ProtocolMessages.CS + position.ship.GetMarkerIndex() + ProtocolMessages.CS + position.ship.getOrientation() + ProtocolMessages.CS + opponent.getName());
                 		if(this.game.model.checkIfCleanSweep()) {
                 			game.sendToGameClients(ProtocolMessages.WON + ProtocolMessages.CS + this.name);
-                			this.getGame().model.GetOpponent().shutdown();
-                			this.shutdown();
+                			this.game.model.endGameDueToWin();
                 		}
                 	}
                 	else
@@ -201,13 +200,14 @@ public class GameClientHandler implements Runnable {
         	this.game.model.endGameDueToLostConnection(automaticWinner);
         }
         try {
+            server.getClients().remove(this);
             in.close();
             out.close();
             sock.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        server.getClients().remove(this);
+
     }
 
 	private void handleErrorCommand(String ErrorMessage) throws IOException {
