@@ -1,5 +1,6 @@
 package Battleships.Controllers;
 
+import Battleships.ComputerPlayer;
 import Battleships.Models.Board;
 import Battleships.Models.JoinBoxViewDelegate;
 import Battleships.Models.PlayerModel;
@@ -57,7 +58,7 @@ public class JoinBoxViewController implements JoinBoxViewDelegate {
 			portHost = Integer.parseInt(port);
 		}
 		// ClientController client = new ClientController(board);
-		client.player = new PlayerModel(name);
+		client.setPlayer(new PlayerModel(name));
 		client.ip = ip;
 		client.Port = portHost;
 		// client.start(name, ip, portHost);

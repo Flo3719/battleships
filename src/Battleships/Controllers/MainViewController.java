@@ -77,6 +77,16 @@ public class MainViewController implements MainViewDelegate {
 	}
 
 	@Override
+	public void handleComputerInput(String index) throws OutOfTurnException, IOException {
+		if (this.clientController.myTurn) {
+			System.out.println("enemy field attacked");
+			clientController.Attack(index);
+		} else {
+			System.out.println(ProtocolMessages.OUT_OF_TURN);
+		}
+	}
+
+	@Override
 	public void handleStartClick(Event evt) throws IOException, ServerNotAvailableException {
 		this.clientController.startGame();
 	}

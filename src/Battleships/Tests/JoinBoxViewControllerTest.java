@@ -41,9 +41,9 @@ public class JoinBoxViewControllerTest {
     public void testJoinHostClick(){
         Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
         ClientController client = new ClientController(new Board(), mainViewController);
-        assertNull(client.player);
+        assertNull(client.getPlayer());
         joinBoxViewController.handleJoinClick("player","localhost", "1234", new Board(), client);
-        assertNotNull(client.player);
+        assertNotNull(client.getPlayer());
         assertEquals(client.ip, "localhost");
         assertEquals(client.Port, 1234);
         assertTrue((threadSet.size()+1) == (Thread.getAllStackTraces().keySet().size()));

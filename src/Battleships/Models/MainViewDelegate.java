@@ -17,4 +17,5 @@ public interface MainViewDelegate {
     //public void setPlayField(int index);
     public void addShips(Board board);
     public void handleStartClick(Event evt) throws IOException, ServerNotAvailableException;
+    public void handleComputerInput(String index) throws OutOfTurnException, IOException;
 }
