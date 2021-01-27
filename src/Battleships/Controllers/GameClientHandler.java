@@ -7,6 +7,7 @@ import Battleships.Models.ShipModel;
 
 import java.io.*;
 import java.net.Socket;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -172,6 +173,10 @@ public class GameClientHandler implements Runnable {
             case ProtocolMessages.ERROR:
                 handleErrorCommand(message[1]);
                 break;
+            case ProtocolMessages.MSGSEND:
+            	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            	String chatMessage = ProtocolMessages.MSGRECEIVED + ProtocolMessages.CS + message[1] + ProtocolMessages.CS + message[2] + ProtocolMessages.CS + timestamp;
+            	this.game.sendToGameClients(chatMessage);
 //            case ProtocolMessages.PRINT:
 //                out.write(server.doPrint());
 //                break;

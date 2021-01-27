@@ -369,6 +369,8 @@ public class ClientController implements Runnable {
 			this.mainViewController.view.Alert("Winner: "+ message[1]);
 			//closeConnection();
 			break;
+		case ProtocolMessages.MSGRECEIVED:
+			System.out.println(message[1] + ": " + message[2] + "  (" + message[3] + ")" );
 		}
 	}
 	public void displayScoreAfterAttack() {

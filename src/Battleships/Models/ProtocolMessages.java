@@ -127,29 +127,12 @@ public class ProtocolMessages {
 	public static final String TIME_OVER = ERRORNAMES[7];
 	// --------------------------------------------------//
 
-	/**
-	 * Delimiter used to separate arguments sent over the network.
-	 */
-	public static final String DELIMITER = ";";
+	// ----------------Chat Functionality----------------//
+	/** A message is sent by a client to the server using this command. */
+	public static final String MSGSEND = "MSGOUT";
 
-	/**
-	 * Sent as last line in a multi-line response to indicate the end of the text.
-	 */
-	public static final String EOT = "--EOT--";
+	/** A message is broadcasted by the server to all clients using this command. */
+	public static final String MSGRECEIVED = "MSGIN";
+	// --------------------------------------------------//
 
-	/**
-	 * The following chars are both used by the TUI to receive user input, and the
-	 * server and client to distinguish messages.
-	 */
-	public static final char EXIT = 'x';
-	public static final char IN = 'i';
-	public static final char OUT = 'o';
-	public static final char ROOM = 'r';
-	public static final char ACT = 'a';
-	public static final char PRINT = 'p';
-	public static final char BILL = 'b';
-	public static final char HELP = 'h';
-	public static final char NAME = 'n';
-	public static final char NAMETAKEN = 't';
-	public static final char GETNAME = 'g';
 }
