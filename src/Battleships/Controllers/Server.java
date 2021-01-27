@@ -141,8 +141,7 @@ public class Server implements Runnable {
 			try {
 				gch.sendOut(msg);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Could not send it...");
 			}
 
 		}

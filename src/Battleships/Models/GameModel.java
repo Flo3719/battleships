@@ -15,7 +15,7 @@ public class GameModel {
 	private boolean timeOver = false;
 	private Timer timer;
 	public boolean hasWinner = false;
-
+	public boolean winnerDueToLostConnection = false;
 	/**
 	 * The players of the game.
 	 * 

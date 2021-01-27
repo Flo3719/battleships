@@ -47,7 +47,9 @@ public class GameClientHandler implements Runnable {
 			}
 			//shutdown();
 		} catch (IOException e) {
-			shutdown();
+			if (!this.game.model.winnerDueToLostConnection) {
+				shutdown();
+			}
 		}
 	}
 
@@ -191,12 +193,13 @@ public class GameClientHandler implements Runnable {
         System.out.println("> [" + name + "] Shutting down.");
         this.game.getTimer().terminate();
         if (!this.game.model.hasWinner) {
+        	this.game.model.winnerDueToLostConnection = true;
         	GameClientHandler automaticWinner;
         	if (this.game.model.getPlayer(0).equals(this)) {
         		automaticWinner = this.game.model.getPlayer(1);
         	}
         	else {
-        		automaticWinner = this;
+        		automaticWinner = this.game.model.getPlayer(0);
         	}
         	this.game.model.endGameDueToLostConnection(automaticWinner);
         }
