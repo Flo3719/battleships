@@ -45,4 +45,7 @@ public class GameController {
 		}
 	}
 
+	public GameTimer getTimer() {
+		return this.gameTimer;
+	}
 }

@@ -189,6 +189,7 @@ public class GameClientHandler implements Runnable {
 
     public void shutdown() {
         System.out.println("> [" + name + "] Shutting down.");
+        this.game.getTimer().terminate();
         if (!this.game.model.hasWinner) {
         	GameClientHandler automaticWinner;
         	if (this.game.model.getPlayer(0).equals(this)) {

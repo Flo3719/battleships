@@ -1,7 +1,7 @@
 package Battleships.Views;
 
 import java.io.IOException;
-
+import java.util.Optional;
 
 import Battleships.Controllers.MainViewController;
 import Battleships.Models.MainViewDelegate;
@@ -10,7 +10,9 @@ import Battleships.Models.Exceptions.ServerNotAvailableException;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.GridPane;
@@ -141,6 +143,24 @@ public class MainView {
     }
     public int getColumn(int index){
         return (index%15);
+    }
+    
+    public void Alert(String msg) {
+    	Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+		    	javafx.scene.control.Alert a = new javafx.scene.control.Alert(AlertType.NONE);
+		    	a.setContentText(msg);
+		    	a.setAlertType(AlertType.INFORMATION);
+		    	Optional<ButtonType> result = a.showAndWait();
+		    	if(result.isPresent()) {
+		    		System.exit(0);
+		    	}
+		    	
+			}
+		});
+
     }
 
     public void setTurn(String side){

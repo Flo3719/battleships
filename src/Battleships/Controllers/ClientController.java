@@ -259,9 +259,9 @@ public class ClientController implements Runnable {
 				out.flush();
 				msg = in.readLine();
 			}
-			 closeConnection();
+			 //closeConnection();
 		} catch (IOException e) {
-			 closeConnection();
+			 //closeConnection();
 		}
 	}
 
@@ -366,8 +366,8 @@ public class ClientController implements Runnable {
 			break;
 		case ProtocolMessages.WON:
 			System.out.println("Winner: " + message[1]);
-			//TODO: dialog box
-			closeConnection();
+			this.mainViewController.view.Alert("Winner: "+ message[1]);
+			//closeConnection();
 			break;
 		}
 	}
@@ -389,7 +389,8 @@ public class ClientController implements Runnable {
 
 	public void Attack(String id) throws IOException {
 		Button button = (Button)this.mainViewController.view.enemyGrid.getChildren().get(Integer.parseInt(id) + 1);
-		button.setDisable(true);
+		button.setOnAction(null);
+		//button.setDisable(true);
 		out.write(ProtocolMessages.ATTACK + ProtocolMessages.CS + id);
 		out.newLine();
 		out.flush();
@@ -417,7 +418,7 @@ public class ClientController implements Runnable {
 			in.close();
 			out.close();
 			serverSock.close();
-			System.exit(0);
+			//System.exit(0);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

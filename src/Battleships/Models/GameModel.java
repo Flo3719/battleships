@@ -162,7 +162,7 @@ public class GameModel {
 		}
 		return null;
 	}
-	public void endGameDueToLostConnection(GameClientHandler gch) {
+	public synchronized void endGameDueToLostConnection(GameClientHandler gch) {
 		try {
 			gch.getGame().model.hasWinner = true;
 			gch.sendOut(ProtocolMessages.WON + ProtocolMessages.CS + gch.getName());
