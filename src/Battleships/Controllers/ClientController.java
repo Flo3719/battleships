@@ -36,6 +36,7 @@ public class ClientController implements Runnable {
 	
 	public int timeBeginningTurn;
 	public int timeLeft = 300;
+	public boolean gameTimeOver = false;
 
 	/**
 	 * Constructs a new HotelClient. Initialises the view.
@@ -209,9 +210,7 @@ public class ClientController implements Runnable {
 	@Override
 	public void run() {
 		createConnection();
-		if (this.player.getName().equals("pc")) {
-			System.out.println("Playing against a computer player");
-		} else {
+
 		String handshakeResult[];
 		try {
 			handshakeResult = doHandshake();
@@ -248,7 +247,6 @@ public class ClientController implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		}
 
 		String msg;
 		try {
@@ -274,6 +272,9 @@ public class ClientController implements Runnable {
 		case ProtocolMessages.TIME:
 			this.getMainViewController().view.setTimeLabel(Integer.parseInt(message[1]));
 			this.timeLeft = Integer.parseInt(message[1]);
+			if (this.timeLeft == 0) {
+				this.gameTimeOver = true;
+			}
 			if (this.timeLeft < this.timeBeginningTurn - 30 && myTurn) {
 				this.sendErrorMessage(ProtocolMessages.ERRORNAMES[6]);
 			}
@@ -366,7 +367,11 @@ public class ClientController implements Runnable {
 			break;
 		case ProtocolMessages.WON:
 			System.out.println("Winner: " + message[1]);
-			this.mainViewController.view.Alert("Winner: "+ message[1]);
+			boolean walkOver = false;
+			if (!this.gameTimeOver) {
+				walkOver = true;
+			}
+			this.mainViewController.view.Alert("Winner: "+ message[1], walkOver);
 			//closeConnection();
 			break;
 		case ProtocolMessages.MSGRECEIVED:

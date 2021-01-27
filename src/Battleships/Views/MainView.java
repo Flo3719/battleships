@@ -145,13 +145,16 @@ public class MainView {
         return (index%15);
     }
     
-    public void Alert(String msg) {
+    public void Alert(String msg, boolean walkover) {
     	Platform.runLater(new Runnable() {
 
 			@Override
 			public void run() {
 		    	javafx.scene.control.Alert a = new javafx.scene.control.Alert(AlertType.NONE);
 		    	a.setContentText(msg);
+		    	if (walkover) {
+		    		a.setHeaderText("WalkOver!");;
+		    	}
 		    	a.setAlertType(AlertType.INFORMATION);
 		    	Optional<ButtonType> result = a.showAndWait();
 		    	if(result.isPresent()) {
