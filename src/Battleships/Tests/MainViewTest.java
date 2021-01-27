@@ -1,5 +1,8 @@
 package Battleships.Tests;
 
+import Battleships.Controllers.JoinBoxViewController;
+import Battleships.Controllers.MainViewController;
+import Battleships.Views.MainView;
 import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,9 +12,12 @@ public class MainViewTest {
     //TODO fix
     @Test
     public void testAddPlayButtons(){
-        //MainView mainView = new MainView();
+        JoinBoxViewController joinBoxViewController = (JoinBoxViewController) JoinBoxViewController.sharedInstance;
+        MainViewController mainViewController = (MainViewController) MainViewController.sharedInstance;
+        mainViewController.initialize(new MainView());
+        MainView mainView = mainViewController.getView();
         //mainView.initialize();
-        //mainView.addPlayButtons(mainView.friendGrid, "friend");
-        //assertEquals(3, mainView.friendGrid.getChildren().size());
+        mainView.addPlayButtons(mainView.friendGrid, "friend");
+        assertEquals(3, mainView.friendGrid.getChildren().size());
     }
 }
