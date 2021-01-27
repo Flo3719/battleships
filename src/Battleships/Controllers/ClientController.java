@@ -18,6 +18,7 @@ import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.ProtocolException;
 import java.net.Socket;
+import java.util.concurrent.TimeUnit;
 
 public class ClientController implements Runnable {
 	private Socket serverSock;
@@ -40,6 +41,8 @@ public class ClientController implements Runnable {
 	public int timeLeft = 300;
 
 	public ComputerPlayer computerPlayer;
+
+	private final int COMPUTINGBUFFER = 100;
 
 	/**
 	 * Constructs a new HotelClient. Initialises the view.
@@ -304,7 +307,14 @@ public class ClientController implements Runnable {
 				myTurn = true;
 				getMainViewController().view.setTurn("friend");
 				if(computerPlayer != null){
-					Attack(computerPlayer.makeTurn());
+					//String attackLocation = computerPlayer.makeNaiveTurn();
+					String attackLocation = computerPlayer.makeTurn();
+					try {
+						TimeUnit.MILLISECONDS.sleep(COMPUTINGBUFFER);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					Attack(attackLocation);
 				}
 			} else {
 				System.out.println("It is the turn of: " + this.opponent.getName());
@@ -338,9 +348,17 @@ public class ClientController implements Runnable {
 								"-fx-background-color: orange;");
 					}
 				});
+				computerPlayer.setLastHit(message[1]);
 				player.incrementScore(1);
 				if(computerPlayer != null){
-					Attack(computerPlayer.makeTurn());
+					//String attackLocation = computerPlayer.makeNaiveTurn();
+					String attackLocation = computerPlayer.makeTurn();
+					try {
+						TimeUnit.MILLISECONDS.sleep(COMPUTINGBUFFER);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					Attack(attackLocation);
 				}
 			}
 			else {
@@ -382,7 +400,14 @@ public class ClientController implements Runnable {
 				});
 				player.incrementScore(2);
 				if(computerPlayer != null){
-					Attack(computerPlayer.makeTurn());
+					//String attackLocation = computerPlayer.makeNaiveTurn();
+					String attackLocation = computerPlayer.makeTurn();
+					try {
+						TimeUnit.MILLISECONDS.sleep(COMPUTINGBUFFER);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					Attack(attackLocation);
 				}
 			}
 			else {
