@@ -120,17 +120,17 @@ public class MainView {
             button.setMinWidth(37);
             button.setPrefHeight(37);
             button.setPrefWidth(37);
-            buttons[i].setOnAction((ActionEvent event) -> {
-                try {
-					controller.handleButtonClick(event);
-				} catch (OutOfTurnException e) {
-					System.out.println("It is not your turn... Be patient");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-            });
             if(playerSide.equals("enemy")){
+            	buttons[i].setOnAction((ActionEvent event) -> {
+                    try {
+    					controller.handleButtonClick(event);
+    				} catch (OutOfTurnException e) {
+    					System.out.println("It is not your turn... Be patient");
+    				} catch (IOException e) {
+    					// TODO Auto-generated catch block
+    					e.printStackTrace();
+    				}
+                });
                 button.getStyleClass().add("enemy-button");
             }
             // add button to grid

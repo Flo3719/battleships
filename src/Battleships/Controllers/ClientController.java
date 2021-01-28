@@ -346,7 +346,9 @@ public class ClientController implements Runnable {
 								"-fx-background-color: orange;");
 					}
 				});
+				if (computerPlayer != null) {
 				computerPlayer.setLastHit(message[1]);
+				}
 				player.incrementScore(1);
 				if(computerPlayer != null){
 					//String attackLocation = computerPlayer.makeNaiveTurn();

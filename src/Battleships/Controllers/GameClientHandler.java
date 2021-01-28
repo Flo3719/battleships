@@ -224,9 +224,11 @@ public class GameClientHandler implements Runnable {
 		switch(ErrorMessage) {
 		case "InvalidIndex":
 			server.sendTurnIndicator(this.game);
+			break;
 		case "TimeOver":
         	this.game.model.switchCurrent();
         	server.sendTurnIndicator(game);
+        	break;
 		}
 
 		
