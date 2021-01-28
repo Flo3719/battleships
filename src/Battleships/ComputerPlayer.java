@@ -11,8 +11,8 @@ import java.util.List;
 
 public class ComputerPlayer {
     //MainViewController mainViewController;
-    private int lastHit;
     private List<Integer> unhittedFields = new ArrayList<>();
+    private List<Integer> hits = new ArrayList<>();
 
     public ComputerPlayer() {
         //mainViewController = (MainViewController) MainViewController.sharedInstance;
@@ -28,7 +28,7 @@ public class ComputerPlayer {
         return hit;
     }
     public void setLastHit(String index){
-        this.lastHit = Integer.parseInt(index);
+        this.hits.add(Integer.parseInt(index));
     }
 
     public boolean containsValue(Integer integer){
@@ -41,11 +41,12 @@ public class ComputerPlayer {
     }
 
     public String makeTurn(){
-        if(lastHit == 0){
+        if(hits.isEmpty()){
             return makeNaiveTurn();
         }
-        int row = lastHit/10;
-        int col = lastHit%10;
+        int someHit = hits.get((int)(Math.random()*hits.size()));
+        int row = someHit/10;
+        int col = someHit%10;
 
         if((row+1)<15 && containsValue(Integer.valueOf((row+1)*col))){
             System.out.println("FIRST CASE");
