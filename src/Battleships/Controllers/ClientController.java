@@ -1,5 +1,6 @@
 package Battleships.Controllers;
 
+import Battleships.ComputerPlayer;
 import Battleships.Models.Board;
 import Battleships.Models.PlayerModel;
 import Battleships.Models.ProtocolMessages;
@@ -7,6 +8,7 @@ import Battleships.Models.ShipType;
 import Battleships.Models.Exceptions.ServerNotAvailableException;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
+import org.junit.runner.Computer;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -16,6 +18,7 @@ import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.ProtocolException;
 import java.net.Socket;
+import java.util.concurrent.TimeUnit;
 
 public class ClientController implements Runnable {
 	private Socket serverSock;
@@ -28,7 +31,7 @@ public class ClientController implements Runnable {
 	public boolean myTurn;
 	private Board board;
 
-	public PlayerModel player;
+	private PlayerModel player;
 	public PlayerModel opponent;
 
 	public int Port;
@@ -37,6 +40,10 @@ public class ClientController implements Runnable {
 	public int timeBeginningTurn;
 	public int timeLeft = 300;
 	public boolean gameTimeOver = false;
+
+	public ComputerPlayer computerPlayer;
+
+	private final int COMPUTINGBUFFER = 100;
 
 	/**
 	 * Constructs a new HotelClient. Initialises the view.
@@ -48,6 +55,7 @@ public class ClientController implements Runnable {
 		this.board = board;
 		this.mainViewController = mainViewController;
 		this.myTurn = false;
+
 	}
 	// public ClientController(Board board) {
 	// this.board = board;
@@ -56,6 +64,18 @@ public class ClientController implements Runnable {
 
 	public MainViewController getMainViewController() {
 		return mainViewController;
+	}
+
+	public void setPlayer(PlayerModel player){
+		this.player = player;
+		//TODO add computer tick box in joinBox
+		if(player.getName().equals("Computer") || player.getName().equals("Computer2") ){
+			this.computerPlayer = new ComputerPlayer();
+		}
+	}
+
+	public PlayerModel getPlayer(){
+		return this.player;
 	}
 
 	/**
@@ -284,7 +304,16 @@ public class ClientController implements Runnable {
 				System.out.println("It is your turn!");
 				myTurn = true;
 				getMainViewController().view.setTurn("friend");
-
+				if(computerPlayer != null){
+					//String attackLocation = computerPlayer.makeNaiveTurn();
+					String attackLocation = computerPlayer.makeTurn();
+					try {
+						TimeUnit.MILLISECONDS.sleep(COMPUTINGBUFFER);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					Attack(attackLocation);
+				}
 			} else {
 				System.out.println("It is the turn of: " + this.opponent.getName());
 				myTurn = false;
@@ -317,7 +346,18 @@ public class ClientController implements Runnable {
 								"-fx-background-color: orange;");
 					}
 				});
+				computerPlayer.setLastHit(message[1]);
 				player.incrementScore(1);
+				if(computerPlayer != null){
+					//String attackLocation = computerPlayer.makeNaiveTurn();
+					String attackLocation = computerPlayer.makeTurn();
+					try {
+						TimeUnit.MILLISECONDS.sleep(COMPUTINGBUFFER);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					Attack(attackLocation);
+				}
 			}
 			else {
 				opponent.incrementScore(1);
@@ -343,7 +383,6 @@ public class ClientController implements Runnable {
 				int index = Integer.parseInt(message[2]);
 
 				Platform.runLater(new Runnable() {
-
 					@Override
 					public void run() {
 						for (int i = 0; i < shipType.length; i++) {
@@ -358,6 +397,16 @@ public class ClientController implements Runnable {
 					}
 				});
 				player.incrementScore(2);
+				if(computerPlayer != null){
+					//String attackLocation = computerPlayer.makeNaiveTurn();
+					String attackLocation = computerPlayer.makeTurn();
+					try {
+						TimeUnit.MILLISECONDS.sleep(COMPUTINGBUFFER);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					Attack(attackLocation);
+				}
 			}
 			else {
 				opponent.incrementScore(2);
@@ -400,7 +449,6 @@ public class ClientController implements Runnable {
 		out.write(ProtocolMessages.ATTACK + ProtocolMessages.CS + id);
 		out.newLine();
 		out.flush();
-
 	}
 
 	public ShipType GetShipTypeByIdentifier(String identifier) {

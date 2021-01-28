@@ -136,8 +136,9 @@ public class GameClientHandler implements Runnable {
             	  this.board = toBoard(message[2]);
             	  break;
             case ProtocolMessages.START:
-                server.sendStart(this.game);
-                this.game.startGame();
+				server.sendStart(this.game);
+				//while(!(game.model.players[1].board != null && game.model.players[0].board != null)){ }
+				this.game.startGame();
                 break;
             case ProtocolMessages.ATTACK:
             	int index =Integer.parseInt(message[1]);

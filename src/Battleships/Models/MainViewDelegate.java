@@ -18,4 +18,5 @@ public interface MainViewDelegate {
     public void addShips(Board board);
     public void handleStartClick(Event evt) throws IOException, ServerNotAvailableException;
 	public void handleGiveUpClick();
+    public void handleComputerInput(String index) throws OutOfTurnException, IOException;
 }
