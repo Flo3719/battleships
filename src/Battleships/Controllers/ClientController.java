@@ -166,7 +166,6 @@ public class ClientController implements Runnable {
 		if (!response.contains(ProtocolMessages.HELLO)) {
 			throw new ProtocolException("CLIENT: Handshake failed. response was: " + response);
 		}
-		;
 		System.out.println(
 				"CLIENT: server responded with 'handshake done with " + response.split(ProtocolMessages.CS)[1] + "'");
 		return response.split(ProtocolMessages.CS);
@@ -368,7 +367,7 @@ public class ClientController implements Runnable {
 		case ProtocolMessages.WON:
 			System.out.println("Winner: " + message[1]);
 			boolean walkOver = false;
-			if (!this.gameTimeOver) {
+			if (!this.gameTimeOver && this.player.getScore() != 91 && this.opponent.getScore() != 91) {
 				walkOver = true;
 			}
 			this.mainViewController.view.Alert("Winner: "+ message[1], walkOver);
@@ -425,7 +424,7 @@ public class ClientController implements Runnable {
 			in.close();
 			out.close();
 			serverSock.close();
-			//System.exit(0);
+			System.exit(0);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

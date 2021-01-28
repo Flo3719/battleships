@@ -58,9 +58,8 @@ public class MainView {
 			}
             //controller.handleJoinClick(event);
         });
-        joinMenuItem.setOnAction((ActionEvent event)->{
+        giveUpMenuItem.setOnAction((ActionEvent event)->{
             controller.handleGiveUpClick();
-            //controller.handleJoinClick(event);
         });
 
         this.controller.initialize(this);
@@ -154,6 +153,8 @@ public class MainView {
 		    	a.setContentText(msg);
 		    	if (walkover) {
 		    		a.setHeaderText("WalkOver!");;
+		    	} else {
+		    		a.setHeaderText("Won on scores");
 		    	}
 		    	a.setAlertType(AlertType.INFORMATION);
 		    	Optional<ButtonType> result = a.showAndWait();
