@@ -17,8 +17,7 @@ public class JoinBoxViewController implements JoinBoxViewDelegate {
 	// Singleton
 	public static JoinBoxViewDelegate sharedInstance = new JoinBoxViewController();
 
-	private JoinBoxViewController() {
-	}
+	private JoinBoxViewController() {}
 
 	@Override
 	public JoinBoxView getView() {
@@ -69,5 +68,9 @@ public class JoinBoxViewController implements JoinBoxViewDelegate {
 	@Override
 	public void showMessage(String message) {
 		System.out.println(message);
+	}
+
+	public Server getServer(){
+		return this.server;
 	}
 }

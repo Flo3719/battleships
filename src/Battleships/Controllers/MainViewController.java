@@ -41,10 +41,14 @@ public class MainViewController implements MainViewDelegate {
 		return this.view;
 	}
 
+	public Board getBoard(){
+		return this.board;
+	}
+
 	@Override
 	public void initialize(MainView view) {
 		this.view = view;
-		// TODO: fix this. the ships should not be placed before joining/hosting.Maybe
+		// TODO: MAYBE change this. the ships should MAYBE not be placed before joining/hosting.Maybe
 		// separate setView method again?
 		this.board.positionShips();
 		this.addShips(this.board);
