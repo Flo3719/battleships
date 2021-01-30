@@ -21,10 +21,10 @@ public class BoardTest {
         Board board = new Board();
         board.positionShips();
         for(ShipModel ship : board.ships){
-            if(ship.positions.isEmpty()){
+            if(ship.getPositions().isEmpty()){
                 fail("All ships should be positioned.");
             }
-            assertTrue(ship.shipName.contains(ship.shipType.identifier));
+            assertTrue(ship.getShipName().contains(ship.getShipType().identifier));
         }
     }
 

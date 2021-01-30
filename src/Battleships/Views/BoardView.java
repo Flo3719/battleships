@@ -27,7 +27,7 @@ public class BoardView {
 					System.out.print("|");
 				}
 				if(pos.ship != null) {
-					switch (pos.ship.shipType) {
+					switch (pos.ship.getShipType()) {
 					case PATROL_BOAT:
 						System.out.print("P");
 						break;

@@ -24,7 +24,7 @@ public class MainViewControllerTest {
     public void testInitialize(){
         MainView view = new MainView();
         String testBoard = "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,";
-        assertEquals(mainViewController.getBoard(), testBoard);
+        assertEquals(testBoard, mainViewController.getBoard());
         mainViewController.initialize(view);
         assertNotNull(mainViewController.getBoard());
     }

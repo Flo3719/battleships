@@ -121,24 +121,24 @@ public class MainViewController implements MainViewDelegate {
 			for (int x = 0; x < board.WIDTH; x++) {
 				PositionModel pos = board.positions[x][y];
 				if (pos.ship != null) {
-					switch (pos.ship.shipType) {
+					switch (pos.ship.getShipType()) {
 					case PATROL_BOAT:
 						// TODO implement enum for indicators + add to the setPlayField funtion that it
 						// changes the color according to indicator/as param
 						// TODO add numbers to the indicator P1, C1, C2, etc
-						this.view.setPlayField(pos.ship.shipName, "friend", getIndex(x, y), pos.ship.shipType.color);
+						this.view.setPlayField(pos.ship.getShipName(), "friend", getIndex(x, y), pos.ship.getShipType().color);
 						break;
 					case SUPER_PATROL:
-						this.view.setPlayField(pos.ship.shipName, "friend", getIndex(x, y), pos.ship.shipType.color);
+						this.view.setPlayField(pos.ship.getShipName(), "friend", getIndex(x, y), pos.ship.getShipType().color);
 						break;
 					case DESTROYER:
-						this.view.setPlayField(pos.ship.shipName, "friend", getIndex(x, y), pos.ship.shipType.color);
+						this.view.setPlayField(pos.ship.getShipName(), "friend", getIndex(x, y), pos.ship.getShipType().color);
 						break;
 					case BATTLESHIP:
-						this.view.setPlayField(pos.ship.shipName, "friend", getIndex(x, y), pos.ship.shipType.color);
+						this.view.setPlayField(pos.ship.getShipName(), "friend", getIndex(x, y), pos.ship.getShipType().color);
 						break;
 					case CARRIER:
-						this.view.setPlayField(pos.ship.shipName, "friend", getIndex(x, y), pos.ship.shipType.color);
+						this.view.setPlayField(pos.ship.getShipName(), "friend", getIndex(x, y), pos.ship.getShipType().color);
 						break;
 					}
 				}

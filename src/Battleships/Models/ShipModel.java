@@ -4,9 +4,25 @@ import java.util.ArrayList;
 
 public class ShipModel {
 
-	public ShipType shipType;
-	public ArrayList<PositionModel> positions = new ArrayList<>();
-	public String shipName;
+	private ShipType shipType;
+	private ArrayList<PositionModel> positions = new ArrayList<>();
+	private String shipName;
+
+	public void addPosition(PositionModel pos){
+		this.positions.add(pos);
+	}
+
+	public ArrayList<PositionModel> getPositions(){
+		return this.positions;
+	}
+
+	public String getShipName(){
+		return this.shipName;
+	}
+
+	public ShipType getShipType(){
+		return this.shipType;
+	}
 	
 	public ShipModel(ShipType shipType, int shipNumber) {
 		this.shipType = shipType;

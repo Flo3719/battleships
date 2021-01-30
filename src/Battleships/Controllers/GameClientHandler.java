@@ -108,10 +108,10 @@ public class GameClientHandler implements Runnable {
 				String test = it.next();
 				if (!test.equals("0")) {
 					for (ShipModel s : resultBoard.ships) {
-						if (s.shipName.equals(test)) {
+						if (s.getShipName().equals(test)) {
 							resultBoard.positions[j][i].ship = s;
 							PositionModel pos = resultBoard.positions[j][i];
-							s.positions.add(pos);
+							s.addPosition(pos);
 							break;
 						}
 					}
@@ -157,7 +157,7 @@ public class GameClientHandler implements Runnable {
                 	if(position.ship.Sunk())
                 	{
                 		this.score = this.score + DESTROY_SCORE;
-                		game.sendToGameClients(ProtocolMessages.DESTROY + ProtocolMessages.CS + position.ship.shipType.identifier + ProtocolMessages.CS + position.ship.GetMarkerIndex() + ProtocolMessages.CS + position.ship.getOrientation() + ProtocolMessages.CS + opponent.getName());
+                		game.sendToGameClients(ProtocolMessages.DESTROY + ProtocolMessages.CS + position.ship.getShipType().identifier + ProtocolMessages.CS + position.ship.GetMarkerIndex() + ProtocolMessages.CS + position.ship.getOrientation() + ProtocolMessages.CS + opponent.getName());
                 		if(this.game.model.checkIfCleanSweep()) {
                 			game.sendToGameClients(ProtocolMessages.WON + ProtocolMessages.CS + this.name);
                 			this.game.model.endGameDueToWin();

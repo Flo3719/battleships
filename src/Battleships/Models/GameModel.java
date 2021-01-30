@@ -145,12 +145,12 @@ public class GameModel {
 			int countOpponent = 0;
 			int countSelf = 0;
 			for (ShipModel sm : GetOpponent().getBoard().ships) {
-				if (sm.shipType.equals(st) && sm.Sunk()) {
+				if (sm.getShipType().equals(st) && sm.Sunk()) {
 					countOpponent++;
 				}
 			}
 			for (ShipModel sm : getCurrentPlayer().getBoard().ships) {
-				if (sm.shipType.equals(st) && sm.Sunk()) {
+				if (sm.getShipType().equals(st) && sm.Sunk()) {
 					countSelf++;
 				}
 			}

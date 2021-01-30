@@ -92,7 +92,7 @@ public class Board {
 	public void placeEast(ShipModel ship, int randomX, int randomY) {
 		for(int i = 0; i < ship.getLength(); i++) {
 			PositionModel pos = positions[randomX + i][randomY];
-			ship.positions.add(pos);
+			ship.addPosition(pos);
 			pos.ship = ship;
 		}
 	}
@@ -110,7 +110,7 @@ public class Board {
 	public void placeWest(ShipModel ship, int randomX, int randomY) {
 		for(int i = 0; i < ship.getLength(); i++) {
 			PositionModel pos = positions[randomX - i][randomY];
-			ship.positions.add(pos);
+			ship.addPosition(pos);
 			pos.ship = ship;
 		}
 	}
@@ -127,7 +127,7 @@ public class Board {
 	public void placeSouth(ShipModel ship, int randomX, int randomY) {
 		for(int i = 0; i < ship.getLength(); i++) {
 			PositionModel pos = positions[randomX][randomY + i];
-			ship.positions.add(pos);
+			ship.addPosition(pos);
 			pos.ship = ship;
 		}
 	}
@@ -144,7 +144,7 @@ public class Board {
 	public void placeNorth(ShipModel ship, int randomX, int randomY) {
 		for(int i = 0; i < ship.getLength(); i++) {
 			PositionModel pos = positions[randomX][randomY - i];
-			ship.positions.add(pos);
+			ship.addPosition(pos);
 			pos.ship = ship;
 		}
 	}
@@ -162,7 +162,7 @@ public class Board {
 		for(int i = 0; i < HEIGHT; i++) {
 			for(int j = 0; j < WIDTH; j++) {
 				if(positions[j][i].ship != null) {
-					result = result + positions[j][i].ship.shipName;
+					result = result + positions[j][i].ship.getShipName();
 				}
 				else {
 					result = result + "0";
