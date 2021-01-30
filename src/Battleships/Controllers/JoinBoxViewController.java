@@ -6,9 +6,13 @@ import Battleships.Models.JoinBoxViewDelegate;
 import Battleships.Models.PlayerModel;
 import Battleships.Models.Exceptions.ServerNotAvailableException;
 import Battleships.Views.JoinBoxView;
+import javafx.application.Platform;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 
 import java.io.IOException;
 import java.net.ProtocolException;
+import java.util.Optional;
 
 public class JoinBoxViewController implements JoinBoxViewDelegate {
 	protected JoinBoxView view;
@@ -18,7 +22,8 @@ public class JoinBoxViewController implements JoinBoxViewDelegate {
 	// Singleton
 	public static JoinBoxViewDelegate sharedInstance = new JoinBoxViewController();
 
-	private JoinBoxViewController() {}
+	private JoinBoxViewController() {
+	}
 
 	@Override
 	public JoinBoxView getView() {
@@ -71,7 +76,7 @@ public class JoinBoxViewController implements JoinBoxViewDelegate {
 		System.out.println(message);
 	}
 
-	public Server getServer(){
+	public Server getServer() {
 		return this.server;
 	}
 }
