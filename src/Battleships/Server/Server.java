@@ -23,9 +23,6 @@ public class Server implements Runnable {
 
 	private GameClientHandler waitingClient;
 
-	/** Next client number, increasing for every new connection */
-	private int next_client_no;
-
 	/** The view of this HotelServer */
 	private JoinBoxViewController view;
 
@@ -80,19 +77,9 @@ public class Server implements Runnable {
 				}
 				// TODO create suitable exception
 			} catch (Exception e) {
-				// If setup() throws an ExitProgram exception,
-				// stop the program.
 				openNewSocket = false;
-//            } catch (IOException e) {
-//                System.out.println("A server IO error occurred: "
-//                        + e.getMessage());
-
-//                if (!view.getBoolean("Do you want to open a new socket?")) {
-//                    openNewSocket = false;
-				// }
 			}
 		}
-		// view.showMessage("See you later!");
 	}
 
 	public GameClientHandler getWaitingClient() {
@@ -145,15 +132,10 @@ public class Server implements Runnable {
 		}
 	}
 
-	// The following Methods might be better placed in the gameClientHandler if
-	// we decide to use it.
-
-	// @Override
 	public String handshakeMessage(String name) {
 		return ProtocolMessages.HELLO + ProtocolMessages.CS + name;
 	}
 
-	// @Override
 	public String handshakeMessage(String name1, String name2) {
 		return ProtocolMessages.HELLO + ProtocolMessages.CS + name1 + " " + name2;
 	}
@@ -178,26 +160,4 @@ public class Server implements Runnable {
 			}
 		}
 	}
-
-	public boolean checkPlayerName(String name) {
-		// TODO implement Requirement S02
-		return true;
-	}
-
-	public void startGame() {
-		// TODO implement requirement S03
-	}
-
-	public void getMove() {
-		// TODO implement requirement S04
-	}
-
-	public void notifyWinner() {
-		// TODO implement requirement S05
-	}
-
-	public void notifyTimesUp() {
-		// TODO implement requirement S06
-	}
-
 }

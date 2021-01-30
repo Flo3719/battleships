@@ -14,8 +14,10 @@ public class GameModel {
 	private static final int MAXIMUM_GAME_TIME = 5 * 60;
 	private boolean timeOver = false;
 	private Timer timer;
+	//TODO make private; create getters/setters as needed
 	public boolean hasWinner = false;
 	public boolean winnerDueToLostConnection = false;
+
 	/**
 	 * The players of the game.
 	 * 
@@ -47,25 +49,7 @@ public class GameModel {
 		players[0] = s0;
 		players[1] = s1;
 		current = 0;
-		// timer = new Timer();
 	}
-
-//    public void askNames(){
-//        try {
-//            boolean sameNames = true;
-//            players[0].sendNameRequest();
-//            while(sameNames){
-//                players[1].sendNameRequest();
-//                if(players[0].getName().equals(players[1].getName())){
-//                    players[1].sendOut(String.valueOf(ProtocolMessages.NAMETAKEN));
-//                }else{
-//                    sameNames = false;
-//                }
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
 	public GameClientHandler getPlayer(int player) {
 		return players[player];
@@ -83,11 +67,6 @@ public class GameModel {
 
 	public void switchCurrent() {
 		this.current = (this.current == 0) ? 1 : 0;
-	}
-
-	public void setBoard() {
-		boards[0] = players[0].getBoard();
-		boards[1] = players[1].getBoard();
 	}
 
 	public int getMaximumGameTime() {

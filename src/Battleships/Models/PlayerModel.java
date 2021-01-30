@@ -20,16 +20,11 @@ public class PlayerModel {
      * @throws PlayerGenerationException if a problem occurs generating the
      * data for this user, mainly the board.
      */
-    public PlayerModel(String name) //throws PlayerGenerationException
+    public PlayerModel(String name)
     {
         this.name = name;
         this.board = new Board();
         this.score = 0;
-        /*try {
-			this.board.generateBoats();
-		} catch (BoatGenerationException e) {
-			throw new PlayerGenerationException(name);
-		}*/
     }
 
     // -- Queries ----------------------------------------------------

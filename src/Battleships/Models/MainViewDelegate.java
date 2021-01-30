@@ -13,10 +13,7 @@ public interface MainViewDelegate {
     public void initialize(MainView view);
     public void handleButtonClick(Event evt) throws OutOfTurnException, IOException;
     public void handleMenuJoinClick();
-    //public void handleJoinClick(Event evt);
-    //public void setPlayField(int index);
     public void addShips(Board board);
     public void handleStartClick(Event evt) throws IOException, ServerNotAvailableException;
 	public void handleGiveUpClick();
-    public void handleComputerInput(String index) throws OutOfTurnException, IOException;
 }

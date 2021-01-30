@@ -178,20 +178,6 @@ public class GameClientHandler implements Runnable {
             	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             	String chatMessage = ProtocolMessages.MSGRECEIVED + ProtocolMessages.CS + message[1] + ProtocolMessages.CS + message[2] + ProtocolMessages.CS + timestamp;
             	this.game.sendToGameClients(chatMessage);
-//            case ProtocolMessages.PRINT:
-//                out.write(server.doPrint());
-//                break;
-//            case ProtocolMessages.ROOM:
-//                out.write(server.doRoom(message[1]));
-//                break;
-//            //case ProtocolMessages.HELP:
-//            //server.
-//            //break;
-//            case ProtocolMessages.EXIT:
-//                //server.
-//                break;
-//            default:
-//                //server.
         }
     }
 
@@ -219,6 +205,8 @@ public class GameClientHandler implements Runnable {
         }
 
     }
+
+    //TODO why this method? never used?
     public void closeConnection() {
     	try {
     		in.close();

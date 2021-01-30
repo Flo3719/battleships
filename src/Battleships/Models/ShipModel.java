@@ -12,6 +12,7 @@ public class ShipModel {
 		this.positions.add(pos);
 	}
 
+	//TODO make private create getters/setters as needed
 	public ArrayList<PositionModel> getPositions(){
 		return this.positions;
 	}

@@ -3,6 +3,7 @@ package Battleships.Models;
 import Battleships.Models.ShipModel;
 
 public class PositionModel {
+	//TODO make private; create getters and setters as needed
 	public int x;
 	public int y;
 	public ShipModel ship;

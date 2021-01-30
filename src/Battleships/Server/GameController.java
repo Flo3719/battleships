@@ -26,8 +26,6 @@ public class GameController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// System.out.println("GAME: game was created with player " +
-		// model.getPlayer(0).getName() + " & " + model.getPlayer(1).getName());
 	}
 
 	public void sendToGameClients(String message) {

@@ -80,7 +80,6 @@ public class Board {
 	}
 	
 	private boolean tryEast(ShipModel ship, int randomX, int randomY) {
-		//Try East
 		for(int i = 0; i < ship.getLength(); i++) {
 			if(!isFreeField(randomX + i, randomY)) {
 				return false;

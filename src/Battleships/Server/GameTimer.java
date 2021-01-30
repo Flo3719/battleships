@@ -25,8 +25,6 @@ public class GameTimer implements Runnable {
 							this.gameController.model.endGameDueToWin();
 						}
 					}
-
-//                System.out.println("TIMER: " + i);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -43,6 +41,5 @@ public class GameTimer implements Runnable {
 
 	public void terminate() {
 		this.running = false;
-		
 	}
 }
