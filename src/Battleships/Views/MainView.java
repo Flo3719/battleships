@@ -165,19 +165,6 @@ public class MainView {
 		});
 
     }
-    public void Alert(String msg) {
-    	Platform.runLater(new Runnable() {
-
-			@Override
-			public void run() {
-		    	javafx.scene.control.Alert a = new javafx.scene.control.Alert(AlertType.INFORMATION);
-		    	a.setContentText(msg);
-		    	a.setHeaderText("This name cannot be taken");
-		    	Optional<ButtonType> result = a.showAndWait();
-			}
-		});
-
-    }
 
     public void setTurn(String side){
         Platform.runLater(new Runnable() {

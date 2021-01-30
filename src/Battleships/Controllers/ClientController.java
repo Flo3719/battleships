@@ -20,40 +20,44 @@ import java.util.concurrent.TimeUnit;
 
 public class ClientController implements Runnable {
 	//Variables
-	//Connection
 	private Socket serverSock;
 	private BufferedReader in;
 	private BufferedWriter out;
-	public int Port;
-	public String ip;
-	//View
 	final MainViewController mainViewController;
-	//Game
+
 	private boolean leader;
 	public boolean myTurn;
 	private Board board;
+
+	private PlayerModel player;
+	public PlayerModel opponent;
+
+	public int Port;
+	public String ip;
+
 	public int timeBeginningTurn;
 	public int timeLeft = 300;
 	public boolean gameTimeOver = false;
-	private final int COMPUTINGBUFFER = 100;
-	//Players
-	private PlayerModel player;
-	public PlayerModel opponent;
+
 	public ComputerPlayer computerPlayer;
 
-	//Methods
+	private final int COMPUTINGBUFFER = 100;
+
+	//Constructor
 	public ClientController(Board board, MainViewController mainViewController) {
 		this.board = board;
 		this.mainViewController = mainViewController;
 		this.myTurn = false;
 
 	}
+	//Getters
 	public MainViewController getMainViewController() {
 		return mainViewController;
 	}
 	public PlayerModel getPlayer(){
 		return this.player;
 	}
+
 	public void setPlayer(PlayerModel player){
 		this.player = player;
 		//TODO add computer tick box in joinBox
@@ -61,11 +65,33 @@ public class ClientController implements Runnable {
 			this.computerPlayer = new ComputerPlayer();
 		}
 	}
+	public void getPlayerNames() throws ServerNotAvailableException, ProtocolException {
+		String response = readLineFromServer();
+		if (response.contains(ProtocolMessages.HELLO) && response.contains(this.player.getName())) {
+			System.out.println("CLIENT: " + response);
+			this.opponent = new PlayerModel(response.split(ProtocolMessages.CS)[2]);
+			MainViewController.sharedInstance.getView().friendNameLabel.setText(response.split(ProtocolMessages.CS)[1]);
+			MainViewController.sharedInstance.getView().enemyNameLabel.setText(response.split(ProtocolMessages.CS)[2]);
+		} else {
+			throw new ProtocolException("CLIENT: server responded with: " + response);
+		}
+	}
+	public ShipType getShipTypeByIdentifier(String identifier) {
+		for (ShipType shipType : ShipType.values()) {
+			if (shipType.identifier.equals(identifier))
+				return shipType;
+		}
+
+		return null;
+	}
+
+	//Methods
 	public void startGame() throws IOException, ServerNotAvailableException {
 		out.write(ProtocolMessages.START);
 		out.newLine();
 		out.flush();
 	}
+
 	public synchronized void sendMessage(String msg) throws ServerNotAvailableException {
 		if (out != null) {
 			try {
@@ -80,6 +106,7 @@ public class ClientController implements Runnable {
 			throw new ServerNotAvailableException("Could not write " + "to server.");
 		}
 	}
+
 	public void createConnection() {
 		clearConnection();
 		while (serverSock == null) {
@@ -99,11 +126,22 @@ public class ClientController implements Runnable {
 			System.out.println("CLIENT: Connected");
 		}
 	}
+
+	//TODO is this used?
+	public boolean isConnected() {
+		if (serverSock != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public void clearConnection() {
 		serverSock = null;
 		in = null;
 		out = null;
 	}
+
 	public String[] doHandshake() throws ServerNotAvailableException, ProtocolException {
 		sendMessage(ProtocolMessages.HELLO + ProtocolMessages.CS + this.player.getName());
 		String response = readLineFromServer();
@@ -118,17 +156,7 @@ public class ClientController implements Runnable {
 				"CLIENT: server responded with 'handshake done with " + response.split(ProtocolMessages.CS)[1] + "'");
 		return response.split(ProtocolMessages.CS);
 	}
-	public void getPlayerNames() throws ServerNotAvailableException, ProtocolException {
-		String response = readLineFromServer();
-		if (response.contains(ProtocolMessages.HELLO) && response.contains(this.player.getName())) {
-			System.out.println("CLIENT: " + response);
-			this.opponent = new PlayerModel(response.split(ProtocolMessages.CS)[2]);
-			MainViewController.sharedInstance.getView().setFriendNameLabel(response.split(ProtocolMessages.CS)[1]);
-			MainViewController.sharedInstance.getView().setEnemyNameLabel(response.split(ProtocolMessages.CS)[2]);
-		} else {
-			throw new ProtocolException("CLIENT: server responded with: " + response);
-		}
-	}
+
 	/**
 	 * Reads and returns one line from the server.
 	 *
@@ -151,6 +179,7 @@ public class ClientController implements Runnable {
 			throw new ServerNotAvailableException("Could not read " + "from server.");
 		}
 	}
+
 	@Override
 	public void run() {
 		createConnection();
@@ -170,14 +199,16 @@ public class ClientController implements Runnable {
 					}
 				});
 				System.out.println("CLIENT " + this.player.getName() + ": PRESS BUTTON TO START GAME");
+				// startGame();
 			} else {
 				// TODO clean this up
 				leader = false;
-				MainViewController.sharedInstance.getView().setFriendNameLabel(handshakeResult[1]);
-				MainViewController.sharedInstance.getView().setEnemyNameLabel(handshakeResult[2]);
+				MainViewController.sharedInstance.getView().friendNameLabel.setText(handshakeResult[1]);
+				MainViewController.sharedInstance.getView().enemyNameLabel.setText(handshakeResult[2]);
 				this.opponent = new PlayerModel(handshakeResult[2]);
 				System.out.println("CLIENT " + this.player.getName() + " got player names");
 				System.out.println("CLIENT " + this.player.getName() + ": WAITING FOR GAME TO START");
+//				waitForStartGame();
 			}
 		} catch (ProtocolException e) {
 			// TODO Auto-generated catch block
@@ -199,14 +230,18 @@ public class ClientController implements Runnable {
 				out.flush();
 				msg = in.readLine();
 			}
+			 //closeConnection();
 		} catch (IOException e) {
-
+			 //closeConnection();
 		}
 	}
 
 	private void handleCommand(String msg) throws IOException {
 		String[] message = msg.split(ProtocolMessages.CS);
 		switch (message[0]) {
+		// case ProtocolMessages.HELLO:
+		// out.write(server.getHello(message[1]));
+		// break;
 		case ProtocolMessages.TIME:
 			this.getMainViewController().view.setTimeLabel(Integer.parseInt(message[1]));
 			this.timeLeft = Integer.parseInt(message[1]);
@@ -299,7 +334,7 @@ public class ClientController implements Runnable {
 			break;
 		case ProtocolMessages.DESTROY:
 			if (myTurn) {
-				ShipType shipType = GetShipTypeByIdentifier(message[1]);
+				ShipType shipType = getShipTypeByIdentifier(message[1]);
 				int orientation = Integer.parseInt(message[3]);
 				int index = Integer.parseInt(message[2]);
 
@@ -319,6 +354,7 @@ public class ClientController implements Runnable {
 				});
 				player.incrementScore(2);
 				if(computerPlayer != null){
+					//String attackLocation = computerPlayer.makeNaiveTurn();
 					String attackLocation = computerPlayer.makeTurn();
 					try {
 						TimeUnit.MILLISECONDS.sleep(COMPUTINGBUFFER);
@@ -340,6 +376,7 @@ public class ClientController implements Runnable {
 				walkOver = true;
 			}
 			this.mainViewController.view.Alert("Winner: "+ message[1], walkOver);
+			//closeConnection();
 			break;
 		case ProtocolMessages.MSGRECEIVED:
 			System.out.println(message[1] + ": " + message[2] + "  (" + message[3] + ")" );
@@ -348,6 +385,7 @@ public class ClientController implements Runnable {
 	}
 	public void displayScoreAfterAttack() {
 		Platform.runLater(new Runnable() {
+
 			@Override
 			public void run() {
 				if (myTurn) {
@@ -364,18 +402,10 @@ public class ClientController implements Runnable {
 	public void Attack(String id) throws IOException {
 		Button button = (Button)this.mainViewController.view.enemyGrid.getChildren().get(Integer.parseInt(id) + 1);
 		button.setOnAction(null);
+		//button.setDisable(true);
 		out.write(ProtocolMessages.ATTACK + ProtocolMessages.CS + id);
 		out.newLine();
 		out.flush();
-	}
-
-	public ShipType GetShipTypeByIdentifier(String identifier) {
-		for (ShipType shipType : ShipType.values()) {
-			if (shipType.identifier.equals(identifier))
-				return shipType;
-		}
-
-		return null;
 	}
 
 	public void sendErrorMessage(String errorMessage) throws IOException {
@@ -384,7 +414,6 @@ public class ClientController implements Runnable {
 		out.flush();
 		
 	}
-	//TODO why this method? never used?
 	public void closeConnection() {
 		System.out.println("Closing the connection...");
 		try {
