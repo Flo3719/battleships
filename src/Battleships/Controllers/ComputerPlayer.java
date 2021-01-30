@@ -1,21 +1,13 @@
 package Battleships.Controllers;
 
-import Battleships.Controllers.ClientController;
-import Battleships.Controllers.MainViewController;
-import Battleships.Models.Board;
-import Battleships.Models.Exceptions.OutOfTurnException;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ComputerPlayer {
-    //MainViewController mainViewController;
     private List<Integer> unhittedFields = new ArrayList<>();
     private List<Integer> hits = new ArrayList<>();
 
     public ComputerPlayer() {
-        //mainViewController = (MainViewController) MainViewController.sharedInstance;
         for(int i = 0; i<150; i++){
             unhittedFields.add(i);
         }
@@ -72,10 +64,9 @@ public class ComputerPlayer {
             unhittedFields.remove(unhittedFields.indexOf(Integer.valueOf((row*15) + col)));
             return String.valueOf((row*15) + col);
         } else {
-        System.out.println("LAST CASE");
-        return makeNaiveTurn();
-        }
-        
+            System.out.println("LAST CASE");
+                return makeNaiveTurn();
+            }
         }
     }
 }

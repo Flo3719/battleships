@@ -3,8 +3,6 @@ package Battleships.Controllers;
 import Battleships.Models.MainViewDelegate;
 
 import java.io.IOException;
-import java.util.Optional;
-import java.util.logging.Handler;
 
 import Battleships.Models.Board;
 import Battleships.Models.PositionModel;
@@ -13,11 +11,8 @@ import Battleships.Models.Exceptions.OutOfTurnException;
 import Battleships.Models.Exceptions.ServerNotAvailableException;
 import Battleships.Views.JoinBoxView;
 import Battleships.Views.MainView;
-import javafx.application.Platform;
 import javafx.event.Event;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Control;
-import javafx.scene.control.Alert.AlertType;
 
 public class MainViewController implements MainViewDelegate {
 	protected MainView view;
@@ -58,11 +53,10 @@ public class MainViewController implements MainViewDelegate {
 		this.addShips(this.board);
 		// Regarding Requirement C02 (launch it on initialization)
 		handleMenuJoinClick();
-		// handleJoinClick(event);
 	}
 
 	@Override
-	public void handleButtonClick(Event evt) throws OutOfTurnException, IOException {
+	public void handleButtonClick(Event evt) throws IOException {
 		if (this.clientController.myTurn) {
 			String id = ((Control) evt.getSource()).getId();
 			System.out.println(id);
@@ -81,7 +75,7 @@ public class MainViewController implements MainViewDelegate {
 	}
 
 	@Override
-	public void handleComputerInput(String index) throws OutOfTurnException, IOException {
+	public void handleComputerInput(String index) throws IOException {
 		if (this.clientController.myTurn) {
 			System.out.println("enemy field attacked");
 			clientController.Attack(index);
@@ -98,18 +92,6 @@ public class MainViewController implements MainViewDelegate {
 	public void handleMenuJoinClick() {
 		this.joinBoxView = new JoinBoxView(this.clientController, this.view);
 		joinBoxView.display(this.board);
-
-//        this.view.setEnemyScoreLabel(2);
-//        this.view.setFriendScoreLabel(3);
-//        this.view.setTimeLabel(1038);
-//        this.view.setFriendNameLabel("Florian");
-//        this.view.setEnemyNameLabel("Koen");
-		try {
-			// this.view.setPlayField('X', "friend", 10);
-			// TODO create custom exception!
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	private int getIndex(int col, int row) {
@@ -148,6 +130,6 @@ public class MainViewController implements MainViewDelegate {
 
 	@Override
 	public void handleGiveUpClick() {
-		
+		System.exit(0);
 	}
 }

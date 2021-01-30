@@ -54,11 +54,9 @@ public class JoinBoxViewController implements JoinBoxViewDelegate {
 		} else {
 			portHost = Integer.parseInt(port);
 		}
-		// ClientController client = new ClientController(board);
 		client.setPlayer(new PlayerModel(name));
 		client.ip = ip;
 		client.Port = portHost;
-		// client.start(name, ip, portHost);
 		Thread thread = new Thread(client);
 		thread.start();
 	}

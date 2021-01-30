@@ -23,7 +23,6 @@ public class ClientController implements Runnable {
 	private BufferedReader in;
 	private BufferedWriter out;
 	final MainViewController mainViewController;
-	// public HotelClientTUI tui;
 
 	private boolean leader;
 	public boolean myTurn;
@@ -43,22 +42,12 @@ public class ClientController implements Runnable {
 
 	private final int COMPUTINGBUFFER = 100;
 
-	/**
-	 * Constructs a new HotelClient. Initialises the view.
-	 * 
-	 * @param board
-	 * @param mainViewController
-	 */
 	public ClientController(Board board, MainViewController mainViewController) {
 		this.board = board;
 		this.mainViewController = mainViewController;
 		this.myTurn = false;
 
 	}
-	// public ClientController(Board board) {
-	// this.board = board;
-	// this.tui = new HotelClientTUI(this);
-	// }
 
 	public MainViewController getMainViewController() {
 		return mainViewController;
@@ -76,33 +65,12 @@ public class ClientController implements Runnable {
 		return this.player;
 	}
 
-	/**
-	 * Starts a new HotelClient by creating a connection, followed by the HELLO
-	 * handshake as defined in the protocol. After a successful connection and
-	 * handshake, the view is started. The view asks for used input and handles all
-	 * further calls to methods of this class.
-	 * 
-	 * When errors occur, or when the user terminates a server connection, the user
-	 * is asked whether a new connection should be made.
-	 * 
-	 * @param portHost
-	 * @param ip
-	 * @param name
-	 */
-
 	public void startGame() throws IOException, ServerNotAvailableException {
 		out.write(ProtocolMessages.START);
 		out.newLine();
 		out.flush();
 	}
 
-	/**
-	 * Sends a message to the connected server, followed by a new line. The stream
-	 * is then flushed.
-	 *
-	 * @param msg the message to write to the OutputStream.
-	 * @throws ServerNotAvailableException if IO errors occur.
-	 */
 	public synchronized void sendMessage(String msg) throws ServerNotAvailableException {
 		if (out != null) {
 			try {
@@ -118,21 +86,6 @@ public class ClientController implements Runnable {
 		}
 	}
 
-	/**
-	 * Creates a connection to the server. Requests the IP and port to connect to at
-	 * the view (TUI).
-	 * 
-	 * The method continues to ask for an IP and port and attempts to connect until
-	 * a connection is established or until the user indicates to exit the program.
-	 * 
-	 * @param portHost
-	 * @param ip
-	 * @param name
-	 * 
-	 * @throws ExitProgram if a connection is not established and the user indicates
-	 *                     to want to exit the program.
-	 * @ensures serverSock contains a valid socket connection to a server
-	 */
 	public void createConnection() {
 		clearConnection();
 		while (serverSock == null) {
@@ -161,19 +114,12 @@ public class ClientController implements Runnable {
 		}
 	}
 
-	/**
-	 * Resets the serverSocket and In- and OutputStreams to null.
-	 * 
-	 * Always make sure to close current connections via shutdown() before calling
-	 * this method!
-	 */
 	public void clearConnection() {
 		serverSock = null;
 		in = null;
 		out = null;
 	}
 
-	// @Override
 	public String[] doHandshake() throws ServerNotAvailableException, ProtocolException {
 		sendMessage(ProtocolMessages.HELLO + ProtocolMessages.CS + this.player.getName());
 		String response = readLineFromServer();
@@ -274,18 +220,14 @@ public class ClientController implements Runnable {
 				out.flush();
 				msg = in.readLine();
 			}
-			 //closeConnection();
 		} catch (IOException e) {
-			 //closeConnection();
+
 		}
 	}
 
 	private void handleCommand(String msg) throws IOException {
 		String[] message = msg.split(ProtocolMessages.CS);
 		switch (message[0]) {
-		// case ProtocolMessages.HELLO:
-		// out.write(server.getHello(message[1]));
-		// break;
 		case ProtocolMessages.TIME:
 			this.getMainViewController().view.setTimeLabel(Integer.parseInt(message[1]));
 			this.timeLeft = Integer.parseInt(message[1]);
@@ -398,7 +340,6 @@ public class ClientController implements Runnable {
 				});
 				player.incrementScore(2);
 				if(computerPlayer != null){
-					//String attackLocation = computerPlayer.makeNaiveTurn();
 					String attackLocation = computerPlayer.makeTurn();
 					try {
 						TimeUnit.MILLISECONDS.sleep(COMPUTINGBUFFER);
@@ -420,7 +361,6 @@ public class ClientController implements Runnable {
 				walkOver = true;
 			}
 			this.mainViewController.view.Alert("Winner: "+ message[1], walkOver);
-			//closeConnection();
 			break;
 		case ProtocolMessages.MSGRECEIVED:
 			System.out.println(message[1] + ": " + message[2] + "  (" + message[3] + ")" );
@@ -429,7 +369,6 @@ public class ClientController implements Runnable {
 	}
 	public void displayScoreAfterAttack() {
 		Platform.runLater(new Runnable() {
-
 			@Override
 			public void run() {
 				if (myTurn) {
@@ -446,7 +385,6 @@ public class ClientController implements Runnable {
 	public void Attack(String id) throws IOException {
 		Button button = (Button)this.mainViewController.view.enemyGrid.getChildren().get(Integer.parseInt(id) + 1);
 		button.setOnAction(null);
-		//button.setDisable(true);
 		out.write(ProtocolMessages.ATTACK + ProtocolMessages.CS + id);
 		out.newLine();
 		out.flush();
