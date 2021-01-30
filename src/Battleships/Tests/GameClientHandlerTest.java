@@ -1,19 +1,16 @@
 package Battleships.Tests;
+import java.io.IOException;
 import java.net.Socket;
 
+import Battleships.Controllers.*;
+import Battleships.Models.ProtocolMessages;
 import org.junit.jupiter.api.*;
 
-import Battleships.Controllers.ClientController;
-import Battleships.Controllers.GameClientHandler;
-import Battleships.Controllers.JoinBoxViewController;
-import Battleships.Controllers.MainViewController;
-import Battleships.Controllers.Server;
 import Battleships.Models.Board;
 import Battleships.Views.JoinBoxView;
 import Battleships.Views.MainView;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GameClientHandlerTest {
 
@@ -30,6 +27,8 @@ public class GameClientHandlerTest {
 		Socket socket = new Socket();
 		Server server = new Server(joinBoxViewController);
 		gch = new GameClientHandler(socket, server, "localhost");
+		gch.setGame(new GameController(server, new GameClientHandler(new Socket(), server , "s0"), new GameClientHandler(new Socket(), server , "s1")));
+		gch.getGame().startGame();
 	}
 	
 	@Test
@@ -39,5 +38,15 @@ public class GameClientHandlerTest {
 		assertEquals(testBoard, board.toString());
 	}
 
-
+	@Test void testHandleCommand(){
+		assertFalse(gch.getBoard() != null);
+		String testBoard = "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,";
+		try {
+			gch.handleCommand(ProtocolMessages.BOARD + testBoard);
+			assertTrue(gch.getBoard().toString() == testBoard);
+		} catch (IOException e) {
+			fail();
+			e.printStackTrace();
+		}
+	}
 }

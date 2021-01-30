@@ -126,7 +126,7 @@ public class GameClientHandler implements Runnable {
 		leader = value;
 	}
 
-	private void handleCommand(String msg) throws IOException {
+	public void handleCommand(String msg) throws IOException {
         String[] message = msg.split(ProtocolMessages.CS);
         switch(message[0]){
             //case ProtocolMessages.HELLO:
