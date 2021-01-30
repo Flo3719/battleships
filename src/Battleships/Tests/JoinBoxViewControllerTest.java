@@ -3,7 +3,6 @@ package Battleships.Tests;
 import Battleships.Controllers.ClientController;
 import Battleships.Controllers.JoinBoxViewController;
 import Battleships.Controllers.MainViewController;
-import Battleships.Controllers.Server;
 import Battleships.Models.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

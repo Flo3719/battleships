@@ -1,6 +1,6 @@
 package Battleships.Models;
 
-import Battleships.Controllers.GameClientHandler;
+import Battleships.Server.GameClientHandler;
 
 import java.io.IOException;
 import java.util.Timer;

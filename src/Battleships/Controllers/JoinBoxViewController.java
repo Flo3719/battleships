@@ -1,18 +1,10 @@
 package Battleships.Controllers;
 
-import Battleships.ComputerPlayer;
 import Battleships.Models.Board;
 import Battleships.Models.JoinBoxViewDelegate;
 import Battleships.Models.PlayerModel;
-import Battleships.Models.Exceptions.ServerNotAvailableException;
+import Battleships.Server.Server;
 import Battleships.Views.JoinBoxView;
-import javafx.application.Platform;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Alert.AlertType;
-
-import java.io.IOException;
-import java.net.ProtocolException;
-import java.util.Optional;
 
 public class JoinBoxViewController implements JoinBoxViewDelegate {
 	protected JoinBoxView view;

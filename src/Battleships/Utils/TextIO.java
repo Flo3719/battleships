@@ -1,4 +1,4 @@
-package Battleships;
+package Battleships.Utils;
 
 
 import javax.swing.*;

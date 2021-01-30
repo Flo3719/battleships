@@ -1,8 +1,6 @@
-package Battleships.Controllers;
+package Battleships.Server;
 
-import Battleships.Controllers.GameClientHandler;
 import Battleships.Controllers.JoinBoxViewController;
-import Battleships.Models.GameModel;
 import Battleships.Models.ProtocolMessages;
 
 import java.io.*;

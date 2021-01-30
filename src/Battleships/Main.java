@@ -13,8 +13,8 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("Views/battleships_no_buttons.fxml"));
         System.out.println();
         primaryStage.setTitle("Battleships");
-        Scene scene = new Scene(root, 1182, 487+29);
-        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        Scene scene = new Scene(root, 1182, 516);
+        scene.getStylesheets().add(getClass().getResource("Views/style.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
     }

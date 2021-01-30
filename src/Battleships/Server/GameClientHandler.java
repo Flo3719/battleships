@@ -1,4 +1,4 @@
-package Battleships.Controllers;
+package Battleships.Server;
 
 import Battleships.Models.Board;
 import Battleships.Models.PositionModel;

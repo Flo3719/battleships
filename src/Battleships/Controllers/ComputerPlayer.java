@@ -1,4 +1,4 @@
-package Battleships;
+package Battleships.Controllers;
 
 import Battleships.Controllers.ClientController;
 import Battleships.Controllers.MainViewController;

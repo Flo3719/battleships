@@ -1,6 +1,5 @@
-package Battleships.Controllers;
+package Battleships.Server;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import Battleships.Models.ProtocolMessages;

@@ -1,14 +1,9 @@
 package Battleships.Tests;
 
-import Battleships.Controllers.GameClientHandler;
 import Battleships.Controllers.MainViewController;
-import Battleships.Models.ShipModel;
 import Battleships.Views.MainView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,6 +1,5 @@
 package Battleships.Controllers;
 
-import Battleships.ComputerPlayer;
 import Battleships.Models.Board;
 import Battleships.Models.PlayerModel;
 import Battleships.Models.ProtocolMessages;
@@ -8,7 +7,6 @@ import Battleships.Models.ShipType;
 import Battleships.Models.Exceptions.ServerNotAvailableException;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
-import org.junit.runner.Computer;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
