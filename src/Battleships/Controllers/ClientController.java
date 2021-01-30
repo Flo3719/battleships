@@ -426,6 +426,7 @@ public class ClientController implements Runnable {
 			break;
 		case ProtocolMessages.MSGRECEIVED:
 			System.out.println(message[1] + ": " + message[2] + "  (" + message[3] + ")" );
+			break;
 		}
 	}
 	public void displayScoreAfterAttack() {

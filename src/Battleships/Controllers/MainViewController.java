@@ -3,6 +3,7 @@ package Battleships.Controllers;
 import Battleships.Models.MainViewDelegate;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.logging.Handler;
 
 import Battleships.Models.Board;
@@ -12,8 +13,11 @@ import Battleships.Models.Exceptions.OutOfTurnException;
 import Battleships.Models.Exceptions.ServerNotAvailableException;
 import Battleships.Views.JoinBoxView;
 import Battleships.Views.MainView;
+import javafx.application.Platform;
 import javafx.event.Event;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Control;
+import javafx.scene.control.Alert.AlertType;
 
 public class MainViewController implements MainViewDelegate {
 	protected MainView view;

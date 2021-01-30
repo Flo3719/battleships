@@ -22,6 +22,7 @@ public class ComputerPlayer {
     }
     public String makeNaiveTurn() {
         int index = (int)(Math.random()*unhittedFields.size());
+        System.out.println(index);
         String hit = String.valueOf(unhittedFields.get(index));
         unhittedFields.remove(index);
         //return "15";
@@ -29,6 +30,7 @@ public class ComputerPlayer {
     }
     public void setLastHit(String index){
         this.hits.add(Integer.parseInt(index));
+        System.out.println("size of the hitslist: " + hits.size());
     }
 
     public boolean containsValue(Integer integer){
@@ -41,35 +43,40 @@ public class ComputerPlayer {
     }
 
     public String makeTurn(){
+    	System.out.println(unhittedFields.size());
         if(hits.isEmpty()){
             return makeNaiveTurn();
         }
+        else {
         int someHit = hits.get((int)(Math.random()*hits.size()));
-        int row = someHit/10;
-        int col = someHit%10;
+        int row = someHit/15;
+        int col = someHit%15;
 
-        if((row+1)<15 && containsValue(Integer.valueOf((row+1)*col))){
+        if((row+1)<15 && containsValue(Integer.valueOf((row*15) + col))){
             System.out.println("FIRST CASE");
-            unhittedFields.remove(unhittedFields.indexOf(Integer.valueOf((row+1)*col)));
-            return String.valueOf((row+1)*col);
+            unhittedFields.remove(unhittedFields.indexOf(Integer.valueOf((row*15) + col)));
+            return String.valueOf((row*15) + col);
         }
-        if((row-1)>0 && containsValue(Integer.valueOf((row-1)*col))){
+        if((row-1)>0 && containsValue(Integer.valueOf((row*15) + col))){
             System.out.println("SECOND CASE");
-            unhittedFields.remove(unhittedFields.indexOf(Integer.valueOf((row-1)*col)));
-            return String.valueOf((row+1)*col);
+            unhittedFields.remove(unhittedFields.indexOf(Integer.valueOf((row*15) + col)));
+            return String.valueOf((row*15) + col);
         }
-        if((col-1)>0 && containsValue(Integer.valueOf((col-1)*row))){
+        if((col-1)>0 && containsValue(Integer.valueOf((row*15) + col))){
             System.out.println("THIRD CASE");
-            unhittedFields.remove(unhittedFields.indexOf(Integer.valueOf((col-1)*row)));
-            return String.valueOf((col+1)*row);
+            unhittedFields.remove(unhittedFields.indexOf(Integer.valueOf((row*15) + col)));
+            return String.valueOf((row*15) + col);
         }
-        if((col+1)<10 && containsValue(Integer.valueOf((col+1)*row))){
+        if((col+1)<10 && containsValue(Integer.valueOf((row*15) + col))){
             System.out.println("FOURTH CASE");
-            unhittedFields.remove(unhittedFields.indexOf(Integer.valueOf((col+1)*row)));
-            return String.valueOf((col+1)*row);
-        }
+            unhittedFields.remove(unhittedFields.indexOf(Integer.valueOf((row*15) + col)));
+            return String.valueOf((row*15) + col);
+        } else {
         System.out.println("LAST CASE");
         return makeNaiveTurn();
+        }
+        
+        }
     }
 }
 

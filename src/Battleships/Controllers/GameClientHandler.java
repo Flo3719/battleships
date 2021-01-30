@@ -219,6 +219,16 @@ public class GameClientHandler implements Runnable {
         }
 
     }
+    public void closeConnection() {
+    	try {
+    		in.close();
+    		out.close();
+    		sock.close();
+    	} catch (IOException e) {
+    		System.out.println("System closed");
+    	}
+    	
+    }
 
 	private void handleErrorCommand(String ErrorMessage) throws IOException {
 		switch(ErrorMessage) {
