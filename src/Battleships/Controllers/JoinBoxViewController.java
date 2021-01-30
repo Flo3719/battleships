@@ -18,11 +18,6 @@ public class JoinBoxViewController implements JoinBoxViewDelegate {
 	}
 
 	@Override
-	public JoinBoxView getView() {
-		return this.view;
-	}
-
-	@Override
 	public void setView(JoinBoxView view) {
 		this.view = view;
 	}

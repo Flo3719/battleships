@@ -15,35 +15,41 @@ import javafx.event.Event;
 import javafx.scene.control.Control;
 
 public class MainViewController implements MainViewDelegate {
+	//Variables
 	protected MainView view;
 	private Board board;
 	private ClientController clientController;
 	public JoinBoxView joinBoxView;
 
-	// Singleton
+	//Singleton
 	public static MainViewDelegate sharedInstance = new MainViewController();
 
+	//Constructor
 	private MainViewController() {
 		this.board = new Board();
 		this.clientController = new ClientController(board, this);
 	}
 
-	// To Manipulate the game implement "MainViewController.sharedInstance" for
-	// example by creating an instance variable
-	// of type "MainViewDelegate" called "controller" and assign it to it. (For
-	// example like in "MainView.java")
-	// To make manipulations that directly involve the view, use the .view attribute
-	// of the sharedInstance.
+/*	 To Manipulate the game implement "MainViewController.sharedInstance" for
+	 example by creating an instance variable
+	 of type "MainViewDelegate" called "controller" and assign it to it. (For
+	 example like in "MainView.java")
+	 To make manipulations that directly involve the view, use the .view attribute
+	 of the sharedInstance.*/
 
+	//Getters
 	@Override
 	public MainView getView() {
 		return this.view;
 	}
-
+	private int getIndex(int col, int row) {
+		return row * 15 + col;
+	}
 	public Board getBoard(){
 		return this.board;
 	}
 
+	//Methods
 	@Override
 	public void initialize(MainView view) {
 		this.view = view;
@@ -75,16 +81,6 @@ public class MainViewController implements MainViewDelegate {
 	}
 
 	@Override
-	public void handleComputerInput(String index) throws IOException {
-		if (this.clientController.myTurn) {
-			System.out.println("enemy field attacked");
-			clientController.Attack(index);
-		} else {
-			System.out.println(ProtocolMessages.OUT_OF_TURN);
-		}
-	}
-
-	@Override
 	public void handleStartClick(Event evt) throws IOException, ServerNotAvailableException {
 		this.clientController.startGame();
 	}
@@ -92,10 +88,6 @@ public class MainViewController implements MainViewDelegate {
 	public void handleMenuJoinClick() {
 		this.joinBoxView = new JoinBoxView(this.clientController, this.view);
 		joinBoxView.display(this.board);
-	}
-
-	private int getIndex(int col, int row) {
-		return row * 15 + col;
 	}
 
 	public void addShips(Board board) {
@@ -130,6 +122,7 @@ public class MainViewController implements MainViewDelegate {
 
 	@Override
 	public void handleGiveUpClick() {
+		clientController.closeConnection();
 		System.exit(0);
 	}
 }

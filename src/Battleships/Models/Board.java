@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Board {
-
+	//Finals
 	public static final int WIDTH = 15;
 	public static final int HEIGHT = 10;
-	
+	//Variables
 	public ArrayList<ShipModel> ships = new ArrayList<>();
 	public PositionModel[][] positions = new PositionModel[WIDTH][HEIGHT];
-	
+	//Constructor
 	public Board() {
 		for(int x = 0; x < WIDTH; x++) {
 			for(int y = 0; y < HEIGHT; y++) {
@@ -19,6 +19,17 @@ public class Board {
 		}
 		addShips();
 	}
+	//Getters
+	public int getY(int index) {
+		int y = index / 15;
+		return y;
+	}
+
+	public int getX(int index) {
+		int rest = index % 15;
+		return rest;
+	}
+	//Methods
 	public void addShips() {
 		for(int i = 0; i<2; i++) {
 			ships.add(new ShipModel(ShipType.CARRIER, i));
@@ -146,15 +157,6 @@ public class Board {
 			ship.addPosition(pos);
 			pos.ship = ship;
 		}
-	}
-	public int getY(int index) {
-		int y = index / 15;
-		return y;
-	}
-	
-	public int getX(int index) {
-		int rest = index % 15;
-		return rest;
 	}
 	public String toString() {
 		String result = "";

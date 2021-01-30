@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class GameClientHandler implements Runnable {
+	//Variables
 	/** The socket and In- and OutputStreams */
 	private BufferedReader in;
 	private BufferedWriter out;
@@ -35,6 +36,32 @@ public class GameClientHandler implements Runnable {
 
 	private GameController game;
 
+	//Getters
+	public String getName() {
+		return this.name;
+	}
+	public Board getBoard() {
+		return this.board;
+	}
+	public void setScore(int score) {
+		this.score = score;
+	}
+	public int getScore() {
+		return this.score;
+	}
+	public GameController getGame() {
+		return this.game;
+	}
+
+	//Setters
+	public void setGame(GameController game) {
+		this.game = game;
+	}
+	public void setLeader(boolean value) {
+		leader = value;
+	}
+
+	//Methods
 	@Override
 	public void run() {
 		String msg;
@@ -53,23 +80,6 @@ public class GameClientHandler implements Runnable {
 			}
 		}
 	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public Board getBoard() {
-		return this.board;
-	}
-
-	public void setScore(int score) {
-		this.score = score;
-	}
-
-	public int getScore() {
-		return this.score;
-	}
-
 	public GameClientHandler(Socket sock, Server server, String name) {
 		try {
 			in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
@@ -81,21 +91,11 @@ public class GameClientHandler implements Runnable {
 			shutdown();
 		}
 	}
-
-	public void setGame(GameController game) {
-		this.game = game;
-	}
-
-	public GameController getGame() {
-		return this.game;
-	}
-
 	public void sendOut(String message) throws IOException {
 		out.write(message);
 		out.newLine();
 		out.flush();
 	}
-
 	public Board toBoard(String stringBoard) {
 		Board resultBoard = new Board();
 		//resultBoard.addShips();
@@ -121,28 +121,19 @@ public class GameClientHandler implements Runnable {
 		}
 		return resultBoard;
 	}
-
-	public void setLeader(boolean value) {
-		leader = value;
-	}
-
 	public void handleCommand(String msg) throws IOException {
         String[] message = msg.split(ProtocolMessages.CS);
         switch(message[0]){
-            //case ProtocolMessages.HELLO:
-            //    out.write(server.getHello(message[1]));
-            //    break;
             case ProtocolMessages.BOARD:
             	  this.board = toBoard(message[2]);
             	  break;
             case ProtocolMessages.START:
 				server.sendStart(this.game);
-				//while(!(game.model.players[1].board != null && game.model.players[0].board != null)){ }
 				this.game.startGame();
                 break;
             case ProtocolMessages.ATTACK:
             	int index =Integer.parseInt(message[1]);
-                GameClientHandler opponent = this.game.model.GetOpponent();
+                GameClientHandler opponent = this.game.model.getOpponent();
                 Board opBoard = opponent.board;
                 PositionModel position = opBoard.positions[opBoard.getX(index)][opBoard.getY(index)];
                 position.hasBeenGuessed = true; 
@@ -157,7 +148,7 @@ public class GameClientHandler implements Runnable {
                 	if(position.ship.Sunk())
                 	{
                 		this.score = this.score + DESTROY_SCORE;
-                		game.sendToGameClients(ProtocolMessages.DESTROY + ProtocolMessages.CS + position.ship.getShipType().identifier + ProtocolMessages.CS + position.ship.GetMarkerIndex() + ProtocolMessages.CS + position.ship.getOrientation() + ProtocolMessages.CS + opponent.getName());
+                		game.sendToGameClients(ProtocolMessages.DESTROY + ProtocolMessages.CS + position.ship.getShipType().identifier + ProtocolMessages.CS + position.ship.getMarkerIndex() + ProtocolMessages.CS + position.ship.getOrientation() + ProtocolMessages.CS + opponent.getName());
                 		if(this.game.model.checkIfCleanSweep()) {
                 			game.sendToGameClients(ProtocolMessages.WON + ProtocolMessages.CS + this.name);
                 			this.game.model.endGameDueToWin();
@@ -168,7 +159,6 @@ public class GameClientHandler implements Runnable {
                 		this.score = this.score + HIT_SCORE;
                     	game.sendToGameClients(ProtocolMessages.HIT + ProtocolMessages.CS + index + ProtocolMessages.CS + opponent.getName());
                 	}
-                	
                 }
                 break;
             case ProtocolMessages.ERROR:
@@ -180,7 +170,6 @@ public class GameClientHandler implements Runnable {
             	this.game.sendToGameClients(chatMessage);
         }
     }
-
     public void shutdown() {
         System.out.println("> [" + name + "] Shutting down.");
         this.game.getTimer().terminate();
@@ -203,9 +192,7 @@ public class GameClientHandler implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-
     //TODO why this method? never used?
     public void closeConnection() {
     	try {
@@ -217,7 +204,6 @@ public class GameClientHandler implements Runnable {
     	}
     	
     }
-
 	private void handleErrorCommand(String ErrorMessage) throws IOException {
 		switch(ErrorMessage) {
 		case "InvalidIndex":
@@ -228,7 +214,5 @@ public class GameClientHandler implements Runnable {
         	server.sendTurnIndicator(game);
         	break;
 		}
-
-		
 	}
 }

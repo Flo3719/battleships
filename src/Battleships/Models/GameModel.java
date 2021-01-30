@@ -3,40 +3,35 @@ package Battleships.Models;
 import Battleships.Server.GameClientHandler;
 
 import java.io.IOException;
-import java.util.Timer;
 
 public class GameModel {
-
+	//Variables
 	public static final int NUMBER_PLAYERS = 2;
-	/**
-	 * The maximum game time in seconds. The maximum game time is 5 minutes.
-	 */
 	private static final int MAXIMUM_GAME_TIME = 5 * 60;
-	private boolean timeOver = false;
-	private Timer timer;
 	//TODO make private; create getters/setters as needed
 	public boolean hasWinner = false;
 	public boolean winnerDueToLostConnection = false;
-
-	/**
-	 * The players of the game.
-	 * 
-	 * @invariant the length of the array equals NUMBER_PLAYERS
-	 * @invariant all array items are never null
-	 */
 	public GameClientHandler[] players;
-
-	private Board[] boards;
-
-	/**
-	 * Index of the current player.
-	 * 
-	 * @invariant the index is always between 0 and {@link #NUMBER_PLAYERS}
-	 */
 	public int current;
 
-	// -- Constructors -----------------------------------------------
+	//Getters
+	public GameClientHandler getPlayer(int player) {
+		return players[player];
+	}
+	public GameClientHandler getOpponent() {
+		if (current == 0)
+			return getPlayer(1);
+		else
+			return getPlayer(0);
+	}
+	public GameClientHandler getCurrentPlayer() {
+		return this.players[this.current];
+	}
+	public int getMaximumGameTime() {
+		return MAXIMUM_GAME_TIME;
+	}
 
+	//Constructors
 	/**
 	 * Creates a new Game object.
 	 * 
@@ -51,30 +46,13 @@ public class GameModel {
 		current = 0;
 	}
 
-	public GameClientHandler getPlayer(int player) {
-		return players[player];
-	}
-
-	public GameClientHandler GetOpponent() {
-		if (current == 0)
-			return getPlayer(1);
-		else
-			return getPlayer(0);
-	}
-	public GameClientHandler getCurrentPlayer() {
-		return this.players[this.current];
-	}
-
+	//Methods
 	public void switchCurrent() {
 		this.current = (this.current == 0) ? 1 : 0;
 	}
-
-	public int getMaximumGameTime() {
-		return MAXIMUM_GAME_TIME;
-	}
 	public boolean checkIfCleanSweep() {
 		boolean won = true;
-		for (ShipModel sh : GetOpponent().getBoard().ships) {
+		for (ShipModel sh : getOpponent().getBoard().ships) {
 			if (!sh.Sunk()) {
 				won = false;
 			}
@@ -84,7 +62,6 @@ public class GameModel {
 		}
 		return won;
 	}
-
 	public GameClientHandler checkIfWonOnScore() {
 		this.hasWinner = true;
 		if (players[0].getScore() > players[1].getScore()) {
@@ -96,7 +73,6 @@ public class GameModel {
 			return CheckWinnerWhenSamePoints();
 		}
 	}
-
 	public GameClientHandler CheckWinnerWhenSamePoints() {
 		int sunkByPlayer1 = 0;
 		int sunkByPlayer0 = 0;
@@ -118,12 +94,11 @@ public class GameModel {
 			return checkWinnerWhenSameAmountBoatsDestroyed();
 		}
 	}
-
 	private GameClientHandler checkWinnerWhenSameAmountBoatsDestroyed() {
 		for (ShipType st : ShipType.values()) {
 			int countOpponent = 0;
 			int countSelf = 0;
-			for (ShipModel sm : GetOpponent().getBoard().ships) {
+			for (ShipModel sm : getOpponent().getBoard().ships) {
 				if (sm.getShipType().equals(st) && sm.Sunk()) {
 					countOpponent++;
 				}
@@ -134,7 +109,7 @@ public class GameModel {
 				}
 			}
 			if (countSelf < countOpponent) {
-				return this.GetOpponent();
+				return this.getOpponent();
 			} else if (countSelf > countOpponent) {
 				return getCurrentPlayer();
 			}
@@ -150,11 +125,9 @@ public class GameModel {
 			e.printStackTrace();
 		}
 	}
-	
 	public void endGameDueToWin() {
     	this.hasWinner = true;
     	this.getPlayer(0).shutdown();
     	this.getPlayer(1).shutdown();
 	}
-
 }

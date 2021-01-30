@@ -1,6 +1,7 @@
 package Battleships.Models;
 
 public enum ShipType {
+	//Variables
 	PATROL_BOAT(ProtocolMessages.PATROL, 1, "-fx-background-color: grey;"),
 	SUPER_PATROL(ProtocolMessages.SUPERPATROL, 2, "-fx-background-color: green;"),
 	DESTROYER(ProtocolMessages.DESTROYER, 3, "-fx-background-color: red;"),
@@ -10,12 +11,12 @@ public enum ShipType {
 	public final String identifier;
 	public final int length;
 	public final String color;
-	
+
+	//Constructor
 	private ShipType(String identifier, int length, String color) {
 		this.identifier = identifier;
 		this.length = length;
 		this.color = color;
-		
 	}
 	
 	

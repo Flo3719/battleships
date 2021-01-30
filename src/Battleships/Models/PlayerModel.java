@@ -3,14 +3,12 @@ package Battleships.Models;
 import Battleships.Models.Board;
 
 public class PlayerModel {
-	// -- Instance variables -----------------------------------------
-
+	//Variables
     private String name;
     private Board board;
     private int score;
 
-    // -- Constructors -----------------------------------------------
-
+    //Constructors
     /**
      * Creates a new Player object.
      * @param name the name of this player
@@ -27,8 +25,7 @@ public class PlayerModel {
         this.score = 0;
     }
 
-    // -- Queries ----------------------------------------------------
-
+    //Getters
     /**
      * Returns the name of the player.
      */
@@ -49,6 +46,8 @@ public class PlayerModel {
     public int getScore() {
     	return score;
     }
+
+    //Methods
     public void incrementScore(int score) {
     	this.score = this.score + score;
     }

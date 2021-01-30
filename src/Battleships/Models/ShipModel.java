@@ -3,33 +3,23 @@ package Battleships.Models;
 import java.util.ArrayList;
 
 public class ShipModel {
-
+	//Variables
 	private ShipType shipType;
 	private ArrayList<PositionModel> positions = new ArrayList<>();
 	private String shipName;
 
-	public void addPosition(PositionModel pos){
-		this.positions.add(pos);
-	}
 
-	//TODO make private create getters/setters as needed
+
+	//Getters
 	public ArrayList<PositionModel> getPositions(){
 		return this.positions;
 	}
-
 	public String getShipName(){
 		return this.shipName;
 	}
-
 	public ShipType getShipType(){
 		return this.shipType;
 	}
-	
-	public ShipModel(ShipType shipType, int shipNumber) {
-		this.shipType = shipType;
-		this.shipName = shipType.identifier + shipNumber;
-	}
-	
 	public int getLength() {
 		return shipType.length;
 	}
@@ -46,11 +36,9 @@ public class ShipModel {
 			}
 		}
 	}
-	
-	public int GetMarkerIndex()
+	public int getMarkerIndex()
 	{
 		PositionModel best = this.positions.get(0);
-		
 		if(getOrientation() == 0)
 		{
 			for(PositionModel pos : positions) {
@@ -65,16 +53,24 @@ public class ShipModel {
 					best =  pos;
 			}
 		}
-			
-		return best.index(); 
+		return best.index();
 	}
-	
+
+	//Constructor
+	public ShipModel(ShipType shipType, int shipNumber) {
+		this.shipType = shipType;
+		this.shipName = shipType.identifier + shipNumber;
+	}
+
+	//Methods
+	public void addPosition(PositionModel pos){
+		this.positions.add(pos);
+	}
 	public boolean Sunk() {
 		for(PositionModel pos : positions) {
 			if(!pos.hasBeenGuessed)
 				return false;
 		}
 		return true;
-		
 	}
 }

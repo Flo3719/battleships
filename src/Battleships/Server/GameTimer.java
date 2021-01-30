@@ -5,11 +5,20 @@ import java.util.concurrent.TimeUnit;
 import Battleships.Models.ProtocolMessages;
 
 public class GameTimer implements Runnable {
+	//Variables
 	private volatile boolean running = true;
 	private int gameTime;
 	private Server server;
 	private GameController gameController;
 
+	//Constructor
+	public GameTimer(Server server, int gameTime, GameController gameController) {
+		this.gameTime = gameTime;
+		this.server = server;
+		this.gameController = gameController;
+	}
+
+	//Methods
 	@Override
 	public void run() {
 		while (running) {
@@ -32,13 +41,6 @@ public class GameTimer implements Runnable {
 			}
 		}
 	}
-
-	public GameTimer(Server server, int gameTime, GameController gameController) {
-		this.gameTime = gameTime;
-		this.server = server;
-		this.gameController = gameController;
-	}
-
 	public void terminate() {
 		this.running = false;
 	}

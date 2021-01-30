@@ -11,25 +11,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Server implements Runnable {
-
-	/** The ServerSocket of this HotelServer */
+	//Variables
+	//Connection
 	private ServerSocket ssock;
-
 	private BufferedReader in;
 	private BufferedWriter out;
 
-	/** List of HotelClientHandlers, one for each connected client */
+	//Clients
 	private List<GameClientHandler> clients;
-
 	private GameClientHandler waitingClient;
 
-	/** The view of this HotelServer */
+	//View
 	private JoinBoxViewController view;
 
+	//Getters
+	public List<GameClientHandler> getClients() {
+		return clients;
+	}
+
+	//Constructor
 	public Server(JoinBoxViewController view) {
 		this.view = view;
 	}
 
+	//Methods
 	@Override
 	public void run() {
 		boolean openNewSocket = true;
@@ -81,11 +86,6 @@ public class Server implements Runnable {
 			}
 		}
 	}
-
-	public GameClientHandler getWaitingClient() {
-		return waitingClient;
-	}
-
 	public void setup(int port) {
 		ssock = null;
 		while (ssock == null) {
@@ -99,7 +99,6 @@ public class Server implements Runnable {
 			}
 		}
 	}
-
 	public void handshakeToAll(String message) {
 		for (GameClientHandler gch : clients) {
 			try {
@@ -109,18 +108,15 @@ public class Server implements Runnable {
 			}
 		}
 	}
-
 	public void sendTimeUpdate(int seconds, GameController gameController) {
 		String message = ProtocolMessages.TIME + ProtocolMessages.CS + seconds;
 		SendTogameClients(message, gameController);
 	}
-
 	public void sendTurnIndicator(GameController game) throws IOException {
 		String message = ProtocolMessages.TURN + ProtocolMessages.CS
 				+ game.model.getPlayer(game.model.current).getName();
 		SendTogameClients(message, game);
 	}
-
 	public void SendTogameClients(String msg, GameController gameController) {
 		for (GameClientHandler gch : gameController.model.players) {
 			try {
@@ -128,18 +124,14 @@ public class Server implements Runnable {
 			} catch (IOException e) {
 				System.out.println("Could not send it...");
 			}
-
 		}
 	}
-
 	public String handshakeMessage(String name) {
 		return ProtocolMessages.HELLO + ProtocolMessages.CS + name;
 	}
-
 	public String handshakeMessage(String name1, String name2) {
 		return ProtocolMessages.HELLO + ProtocolMessages.CS + name1 + " " + name2;
 	}
-
 	public boolean nameAvailable(String name) {
 		for (GameClientHandler gch : clients) {
 			if (gch.getName().equals(name)) {
@@ -148,11 +140,6 @@ public class Server implements Runnable {
 		}
 		return true;
 	}
-
-	public List<GameClientHandler> getClients() {
-		return clients;
-	}
-
 	public void sendStart(GameController game) throws IOException {
 		for (GameClientHandler gch : clients) {
 			if (gch.getGame().equals(game)) {

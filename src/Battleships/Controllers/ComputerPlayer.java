@@ -6,7 +6,12 @@ import java.util.List;
 public class ComputerPlayer {
     private List<Integer> unhittedFields = new ArrayList<>();
     private List<Integer> hits = new ArrayList<>();
-
+    //setters
+    public void setLastHit(String index){
+        this.hits.add(Integer.parseInt(index));
+        System.out.println("size of the hitslist: " + hits.size());
+    }
+    //methods
     public ComputerPlayer() {
         for(int i = 0; i<150; i++){
             unhittedFields.add(i);
@@ -20,10 +25,7 @@ public class ComputerPlayer {
         //return "15";
         return hit;
     }
-    public void setLastHit(String index){
-        this.hits.add(Integer.parseInt(index));
-        System.out.println("size of the hitslist: " + hits.size());
-    }
+
 
     public boolean containsValue(Integer integer){
         for(Integer iterator : unhittedFields){

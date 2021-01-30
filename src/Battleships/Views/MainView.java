@@ -19,6 +19,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 
 public class MainView {
+    //Variables
     public GridPane enemyGrid;
     public GridPane friendGrid;
     public Label friendNameLabel;
@@ -38,7 +39,52 @@ public class MainView {
     public MenuItem startMenuItem;
     public MenuItem giveUpMenuItem;
 
+    //Getters
+    public int getRow(int index){
+        return index/15 ;
+    }
+    public int getColumn(int index){
+        return (index%15);
+    }
 
+    //Setters
+    public void setFriendScoreLabel(int points){
+        friendScoreLabel.setText(Integer.toString(points) + " Points");
+    }
+    public void setEnemyScoreLabel(int points){
+        enemyScoreLabel.setText(Integer.toString(points) + " Points");
+    }
+    public void setTimeLabel(int seconds){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                int onlyMinutes = seconds/60;
+                int onlySeconds = seconds%60;
+                String minutesFormatted = String.format("%02d", onlyMinutes);
+                String secondsFormatted = String.format("%02d", onlySeconds);
+                timeLabel.setText(minutesFormatted + ":" + secondsFormatted);
+            }
+        });
+    }
+    public void setFriendNameLabel(String name){
+        friendNameLabel.setText(name + "'s Field");
+    }
+    public void setEnemyNameLabel(String name){
+        enemyNameLabel.setText(name + "'s Field");
+    }
+    public void setPlayField(String indicator, String side, int index, String color){
+        if(side.equals("friend")){
+            Button button = (Button)friendGrid.getChildren().get(index+1);
+            button.setText(indicator.toString());
+            button.setStyle(color);
+        }else if(side.equals("enemy")){
+            Button button = (Button)enemyGrid.getChildren().get(index+1);
+            button.setText(indicator);
+            button.setStyle(color);
+        }
+    }
+
+    //Methods
     @FXML
     public void initialize(){
         this.controller = MainViewController.sharedInstance;
@@ -63,48 +109,6 @@ public class MainView {
         });
 
         this.controller.initialize(this);
-    }
-    public void setFriendScoreLabel(int points){
-        friendScoreLabel.setText(Integer.toString(points) + " Points");
-    }
-    public void setEnemyScoreLabel(int points){
-        enemyScoreLabel.setText(Integer.toString(points) + " Points");
-    }
-    public void setTimeLabel(int seconds){
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                int onlyMinutes = seconds/60;
-                int onlySeconds = seconds%60;
-                String minutesFormatted = String.format("%02d", onlyMinutes);
-                String secondsFormatted = String.format("%02d", onlySeconds);
-                timeLabel.setText(minutesFormatted + ":" + secondsFormatted);
-            }
-        });
-    }
-
-
-    public void setFriendNameLabel(String name){
-        friendNameLabel.setText(name + "'s Field");
-    }
-    public void setEnemyNameLabel(String name){
-        enemyNameLabel.setText(name + "'s Field");
-    }
-    public void setPlayField(String indicator, String side, int index, String color){
-        if(side.equals("friend")){
-            Button button = (Button)friendGrid.getChildren().get(index+1);
-            button.setText(indicator.toString());
-            button.setStyle(color);
-        }else if(side.equals("enemy")){
-            Button button = (Button)enemyGrid.getChildren().get(index+1);
-            button.setText(indicator);
-            button.setStyle(color);
-        }
-    }
-    //TODO: remove the following and replace it by a check in the actual Map/list where the state is saved. The view should not store data.
-    public String getPlayField(int index){
-        Button button = (Button)friendGrid.getChildren().get(index+1);
-        return button.getText();
     }
     public void addPlayButtons(GridPane grid, String playerSide){
     	Button buttons[] = new Button[150];
@@ -137,12 +141,7 @@ public class MainView {
             grid.add(buttons[i], getColumn(i), getRow(i));
         }
     }
-    public int getRow(int index){
-        return index/15 ;
-    }
-    public int getColumn(int index){
-        return (index%15);
-    }
+
     
     public void Alert(String msg, boolean walkover) {
     	Platform.runLater(new Runnable() {
