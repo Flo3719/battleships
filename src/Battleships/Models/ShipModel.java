@@ -28,7 +28,7 @@ public class ShipModel {
 			return 1;
 		}
 		else {
-			if (positions.get(0).x == positions.get(1).x) {
+			if (positions.get(0).getX() == positions.get(1).getX()) {
 				return 1;
 			}
 			else {
@@ -42,14 +42,14 @@ public class ShipModel {
 		if(getOrientation() == 0)
 		{
 			for(PositionModel pos : positions) {
-				if(pos.x < best.x)
+				if(pos.getX() < best.getX())
 					best =  pos;
 			}
 		}
 		else
 		{
 			for(PositionModel pos : positions) {
-				if(pos.y < best.y)
+				if(pos.getY() < best.getY())
 					best =  pos;
 			}
 		}
@@ -68,7 +68,7 @@ public class ShipModel {
 	}
 	public boolean Sunk() {
 		for(PositionModel pos : positions) {
-			if(!pos.hasBeenGuessed)
+			if(!pos.getHasBeenGuessed())
 				return false;
 		}
 		return true;

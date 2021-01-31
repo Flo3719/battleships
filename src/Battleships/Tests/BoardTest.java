@@ -13,14 +13,14 @@ public class BoardTest {
     public void testAddShips(){
         Board board = new Board();
         // addShips() is called in the board constructor
-        assertEquals(28, board.ships.size());
+        assertEquals(28, board.getShips().size());
     }
 
     @Test
     public void testPositionShips(){
         Board board = new Board();
         board.positionShips();
-        for(ShipModel ship : board.ships){
+        for(ShipModel ship : board.getShips()){
             if(ship.getPositions().isEmpty()){
                 fail("All ships should be positioned.");
             }

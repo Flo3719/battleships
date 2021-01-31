@@ -21,7 +21,7 @@ public class GameClientHandlerTest {
 	GameClientHandler gch;
 	@BeforeEach
 	public void init() {
-		JoinBoxViewController joinBoxViewController = (JoinBoxViewController) JoinBoxViewController.sharedInstance;
+		JoinBoxViewController joinBoxViewController = (JoinBoxViewController) JoinBoxViewController.getSharedInstance();
 		MainViewController mainViewController = (MainViewController) MainViewController.sharedInstance;
 		Board board = new Board();
 		MainView mainView = new MainView();

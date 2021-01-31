@@ -114,11 +114,11 @@ public class Server implements Runnable {
 	}
 	public void sendTurnIndicator(GameController game) throws IOException {
 		String message = ProtocolMessages.TURN + ProtocolMessages.CS
-				+ game.model.getPlayer(game.model.current).getName();
+				+ game.getModel().getPlayer(game.getModel().getCurrent()).getName();
 		SendTogameClients(message, game);
 	}
 	public void SendTogameClients(String msg, GameController gameController) {
-		for (GameClientHandler gch : gameController.model.players) {
+		for (GameClientHandler gch : gameController.getModel().getPlayers()) {
 			try {
 				gch.sendOut(msg);
 			} catch (IOException e) {

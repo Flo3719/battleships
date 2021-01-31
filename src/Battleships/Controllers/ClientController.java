@@ -26,20 +26,20 @@ public class ClientController implements Runnable {
 	final MainViewController mainViewController;
 
 	private boolean leader;
-	public boolean myTurn;
+	private boolean myTurn;
 	private Board board;
 
 	private PlayerModel player;
-	public PlayerModel opponent;
+	private PlayerModel opponent;
 
-	public int Port;
-	public String ip;
+	private int Port;
+	private String ip;
 
-	public int timeBeginningTurn;
-	public int timeLeft = 300;
-	public boolean gameTimeOver = false;
+	private int timeBeginningTurn;
+	private int timeLeft = 300;
+	private boolean gameTimeOver = false;
 
-	public ComputerPlayer computerPlayer;
+	private ComputerPlayer computerPlayer;
 
 	private final int COMPUTINGBUFFER = 100;
 
@@ -54,6 +54,9 @@ public class ClientController implements Runnable {
 	public MainViewController getMainViewController() {
 		return mainViewController;
 	}
+	public boolean getMyTurn() {
+		return this.myTurn;
+	}
 	public PlayerModel getPlayer(){
 		return this.player;
 	}
@@ -64,6 +67,12 @@ public class ClientController implements Runnable {
 		if(player.getName().equals("Computer") || player.getName().equals("Computer2") ){
 			this.computerPlayer = new ComputerPlayer();
 		}
+	}
+	public void setPort(int port) {
+		this.Port = port;
+	}
+	public void setIp(String ip) {
+		this.ip = ip;
 	}
 	public void getPlayerNames() throws ServerNotAvailableException, ProtocolException {
 		String response = readLineFromServer();
@@ -84,7 +93,12 @@ public class ClientController implements Runnable {
 
 		return null;
 	}
-
+	public int getPort() {
+		return this.Port;
+	}
+	public String getIp() {
+		return this.ip;
+	}
 	//Methods
 	public void startGame() throws IOException, ServerNotAvailableException {
 		out.write(ProtocolMessages.START);
@@ -195,7 +209,7 @@ public class ClientController implements Runnable {
 
 					@Override
 					public void run() {
-						mainViewController.joinBoxView.joinStage.close();
+						mainViewController.getjoinBoxView().getJoinStage().close();
 					}
 				});
 				System.out.println("CLIENT " + this.player.getName() + ": PRESS BUTTON TO START GAME");
@@ -285,7 +299,7 @@ public class ClientController implements Runnable {
 
 					@Override
 					public void run() {
-						mainViewController.joinBoxView.joinStage.close();
+						mainViewController.getjoinBoxView().getJoinStage().close();
 					}
 				});
 			}

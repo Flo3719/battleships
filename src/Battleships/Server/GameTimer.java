@@ -24,14 +24,14 @@ public class GameTimer implements Runnable {
 		while (running) {
 			for (int i = gameTime; i > -1; i--) {
 				try {
-					if (!this.gameController.model.hasWinner) {
+					if (!this.gameController.getModel().getHasWinner()) {
 						TimeUnit.SECONDS.sleep(1);
 						server.sendTimeUpdate(i, gameController);
 						if (i == 0) {
-							GameClientHandler winner = gameController.model.checkIfWonOnScore();
+							GameClientHandler winner = gameController.getModel().checkIfWonOnScore();
 							String msg = ProtocolMessages.WON + ProtocolMessages.CS + winner.getName();
 							server.SendTogameClients(msg, gameController);
-							this.gameController.model.endGameDueToWin();
+							this.gameController.getModel().endGameDueToWin();
 						}
 					}
 				} catch (InterruptedException e) {

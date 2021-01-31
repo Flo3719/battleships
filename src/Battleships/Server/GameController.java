@@ -6,11 +6,14 @@ import Battleships.Models.GameModel;
 
 public class GameController {
 	//Variables
-	public GameModel model;
+	private GameModel model;
 	private GameTimer gameTimer;
 	private Server server;
 
 	//Getters
+	public GameModel getModel() {
+		return this.model;
+	}
 	public GameTimer getTimer() {
 		return this.gameTimer;
 	}
@@ -37,7 +40,7 @@ public class GameController {
 	}
 	public void sendToGameClients(String message) {
 		// TODO Auto-generated method stub
-		for (GameClientHandler gch : model.players) {
+		for (GameClientHandler gch : model.getPlayers()) {
 			try {
 				gch.sendOut(message);
 			} catch (IOException e) {

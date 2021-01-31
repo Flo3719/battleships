@@ -19,7 +19,7 @@ public class MainViewController implements MainViewDelegate {
 	protected MainView view;
 	private Board board;
 	private ClientController clientController;
-	public JoinBoxView joinBoxView;
+	private JoinBoxView joinBoxView;
 
 	//Singleton
 	public static MainViewDelegate sharedInstance = new MainViewController();
@@ -42,6 +42,9 @@ public class MainViewController implements MainViewDelegate {
 	public MainView getView() {
 		return this.view;
 	}
+	public JoinBoxView getjoinBoxView() {
+		return this.joinBoxView;
+	}
 	private int getIndex(int col, int row) {
 		return row * 15 + col;
 	}
@@ -63,7 +66,7 @@ public class MainViewController implements MainViewDelegate {
 
 	@Override
 	public void handleButtonClick(Event evt) throws IOException {
-		if (this.clientController.myTurn) {
+		if (this.clientController.getMyTurn()) {
 			String id = ((Control) evt.getSource()).getId();
 			System.out.println(id);
 			String button[];
@@ -93,26 +96,26 @@ public class MainViewController implements MainViewDelegate {
 	public void addShips(Board board) {
 		for (int y = 0; y < board.HEIGHT; y++) {
 			for (int x = 0; x < board.WIDTH; x++) {
-				PositionModel pos = board.positions[x][y];
-				if (pos.ship != null) {
-					switch (pos.ship.getShipType()) {
+				PositionModel pos = board.getPositions()[x][y];
+				if (pos.getShip() != null) {
+					switch (pos.getShip().getShipType()) {
 					case PATROL_BOAT:
 						// TODO implement enum for indicators + add to the setPlayField funtion that it
 						// changes the color according to indicator/as param
 						// TODO add numbers to the indicator P1, C1, C2, etc
-						this.view.setPlayField(pos.ship.getShipName(), "friend", getIndex(x, y), pos.ship.getShipType().color);
+						this.view.setPlayField(pos.getShip().getShipName(), "friend", getIndex(x, y), pos.getShip().getShipType().color);
 						break;
 					case SUPER_PATROL:
-						this.view.setPlayField(pos.ship.getShipName(), "friend", getIndex(x, y), pos.ship.getShipType().color);
+						this.view.setPlayField(pos.getShip().getShipName(), "friend", getIndex(x, y), pos.getShip().getShipType().color);
 						break;
 					case DESTROYER:
-						this.view.setPlayField(pos.ship.getShipName(), "friend", getIndex(x, y), pos.ship.getShipType().color);
+						this.view.setPlayField(pos.getShip().getShipName(), "friend", getIndex(x, y), pos.getShip().getShipType().color);
 						break;
 					case BATTLESHIP:
-						this.view.setPlayField(pos.ship.getShipName(), "friend", getIndex(x, y), pos.ship.getShipType().color);
+						this.view.setPlayField(pos.getShip().getShipName(), "friend", getIndex(x, y), pos.getShip().getShipType().color);
 						break;
 					case CARRIER:
-						this.view.setPlayField(pos.ship.getShipName(), "friend", getIndex(x, y), pos.ship.getShipType().color);
+						this.view.setPlayField(pos.getShip().getShipName(), "friend", getIndex(x, y), pos.getShip().getShipType().color);
 						break;
 					}
 				}

@@ -9,12 +9,18 @@ public class GameModel {
 	public static final int NUMBER_PLAYERS = 2;
 	private static final int MAXIMUM_GAME_TIME = 5 * 60;
 	//TODO make private; create getters/setters as needed
-	public boolean hasWinner = false;
-	public boolean winnerDueToLostConnection = false;
-	public GameClientHandler[] players;
-	public int current;
+	private boolean hasWinner = false;
+	private boolean winnerDueToLostConnection = false;
+	private GameClientHandler[] players;
+	private int current;
 
 	//Getters
+	public int getCurrent() {
+		return this.current;
+	}
+	public GameClientHandler[] getPlayers() {
+		return this.players;
+	}
 	public GameClientHandler getPlayer(int player) {
 		return players[player];
 	}
@@ -29,6 +35,18 @@ public class GameModel {
 	}
 	public int getMaximumGameTime() {
 		return MAXIMUM_GAME_TIME;
+	}
+	public boolean getHasWinner() {
+		return hasWinner;
+	}
+	public boolean getWinnerDueToLostConnection() {
+		return this.winnerDueToLostConnection;
+	}
+	public void setWinnerDueToLostConnection(boolean winnerDueToLostConnection) {
+		this.winnerDueToLostConnection = winnerDueToLostConnection;
+	}
+	public void setHasWinner(boolean hasWinner) {
+		this.hasWinner = hasWinner;
 	}
 
 	//Constructors
@@ -52,18 +70,18 @@ public class GameModel {
 	}
 	public boolean checkIfCleanSweep() {
 		boolean won = true;
-		for (ShipModel sh : getOpponent().getBoard().ships) {
+		for (ShipModel sh : getOpponent().getBoard().getShips()) {
 			if (!sh.Sunk()) {
 				won = false;
 			}
 		}
 		if (won) {
-			this.hasWinner = true;
+			this.setHasWinner(true);
 		}
 		return won;
 	}
 	public GameClientHandler checkIfWonOnScore() {
-		this.hasWinner = true;
+		this.setHasWinner(true);
 		if (players[0].getScore() > players[1].getScore()) {
 			return players[0];
 		} 
@@ -76,12 +94,12 @@ public class GameModel {
 	public GameClientHandler CheckWinnerWhenSamePoints() {
 		int sunkByPlayer1 = 0;
 		int sunkByPlayer0 = 0;
-		for (ShipModel sh : players[0].getBoard().ships) {
+		for (ShipModel sh : players[0].getBoard().getShips()) {
 			if (sh.Sunk()) {
 				sunkByPlayer1++;
 			}
 		}
-		for (ShipModel sh : players[1].getBoard().ships) {
+		for (ShipModel sh : players[1].getBoard().getShips()) {
 			if (sh.Sunk()) {
 				sunkByPlayer0++;
 			}
@@ -98,12 +116,12 @@ public class GameModel {
 		for (ShipType st : ShipType.values()) {
 			int countOpponent = 0;
 			int countSelf = 0;
-			for (ShipModel sm : getOpponent().getBoard().ships) {
+			for (ShipModel sm : getOpponent().getBoard().getShips()) {
 				if (sm.getShipType().equals(st) && sm.Sunk()) {
 					countOpponent++;
 				}
 			}
-			for (ShipModel sm : getCurrentPlayer().getBoard().ships) {
+			for (ShipModel sm : getCurrentPlayer().getBoard().getShips()) {
 				if (sm.getShipType().equals(st) && sm.Sunk()) {
 					countSelf++;
 				}
@@ -118,7 +136,7 @@ public class GameModel {
 	}
 	public synchronized void endGameDueToLostConnection(GameClientHandler gch) {
 		try {
-			gch.getGame().model.hasWinner = true;
+			gch.getGame().getModel().setHasWinner(true);
 			gch.sendOut(ProtocolMessages.WON + ProtocolMessages.CS + gch.getName());
 			gch.shutdown();
 		} catch (IOException e) {
@@ -126,8 +144,9 @@ public class GameModel {
 		}
 	}
 	public void endGameDueToWin() {
-    	this.hasWinner = true;
+    	this.setHasWinner(true);
     	this.getPlayer(0).shutdown();
     	this.getPlayer(1).shutdown();
 	}
+
 }

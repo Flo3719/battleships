@@ -12,7 +12,7 @@ public class MainViewTest {
     //TODO fix
     @Test
     public void testAddPlayButtons(){
-        JoinBoxViewController joinBoxViewController = (JoinBoxViewController) JoinBoxViewController.sharedInstance;
+        JoinBoxViewController joinBoxViewController = (JoinBoxViewController) JoinBoxViewController.getSharedInstance();
         MainViewController mainViewController = (MainViewController) MainViewController.sharedInstance;
         mainViewController.initialize(new MainView());
         MainView mainView = mainViewController.getView();
