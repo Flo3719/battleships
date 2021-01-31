@@ -14,17 +14,24 @@ https://drive.google.com/file/d/1OmuHJMOoMQedCfl5UnDfqdZfOkNH3jXs/view
 https://drive.google.com/file/d/1blJEZ86LWngViMPk0Xfdl6GrOQNmvg77/view
 <br>
 <br>
-To play the game locally open two instances of the game.
-In the first one click host. Then, in the same instance type name "client 1" (or some other name), and click join.
-In the second instance type name "client 2"(or some other name) and click join. Now, the 
-main game window of client 1 should open. THE GAME HAS NOT STARTED YET. To start the click
-in the top bar on "game" and then "start game". The game will start. The yellow "<" next to the
-"BATTLESHIPS" label is the turn indicator.
+#### To play the game locally open three instances of the application.
+**In the first one** click host. This one is now the server. Optionally a custom port can be entered.
+<br><br>
+**In the second one** type name "client 1" (or some other name), and click join. You can also enter an IP and port before joining. by default
+localhost and port 4242 are used.
+<br>
+<br>
+**In the third** do the same as in the second one, but choose a different name.
+<br>
+<br>
+Now, the main game window of client 1 should open as the two clients are assigned to a game by the server. THE GAME HAS NOT STARTED YET. To start, click
+in the top bar on "Game" and then "start game". The game will start. The yellow "<" and ">" next to the
+"BATTLESHIPS" label are the turn indicators.
 <br>
 An attack is made by clicking a field on the right "water"-screen.
 <br>
 Orange "X" means hit.<br>
-White "O" means miss.  
+White "O" means miss.<br>
 The color of a ship means destroyed.
 <br>
 <br>
