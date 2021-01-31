@@ -36,6 +36,10 @@ public class Board {
 		return this.positions;
 	}
 	//Methods
+	/**
+	 * Adds all the ships to the arrayList
+	 * @ensures ships.size() == 28
+	 */
 	public void addShips() {
 		for(int i = 0; i<2; i++) {
 			ships.add(new ShipModel(ShipType.CARRIER, i));
@@ -53,6 +57,10 @@ public class Board {
 			ships.add(new ShipModel(ShipType.PATROL_BOAT, i));
 		}
 	}
+	/**
+	 * Chooses for each ship a random position on the board and a random orientation.
+	 * @ensures all ships have a position
+	 */
 	public void positionShips() {
 		for(ShipModel ship: ships) {
 			boolean positioned = false;
@@ -89,6 +97,11 @@ public class Board {
 			}
 		}
 	}
+	/**
+	 * @param x x-coordinate
+	 * @param y y-coordinate
+	 * @return true if it is a position on the board without a ship on it.
+	 */
 	public boolean isFreeField(int x, int y) {
 		if(x < WIDTH && x >= 0 && y < HEIGHT && y >= 0 && positions[x][y].getShip() == null) {
 			return true;
@@ -96,6 +109,12 @@ public class Board {
 		return false;
 	}
 	
+	/**
+	 * @param ship model of the ship that needs to be placed
+	 * @param randomX random x-coordinate
+	 * @param randomY random y-coordinate
+	 * @return true if the ship can be placed from point (x, y) eastwards on.
+	 */
 	private boolean tryEast(ShipModel ship, int randomX, int randomY) {
 		for(int i = 0; i < ship.getLength(); i++) {
 			if(!isFreeField(randomX + i, randomY)) {
@@ -104,7 +123,13 @@ public class Board {
 		}
 		return true;
 	}
-	
+	/**
+	 * places the ship, starting at point (x, y), pointing east.
+	 * assigns the positions to that ship, and the ship to those positions
+	 * @param ship model of the ship that needs to be placed
+	 * @param randomX random x-coordinate
+	 * @param randomY random y-coordinate
+	 */
 	public void placeEast(ShipModel ship, int randomX, int randomY) {
 		for(int i = 0; i < ship.getLength(); i++) {
 			PositionModel pos = positions[randomX + i][randomY];
@@ -113,7 +138,12 @@ public class Board {
 		}
 	}
 	
-	
+	/**
+	 * @param ship model of the ship that needs to be placed
+	 * @param randomX random x-coordinate
+	 * @param randomY random y-coordinate
+	 * @return true if the ship can be placed from point (x, y) westwards on.
+	 */
 	private boolean tryWest(ShipModel ship, int randomX, int randomY) {
 		for(int i = 0; i < ship.getLength(); i++) {
 			if(!isFreeField(randomX - i, randomY)) {
@@ -123,6 +153,13 @@ public class Board {
 		return true;
 	}
 	
+	/**
+	 * places the ship, starting at point (x, y), pointing west
+	 * assigns the positions to that ship, and the ship to those positions
+	 * @param ship model of the ship that needs to be placed
+	 * @param randomX random x-coordinate
+	 * @param randomY random y-coordinate
+	 */
 	public void placeWest(ShipModel ship, int randomX, int randomY) {
 		for(int i = 0; i < ship.getLength(); i++) {
 			PositionModel pos = positions[randomX - i][randomY];
@@ -130,7 +167,12 @@ public class Board {
 			pos.setShip(ship);
 		}
 	}
-	
+	/**
+	 * @param ship model of the ship that needs to be placed
+	 * @param randomX random x-coordinate
+	 * @param randomY random y-coordinate
+	 * @return true if the ship can be placed from point (x, y) southwards on.
+	 */
 	private boolean trySouth(ShipModel ship, int randomX, int randomY) {
 		for(int i = 0; i < ship.getLength(); i++) {
 			if(!isFreeField(randomX, randomY + i)) {
@@ -139,7 +181,13 @@ public class Board {
 		}
 		return true;
 	}
-	
+	/**
+	 * places the ship, starting at point (x, y), pointing South
+	 * assigns the positions to that ship, and the ship to those positions
+	 * @param ship model of the ship that needs to be placed
+	 * @param randomX random x-coordinate
+	 * @param randomY random y-coordinate
+	 */
 	public void placeSouth(ShipModel ship, int randomX, int randomY) {
 		for(int i = 0; i < ship.getLength(); i++) {
 			PositionModel pos = positions[randomX][randomY + i];
@@ -147,7 +195,12 @@ public class Board {
 			pos.setShip(ship);
 		}
 	}
-	
+	/**
+	 * @param ship model of the ship that needs to be placed
+	 * @param randomX random x-coordinate
+	 * @param randomY random y-coordinate
+	 * @return true if the ship can be placed from point (x, y) northwards on.
+	 */
 	private boolean tryNorth(ShipModel ship, int randomX, int randomY) {
 		for(int i = 0; i < ship.getLength(); i++) {
 			if(!isFreeField(randomX, randomY - i)) {
@@ -156,7 +209,14 @@ public class Board {
 		}
 		return true;
 	}
-	
+	/**
+	 * places the ship, starting at point (x, y), pointing north
+	 * assigns the positions to that ship, and the ship to those positions
+	 * @param ship model of the ship that needs to be placed
+	 * @param randomX random x-coordinate
+	 * @param randomY random y-coordinate
+	 * 
+	 */
 	public void placeNorth(ShipModel ship, int randomX, int randomY) {
 		for(int i = 0; i < ship.getLength(); i++) {
 			PositionModel pos = positions[randomX][randomY - i];
@@ -164,6 +224,11 @@ public class Board {
 			pos.setShip(ship);
 		}
 	}
+	/**
+	 * Creates a string out of a board. Adds a 0 to the String if the position is empty,
+	 * else the name of the ship is added.
+	 * 
+	 */
 	public String toString() {
 		String result = "";
 		for(int i = 0; i < HEIGHT; i++) {

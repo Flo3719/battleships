@@ -64,6 +64,11 @@ public class MainViewController implements MainViewDelegate {
 		handleMenuJoinClick();
 	}
 
+	/**
+	 * If it is the turn of the client that clicked, checks the index of the button
+	 * calls the Attack method of the clientController.
+	 * @ensures only client whose turn it is can attack.
+	 */
 	@Override
 	public void handleButtonClick(Event evt) throws IOException {
 		if (this.clientController.getMyTurn()) {
@@ -83,16 +88,25 @@ public class MainViewController implements MainViewDelegate {
 		}
 	}
 
+	/**
+	 * calls the start game method as soon as the button is clicked
+	 */
 	@Override
 	public void handleStartClick(Event evt) throws IOException, ServerNotAvailableException {
 		this.clientController.startGame();
 	}
 
+	/**
+	 * Displays the joinBox when the join button has been clicked
+	 */
 	public void handleMenuJoinClick() {
 		this.joinBoxView = new JoinBoxView(this.clientController, this.view);
 		joinBoxView.display(this.board);
 	}
 
+	/**
+	 * Goes through all coordinates of the board, updates the UI if the position is occupied by a ship.
+	 */
 	public void addShips(Board board) {
 		for (int y = 0; y < board.HEIGHT; y++) {
 			for (int x = 0; x < board.WIDTH; x++) {
@@ -100,9 +114,6 @@ public class MainViewController implements MainViewDelegate {
 				if (pos.getShip() != null) {
 					switch (pos.getShip().getShipType()) {
 					case PATROL_BOAT:
-						// TODO implement enum for indicators + add to the setPlayField funtion that it
-						// changes the color according to indicator/as param
-						// TODO add numbers to the indicator P1, C1, C2, etc
 						this.view.setPlayField(pos.getShip().getShipName(), "friend", getIndex(x, y), pos.getShip().getShipType().color);
 						break;
 					case SUPER_PATROL:

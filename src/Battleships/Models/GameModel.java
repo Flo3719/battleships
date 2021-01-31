@@ -65,9 +65,17 @@ public class GameModel {
 	}
 
 	//Methods
+	/**
+	 * Changes the current. 
+	 * @ensures previous current is not the same as new current.
+	 */
 	public void switchCurrent() {
 		this.current = (this.current == 0) ? 1 : 0;
 	}
+	
+	/**
+	 * @return true if all boats of the opponent has been hit completely
+	 */
 	public boolean checkIfCleanSweep() {
 		boolean won = true;
 		for (ShipModel sh : getOpponent().getBoard().getShips()) {
@@ -80,6 +88,12 @@ public class GameModel {
 		}
 		return won;
 	}
+	/**
+	 * @return GameclientHandler that has the most points, if scores are equal
+	 * CheckWinnerWhenSamePoints is called.
+	 * 
+	 * @ensures result != null
+	 */
 	public GameClientHandler checkIfWonOnScore() {
 		this.setHasWinner(true);
 		if (players[0].getScore() > players[1].getScore()) {
@@ -91,6 +105,12 @@ public class GameModel {
 			return CheckWinnerWhenSamePoints();
 		}
 	}
+	/**
+	 * @return GameClientHandler that made the most boats of the opponent sunk.
+	 * if the amount is equal, checkWinnerWhenSameAmountBoatsDestroyed is called.
+	 * 
+	 * @ensures result != null
+	 */
 	public GameClientHandler CheckWinnerWhenSamePoints() {
 		int sunkByPlayer1 = 0;
 		int sunkByPlayer0 = 0;
@@ -112,6 +132,12 @@ public class GameModel {
 			return checkWinnerWhenSameAmountBoatsDestroyed();
 		}
 	}
+	/**
+	 * Goes over each shipType, starting with the biggest. If there is a difference between
+	 * the amount of these boats the players have sunk, the GameClientHandler with the most boats of this shiptype
+	 * destroyed will be returned. Else, the next shiptype will be checked.
+	 * @return GameClientHandler who has destroyed the most boats with the biggest length.
+	 */
 	private GameClientHandler checkWinnerWhenSameAmountBoatsDestroyed() {
 		for (ShipType st : ShipType.values()) {
 			int countOpponent = 0;
@@ -134,6 +160,12 @@ public class GameModel {
 		}
 		return null;
 	}
+	/**
+	 * Assigns a winner to the game
+	 * @param gch GameClientHandler that has won the game
+	 * calls the GameClientHandler to write a win message on the OutputStream
+	 * Shuts down the GameClientHandler
+	 */
 	public synchronized void endGameDueToLostConnection(GameClientHandler gch) {
 		try {
 			gch.getGame().getModel().setHasWinner(true);
@@ -143,6 +175,10 @@ public class GameModel {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * assigns a winner to the game
+	 * Shuts down both GameClientHandlers
+	 */
 	public void endGameDueToWin() {
     	this.setHasWinner(true);
     	this.getPlayer(0).shutdown();

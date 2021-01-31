@@ -48,6 +48,10 @@ public class PlayerModel {
     }
 
     //Methods
+    /**
+     * @param score score that needs to be added to the old score
+     * @ensures score is bigger than before
+     */
     public void incrementScore(int score) {
     	this.score = this.score + score;
     }

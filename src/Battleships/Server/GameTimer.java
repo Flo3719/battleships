@@ -12,6 +12,13 @@ public class GameTimer implements Runnable {
 	private GameController gameController;
 
 	//Constructor
+	/**
+	 * Constructs a new GameTimer
+	 * 
+	 * @param server the connected server
+	 * @param gameTime duration of a game
+	 * @param gameController Controller of the game
+	 */
 	public GameTimer(Server server, int gameTime, GameController gameController) {
 		this.gameTime = gameTime;
 		this.server = server;
@@ -19,6 +26,9 @@ public class GameTimer implements Runnable {
 	}
 
 	//Methods
+	/**
+	 * gives the GameClientHandlers a time update of the game every second.
+	 */
 	@Override
 	public void run() {
 		while (running) {
@@ -41,6 +51,11 @@ public class GameTimer implements Runnable {
 			}
 		}
 	}
+	
+	/**
+	 * Terminates the GameTimer running on a thread.
+	 * @requires game to be over
+	 */
 	public void terminate() {
 		this.running = false;
 	}

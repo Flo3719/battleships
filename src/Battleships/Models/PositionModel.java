@@ -4,7 +4,6 @@ import Battleships.Models.ShipModel;
 
 public class PositionModel {
 	//Variables
-	//TODO make private; create getters and setters as needed
 	private int x;
 	private int y;
 	private  ShipModel ship;
@@ -37,6 +36,9 @@ public class PositionModel {
 		this.ship = null;
 	}
 	//Methods
+	/**
+	 * @return the index of a position
+	 */
 	public int index()
 	{
 		return y * 15 + x;

@@ -20,20 +20,26 @@ public class GameClientHandler implements Runnable {
 	private BufferedWriter out;
 	private Socket sock;
 
-	/** Server */
+	/** The connected Server */
 	private Server server;
 
 	/** Name of this Player */
 	private String name = "unnamed";
+	
+	/** Whether Player is the leader of the game*/
 	private boolean leader;
-
+	
+	/** Board of this Player */
 	private Board board;
-
+	
+	/** Score of this Player */
 	private int score;
 
+	/** Score for a hit or destroy*/
 	private final int DESTROY_SCORE = 2;
 	private final int HIT_SCORE = 1;
-
+	
+	/** Game of this Player */
 	private GameController game;
 
 	//Getters
@@ -62,6 +68,29 @@ public class GameClientHandler implements Runnable {
 	}
 
 	//Methods
+	/**
+	 * Constructs a new GameClientHandler. Opens the In- and OutputStreams.
+	 * 
+	 * @param sock The client socket
+	 * @param srv  The connected server
+	 * @param name The name of this ClientHandler
+	 */
+	public GameClientHandler(Socket sock, Server server, String name) {
+		try {
+			in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+			out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
+			this.sock = sock;
+			this.server = server;
+			this.name = name;
+		} catch (IOException e) {
+			shutdown();
+		}
+	}
+	
+	/**
+	 * Continuously listens to client input and forwards the input to the
+	 * handleCommand method.
+	 */
 	@Override
 	public void run() {
 		String msg;
@@ -79,23 +108,24 @@ public class GameClientHandler implements Runnable {
 				shutdown();
 			}
 		}
-	}
-	public GameClientHandler(Socket sock, Server server, String name) {
-		try {
-			in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-			out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
-			this.sock = sock;
-			this.server = server;
-			this.name = name;
-		} catch (IOException e) {
-			shutdown();
-		}
-	}
+	}	
+	/**
+	 * Sends the message over the connected socket
+	 * @param message message that needs to be sent
+	 * @throws IOException
+	 */
 	public void sendOut(String message) throws IOException {
 		out.write(message);
 		out.newLine();
 		out.flush();
 	}
+	
+	/**
+	 * @param stringBoard Board represented in a string
+	 * @return the board given by a string, as a type of Board
+	 * 
+	 * @requires stringBoard.length() == 150
+	 */
 	public Board toBoard(String stringBoard) {
 		Board resultBoard = new Board();
 		//resultBoard.addShips();
@@ -121,6 +151,15 @@ public class GameClientHandler implements Runnable {
 		}
 		return resultBoard;
 	}
+	/**
+	 * Handles commands received from the client by calling the according 
+	 * methods or sending the appropriate messages to the client.
+	 * 
+	 * @param msg command from client
+	 * @throws IOException if an IO errors occur.
+	 * 
+	 * @requires msg has used Protocol formatting
+	 */
 	public void handleCommand(String msg) throws IOException {
         String[] message = msg.split(ProtocolMessages.CS);
         switch(message[0]){
@@ -170,6 +209,14 @@ public class GameClientHandler implements Runnable {
             	this.game.sendToGameClients(chatMessage);
         }
     }
+	
+	/**
+	 * Shut down the connection to this client by closing the socket and 
+	 * the In- and OutputStreams.
+	 * 
+	 * If the game of the client has not have a winner yet, an automatic winner is appointed and
+	 * and the game is ended.
+	 */
     public void shutdown() {
         System.out.println("> [" + name + "] Shutting down.");
         this.game.getTimer().terminate();
@@ -204,6 +251,13 @@ public class GameClientHandler implements Runnable {
     	}
     	
     }
+    
+	/**
+	 * Handles all the messages received, that contain an error message.
+	 * 
+	 * @param ErrorMessage The type of error that has been sent.
+	 * @throws IOException if IO error occurs.
+	 */
 	private void handleErrorCommand(String ErrorMessage) throws IOException {
 		switch(ErrorMessage) {
 		case "InvalidIndex":

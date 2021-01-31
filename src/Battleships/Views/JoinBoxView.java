@@ -40,6 +40,7 @@ public class JoinBoxView {
         this.controller.setView(this);
     }
 
+	//TODO: this board is not used?
     public void display(Board board){
         this.joinStage = new Stage();
         initialize();
