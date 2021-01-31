@@ -16,7 +16,6 @@ public class MainViewTest {
         MainViewController mainViewController = (MainViewController) MainViewController.sharedInstance;
         mainViewController.initialize(new MainView());
         MainView mainView = mainViewController.getView();
-        //mainView.initialize();
         mainView.addPlayButtons(mainView.friendGrid, "friend");
         assertEquals(3, mainView.friendGrid.getChildren().size());
     }
