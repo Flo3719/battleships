@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MainViewTest {
-/*    //TODO fix
+    //TODO fix
     @Test
     public void testAddPlayButtons(){
         JoinBoxViewController joinBoxViewController = (JoinBoxViewController) JoinBoxViewController.getSharedInstance();
@@ -18,5 +18,5 @@ public class MainViewTest {
         MainView mainView = mainViewController.getView();
         mainView.addPlayButtons(mainView.friendGrid, "friend");
         assertEquals(3, mainView.friendGrid.getChildren().size());
-    }*/
+    }
 }
