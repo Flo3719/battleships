@@ -17,16 +17,25 @@ public class ComputerPlayer {
             unhittedFields.add(i);
         }
     }
+    /**
+     * Randomly chooses a coordinate on the board which has not yet been hit.
+     * coordinate is removed from list of unhitted fields.
+     * @return a String representing a coordinate on the board
+     */
     public String makeNaiveTurn() {
         int index = (int)(Math.random()*unhittedFields.size());
         System.out.println(index);
         String hit = String.valueOf(unhittedFields.get(index));
         unhittedFields.remove(index);
-        //return "15";
         return hit;
     }
 
 
+    /**
+     * 
+     * @param integer
+     * @return true if unhittedFields.contains(integer)
+     */
     public boolean containsValue(Integer integer){
         for(Integer iterator : unhittedFields){
             if(iterator.equals(integer)){
@@ -36,6 +45,9 @@ public class ComputerPlayer {
         return false;
     }
 
+    /**
+     * @return
+     */
     public String makeTurn(){
     	System.out.println(unhittedFields.size());
         if(hits.isEmpty()){

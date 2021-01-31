@@ -63,9 +63,17 @@ public class ShipModel {
 	}
 
 	//Methods
+	/**
+	 * @param pos positionModel that needs to be added to the ArrayList.
+	 * Adds a PositionModel to the arrayList
+	 * @ensures size of the arraylist has incremented by one
+	 */
 	public void addPosition(PositionModel pos){
 		this.positions.add(pos);
 	}
+	/**
+	 * @return true if all the positions of the shipModel has been guessed
+	 */
 	public boolean Sunk() {
 		for(PositionModel pos : positions) {
 			if(!pos.getHasBeenGuessed())

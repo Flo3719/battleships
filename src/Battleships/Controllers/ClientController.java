@@ -18,6 +18,10 @@ import java.net.ProtocolException;
 import java.net.Socket;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @author koen
+ *
+ */
 public class ClientController implements Runnable {
 	//Variables
 	private Socket serverSock;
@@ -74,6 +78,12 @@ public class ClientController implements Runnable {
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
+	/**
+	 * Assigns a new Playermodel to the opponent variable. Puts the name of the players on the UI
+	 * @throws ServerNotAvailableException
+	 * @throws ProtocolException
+	 * @ensures friendNameLabel != null && enemyNameLabel != null
+	 */
 	public void getPlayerNames() throws ServerNotAvailableException, ProtocolException {
 		String response = readLineFromServer();
 		if (response.contains(ProtocolMessages.HELLO) && response.contains(this.player.getName())) {
@@ -85,6 +95,11 @@ public class ClientController implements Runnable {
 			throw new ProtocolException("CLIENT: server responded with: " + response);
 		}
 	}
+	/**
+	 * @requires identfier is one of: C, S, P, B, D
+	 * @param identifier one letter identifier of a ship ("C" for a carrier).
+	 * @return the corresponding shipType
+	 */
 	public ShipType getShipTypeByIdentifier(String identifier) {
 		for (ShipType shipType : ShipType.values()) {
 			if (shipType.identifier.equals(identifier))
@@ -100,12 +115,22 @@ public class ClientController implements Runnable {
 		return this.ip;
 	}
 	//Methods
-	public void startGame() throws IOException, ServerNotAvailableException {
+	/**
+	 * Writes start message on output-Stream
+	 * @throws IOException If IO error occurs
+	 */
+	public void startGame() throws IOException {
 		out.write(ProtocolMessages.START);
 		out.newLine();
 		out.flush();
 	}
 
+	/**
+	 * @requires msg != null.
+	 * Writes given message on output Stream
+	 * @param msg message to be sent
+	 * @throws ServerNotAvailableException
+	 */
 	public synchronized void sendMessage(String msg) throws ServerNotAvailableException {
 		if (out != null) {
 			try {
@@ -121,10 +146,13 @@ public class ClientController implements Runnable {
 		}
 	}
 
+	/**
+	 * Try to open a socket to the server
+	 * Opens the In- and OutputStreams if socket has been opened
+	 */
 	public void createConnection() {
 		clearConnection();
 		while (serverSock == null) {
-			// try to open a Socket to the server
 			try {
 				InetAddress addr = InetAddress.getByName(this.ip);
 				System.out.println("CLIENT: Attempting to connect to " + addr + ":" + this.Port + "...");
@@ -141,22 +169,23 @@ public class ClientController implements Runnable {
 		}
 	}
 
-	//TODO is this used?
-	public boolean isConnected() {
-		if (serverSock != null) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
+	/**
+	 * Clears the connection by closing the In- and OutputStreams
+	 */
 	public void clearConnection() {
 		serverSock = null;
 		in = null;
 		out = null;
 	}
 
-	public String[] doHandshake() throws ServerNotAvailableException, ProtocolException {
+	/**
+	 * Sends a handshake message to the server and reads the response from the server.
+	 * 
+	 * @return a String array with the response from the server split on spaces.
+	 * @throws ServerNotAvailableException
+	 * @throws ProtocolException
+	 */
+	public String[] doHandshake() throws ProtocolException, ServerNotAvailableException {
 		sendMessage(ProtocolMessages.HELLO + ProtocolMessages.CS + this.player.getName());
 		String response = readLineFromServer();
 		System.out.println("CLIENT: " + response);
@@ -194,6 +223,13 @@ public class ClientController implements Runnable {
 		}
 	}
 
+	/**
+	 * Calls a method to create a connection with the server and send the handshake
+	 * Checks if returned handshake message means that a game can start or the ClientController
+	 * needs to wait for a new opponent.
+	 * 
+	 * Continuously listens input and forwards the input to the handleCommand method.
+	 */
 	@Override
 	public void run() {
 		createConnection();
@@ -244,18 +280,21 @@ public class ClientController implements Runnable {
 				out.flush();
 				msg = in.readLine();
 			}
-			 //closeConnection();
 		} catch (IOException e) {
-			 //closeConnection();
 		}
 	}
 
+	/**
+	 * handles commands received from the server by changing the UI or sending back
+	 * the correct message.
+	 * 
+	 * @requries msg to be written according to the protocol
+	 * @param msg received command from server
+	 * @throws IOException if an IO error occur
+	 */
 	private void handleCommand(String msg) throws IOException {
 		String[] message = msg.split(ProtocolMessages.CS);
 		switch (message[0]) {
-		// case ProtocolMessages.HELLO:
-		// out.write(server.getHello(message[1]));
-		// break;
 		case ProtocolMessages.TIME:
 			this.getMainViewController().view.setTimeLabel(Integer.parseInt(message[1]));
 			this.timeLeft = Integer.parseInt(message[1]);
@@ -397,6 +436,9 @@ public class ClientController implements Runnable {
 			break;
 		}
 	}
+	/**
+	 * updates the score of the player that has made an attack
+	 */
 	public void displayScoreAfterAttack() {
 		Platform.runLater(new Runnable() {
 
@@ -413,6 +455,12 @@ public class ClientController implements Runnable {
 		});
 	}
 
+	/**
+	 * @ensures button with id: id, has no function after clicking.
+	 * writes an attack message (according to the protocol) containing the index of the clicked button to the OutputStream
+	 * @param id id of the button that has been clicked by the client
+	 * @throws IOException if an IO error occurs
+	 */
 	public void Attack(String id) throws IOException {
 		Button button = (Button)this.mainViewController.view.enemyGrid.getChildren().get(Integer.parseInt(id) + 1);
 		button.setOnAction(null);
@@ -422,12 +470,20 @@ public class ClientController implements Runnable {
 		out.flush();
 	}
 
+	/**
+	 * writes an error message to the OutputStreams
+	 * @param errorMessage type of error that has occurred.
+	 * @throws IOException if an IO error occur
+	 */
 	public void sendErrorMessage(String errorMessage) throws IOException {
 		out.write(ProtocolMessages.ERROR + ProtocolMessages.CS + errorMessage);
 		out.newLine();
 		out.flush();
 		
 	}
+	/**
+	 * Closes the connection by closing In- and OutputStreams, the socket and the system.
+	 */
 	public void closeConnection() {
 		System.out.println("Closing the connection...");
 		try {

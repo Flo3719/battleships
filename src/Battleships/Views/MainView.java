@@ -110,6 +110,10 @@ public class MainView {
 
         this.controller.initialize(this);
     }
+    /**
+     * @param grid
+     * @param playerSide String saying "friend" or "enemy"
+     */
     public void addPlayButtons(GridPane grid, String playerSide){
     	Button buttons[] = new Button[150];
         for(int i = 0; i<=149; i++){
@@ -143,6 +147,12 @@ public class MainView {
     }
 
     
+    /**
+     * Shows an alert to the GameClientHandlers connected to the game that has been won.
+     * If the alert has a result, the system of the clients is closed.
+     * @param msg message to display on the content text of the alert
+     * @param walkover tells if the game was won with a walkover
+     */
     public void Alert(String msg, boolean walkover) {
     	Platform.runLater(new Runnable() {
 

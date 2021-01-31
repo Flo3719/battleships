@@ -25,6 +25,16 @@ public class JoinBoxViewController implements JoinBoxViewDelegate {
 		this.view = view;
 	}
 
+	/**
+	 * @requires name != null
+	 * 
+	 * @param name name written in text field
+	 * @param portInput integer written in text field
+	 * 
+	 * Starts a server with the given name and port.
+	 * if portInput == null, a defaultPort is used
+	 * Server is created on a different thread
+	 */
 	@Override
 	public void handleHostClick(String name, String portInput) {
 		int port;
@@ -42,6 +52,15 @@ public class JoinBoxViewController implements JoinBoxViewDelegate {
 		serverThread.start();
 	}
 
+	/**
+	 * @requires name != null
+	 * @param name name written in text field
+	 * @param ip ip written in text field
+	 * @param port portnumber written in text field
+	 * @param board board that was created after the program was started.
+	 * 
+	 * Client is running on a different thread
+	 */
 	@Override
 	public void handleJoinClick(String name, String ip, String port, Board board, ClientController client) {
 		int portHost;
