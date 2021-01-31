@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MainViewTest {
-    //TODO fix
     @Test
     public void testAddPlayButtons(){
         JoinBoxViewController joinBoxViewController = (JoinBoxViewController) JoinBoxViewController.getSharedInstance();

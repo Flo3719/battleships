@@ -49,7 +49,6 @@ public class GameController {
 		try {
 			server.sendTurnIndicator(this);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

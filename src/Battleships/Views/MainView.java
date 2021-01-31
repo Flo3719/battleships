@@ -99,7 +99,6 @@ public class MainView {
             try {
 				controller.handleStartClick(event);
 			} catch (IOException | ServerNotAvailableException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
             //controller.handleJoinClick(event);
@@ -135,7 +134,6 @@ public class MainView {
     				} catch (OutOfTurnException e) {
     					System.out.println("It is not your turn... Be patient");
     				} catch (IOException e) {
-    					// TODO Auto-generated catch block
     					e.printStackTrace();
     				}
                 });

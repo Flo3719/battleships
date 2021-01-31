@@ -67,7 +67,6 @@ public class ClientController implements Runnable {
 
 	public void setPlayer(PlayerModel player){
 		this.player = player;
-		//TODO add computer tick box in joinBox
 		if(player.getName().equals("Computer") || player.getName().equals("Computer2") ){
 			this.computerPlayer = new ComputerPlayer();
 		}
@@ -251,7 +250,6 @@ public class ClientController implements Runnable {
 				System.out.println("CLIENT " + this.player.getName() + ": PRESS BUTTON TO START GAME");
 				// startGame();
 			} else {
-				// TODO clean this up
 				leader = false;
 				MainViewController.sharedInstance.getView().friendNameLabel.setText(handshakeResult[1]);
 				MainViewController.sharedInstance.getView().enemyNameLabel.setText(handshakeResult[2]);
@@ -261,13 +259,10 @@ public class ClientController implements Runnable {
 //				waitForStartGame();
 			}
 		} catch (ProtocolException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ServerNotAvailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

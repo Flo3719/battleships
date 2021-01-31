@@ -240,7 +240,6 @@ public class GameClientHandler implements Runnable {
             e.printStackTrace();
         }
     }
-    //TODO why this method? never used?
     public void closeConnection() {
     	try {
     		in.close();

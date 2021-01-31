@@ -35,7 +35,6 @@ public class BoardTest {
         assertTrue(board.isFreeField(14, 9));
         assertTrue(board.isFreeField(3, 1));
         assertTrue(board.isFreeField(2, 1));
-        //TODO: Why is the board 0...10 x 0...15 and why do we save x and y in the positions?
     }
 
     @Test

@@ -1,0 +1,8 @@
+Battleships
+Battleships.Controllers
+Battleships.Models
+Battleships.Models.Exceptions
+Battleships.Server
+Battleships.Tests
+Battleships.Utils
+Battleships.Views

@@ -8,7 +8,6 @@ public class GameModel {
 	//Variables
 	public static final int NUMBER_PLAYERS = 2;
 	private static final int MAXIMUM_GAME_TIME = 5 * 60;
-	//TODO make private; create getters/setters as needed
 	private boolean hasWinner = false;
 	private boolean winnerDueToLostConnection = false;
 	private GameClientHandler[] players;

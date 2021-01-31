@@ -84,7 +84,6 @@ public class Server implements Runnable {
 						System.out.println("SERVER: NAME TAKEN");
 					}
 				}
-				// TODO create suitable exception
 			} catch (Exception e) {
 				openNewSocket = false;
 			}
