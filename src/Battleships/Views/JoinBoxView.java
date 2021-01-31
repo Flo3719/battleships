@@ -16,18 +16,27 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class JoinBoxView {
-    public JoinBoxViewDelegate controller;
+    private JoinBoxViewDelegate controller;
     private ClientController clientController;
-    public Stage joinStage;
-    public MainView mainView;
+    private Stage joinStage;
+    private MainView mainView;
 
+    //Constructor
     public JoinBoxView(ClientController clientController, MainView view) {
 		this.clientController = clientController;
 		this.mainView = view;
 	}
-
+    //Getters
+    public JoinBoxViewDelegate getController() {
+    	return this.controller;
+    }
+    public Stage getJoinStage() {
+    	return this.joinStage;
+    }
+    
+    //Methods
 	public void initialize() {
-        this.controller = JoinBoxViewController.sharedInstance;
+        this.controller = JoinBoxViewController.getSharedInstance();
         this.controller.setView(this);
     }
 

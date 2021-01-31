@@ -75,7 +75,7 @@ public class GameClientHandler implements Runnable {
 			}
 			//shutdown();
 		} catch (IOException e) {
-			if (!this.game.model.winnerDueToLostConnection) {
+			if (!this.game.getModel().getWinnerDueToLostConnection()) {
 				shutdown();
 			}
 		}
@@ -107,10 +107,10 @@ public class GameClientHandler implements Runnable {
 			for (int j = 0; j < Board.WIDTH; j++) {
 				String test = it.next();
 				if (!test.equals("0")) {
-					for (ShipModel s : resultBoard.ships) {
+					for (ShipModel s : resultBoard.getShips()) {
 						if (s.getShipName().equals(test)) {
-							resultBoard.positions[j][i].ship = s;
-							PositionModel pos = resultBoard.positions[j][i];
+							resultBoard.getPositions()[j][i].setShip(s);;
+							PositionModel pos = resultBoard.getPositions()[j][i];
 							s.addPosition(pos);
 							break;
 						}
@@ -133,25 +133,25 @@ public class GameClientHandler implements Runnable {
                 break;
             case ProtocolMessages.ATTACK:
             	int index =Integer.parseInt(message[1]);
-                GameClientHandler opponent = this.game.model.getOpponent();
+                GameClientHandler opponent = this.game.getModel().getOpponent();
                 Board opBoard = opponent.board;
-                PositionModel position = opBoard.positions[opBoard.getX(index)][opBoard.getY(index)];
-                position.hasBeenGuessed = true; 
-                if(position.ship == null)
+                PositionModel position = opBoard.getPositions()[opBoard.getX(index)][opBoard.getY(index)];
+                position.setHasBeenGuessed(true); 
+                if(position.getShip() == null)
                 {
                 	game.sendToGameClients(ProtocolMessages.MISS + ProtocolMessages.CS + index + ProtocolMessages.CS + opponent.getName());
-                	this.game.model.switchCurrent();
+                	this.game.getModel().switchCurrent();
                 	server.sendTurnIndicator(game);
                 }
                 else
                 {
-                	if(position.ship.Sunk())
+                	if(position.getShip().Sunk())
                 	{
                 		this.score = this.score + DESTROY_SCORE;
-                		game.sendToGameClients(ProtocolMessages.DESTROY + ProtocolMessages.CS + position.ship.getShipType().identifier + ProtocolMessages.CS + position.ship.getMarkerIndex() + ProtocolMessages.CS + position.ship.getOrientation() + ProtocolMessages.CS + opponent.getName());
-                		if(this.game.model.checkIfCleanSweep()) {
+                		game.sendToGameClients(ProtocolMessages.DESTROY + ProtocolMessages.CS + position.getShip().getShipType().identifier + ProtocolMessages.CS + position.getShip().getMarkerIndex() + ProtocolMessages.CS + position.getShip().getOrientation() + ProtocolMessages.CS + opponent.getName());
+                		if(this.game.getModel().checkIfCleanSweep()) {
                 			game.sendToGameClients(ProtocolMessages.WON + ProtocolMessages.CS + this.name);
-                			this.game.model.endGameDueToWin();
+                			this.game.getModel().endGameDueToWin();
                 		}
                 	}
                 	else
@@ -173,16 +173,16 @@ public class GameClientHandler implements Runnable {
     public void shutdown() {
         System.out.println("> [" + name + "] Shutting down.");
         this.game.getTimer().terminate();
-        if (!this.game.model.hasWinner) {
-        	this.game.model.winnerDueToLostConnection = true;
+        if (!this.game.getModel().getHasWinner()) {
+        	this.game.getModel().setWinnerDueToLostConnection(true);
         	GameClientHandler automaticWinner;
-        	if (this.game.model.getPlayer(0).equals(this)) {
-        		automaticWinner = this.game.model.getPlayer(1);
+        	if (this.game.getModel().getPlayer(0).equals(this)) {
+        		automaticWinner = this.game.getModel().getPlayer(1);
         	}
         	else {
-        		automaticWinner = this.game.model.getPlayer(0);
+        		automaticWinner = this.game.getModel().getPlayer(0);
         	}
-        	this.game.model.endGameDueToLostConnection(automaticWinner);
+        	this.game.getModel().endGameDueToLostConnection(automaticWinner);
         }
         try {
             server.getClients().remove(this);
@@ -210,7 +210,7 @@ public class GameClientHandler implements Runnable {
 			server.sendTurnIndicator(this.game);
 			break;
 		case "TimeOver":
-        	this.game.model.switchCurrent();
+        	this.game.getModel().switchCurrent();
         	server.sendTurnIndicator(game);
         	break;
 		}

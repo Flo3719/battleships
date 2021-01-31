@@ -8,8 +8,8 @@ public class Board {
 	public static final int WIDTH = 15;
 	public static final int HEIGHT = 10;
 	//Variables
-	public ArrayList<ShipModel> ships = new ArrayList<>();
-	public PositionModel[][] positions = new PositionModel[WIDTH][HEIGHT];
+	private ArrayList<ShipModel> ships = new ArrayList<>();
+	private PositionModel[][] positions = new PositionModel[WIDTH][HEIGHT];
 	//Constructor
 	public Board() {
 		for(int x = 0; x < WIDTH; x++) {
@@ -28,6 +28,12 @@ public class Board {
 	public int getX(int index) {
 		int rest = index % 15;
 		return rest;
+	}
+	public ArrayList<ShipModel> getShips(){
+		return this.ships;
+	}
+	public PositionModel[][] getPositions(){
+		return this.positions;
 	}
 	//Methods
 	public void addShips() {
@@ -84,7 +90,7 @@ public class Board {
 		}
 	}
 	public boolean isFreeField(int x, int y) {
-		if(x < WIDTH && x >= 0 && y < HEIGHT && y >= 0 && positions[x][y].ship == null) {
+		if(x < WIDTH && x >= 0 && y < HEIGHT && y >= 0 && positions[x][y].getShip() == null) {
 			return true;
 			}
 		return false;
@@ -103,7 +109,7 @@ public class Board {
 		for(int i = 0; i < ship.getLength(); i++) {
 			PositionModel pos = positions[randomX + i][randomY];
 			ship.addPosition(pos);
-			pos.ship = ship;
+			pos.setShip(ship);
 		}
 	}
 	
@@ -121,7 +127,7 @@ public class Board {
 		for(int i = 0; i < ship.getLength(); i++) {
 			PositionModel pos = positions[randomX - i][randomY];
 			ship.addPosition(pos);
-			pos.ship = ship;
+			pos.setShip(ship);
 		}
 	}
 	
@@ -138,7 +144,7 @@ public class Board {
 		for(int i = 0; i < ship.getLength(); i++) {
 			PositionModel pos = positions[randomX][randomY + i];
 			ship.addPosition(pos);
-			pos.ship = ship;
+			pos.setShip(ship);
 		}
 	}
 	
@@ -155,15 +161,15 @@ public class Board {
 		for(int i = 0; i < ship.getLength(); i++) {
 			PositionModel pos = positions[randomX][randomY - i];
 			ship.addPosition(pos);
-			pos.ship = ship;
+			pos.setShip(ship);
 		}
 	}
 	public String toString() {
 		String result = "";
 		for(int i = 0; i < HEIGHT; i++) {
 			for(int j = 0; j < WIDTH; j++) {
-				if(positions[j][i].ship != null) {
-					result = result + positions[j][i].ship.getShipName();
+				if(positions[j][i].getShip() != null) {
+					result = result + positions[j][i].getShip().getShipName();
 				}
 				else {
 					result = result + "0";

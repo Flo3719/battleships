@@ -23,7 +23,7 @@ public class JoinBoxViewControllerTest {
     @BeforeEach
     public void init(){
         System.setOut(new PrintStream(outputStreamCaptor));
-        joinBoxViewController = (JoinBoxViewController) JoinBoxViewController.sharedInstance;
+        joinBoxViewController = (JoinBoxViewController) JoinBoxViewController.getSharedInstance();
         mainViewController = (MainViewController) MainViewController.sharedInstance;
     }
 
@@ -43,8 +43,8 @@ public class JoinBoxViewControllerTest {
         assertNull(client.getPlayer());
         joinBoxViewController.handleJoinClick("player","localhost", "1234", new Board(), client);
         assertNotNull(client.getPlayer());
-        assertEquals(client.ip, "localhost");
-        assertEquals(client.Port, 1234);
+        assertEquals(client.getIp(), "localhost");
+        assertEquals(client.getPort(), 1234);
         assertTrue((threadSet.size()+1) == (Thread.getAllStackTraces().keySet().size()));
     }
 

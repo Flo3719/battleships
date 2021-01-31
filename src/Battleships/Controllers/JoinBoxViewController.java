@@ -12,9 +12,12 @@ public class JoinBoxViewController implements JoinBoxViewDelegate {
 	final private int defaultPort = 4242;
 
 	// Singleton
-	public static JoinBoxViewDelegate sharedInstance = new JoinBoxViewController();
+	private static JoinBoxViewDelegate sharedInstance = new JoinBoxViewController();
 
 	private JoinBoxViewController() {
+	}
+	public static JoinBoxViewDelegate getSharedInstance() {
+		return JoinBoxViewController.sharedInstance;
 	}
 
 	@Override
@@ -28,7 +31,7 @@ public class JoinBoxViewController implements JoinBoxViewDelegate {
 		if (portInput.equals("")) {
 			// Requirement S01
 			port = defaultPort;
-			view.controller.showMessage("Default Port is being used.");
+			view.getController().showMessage("Default Port is being used.");
 		} else {
 			port = Integer.parseInt(portInput);
 		}
@@ -45,13 +48,13 @@ public class JoinBoxViewController implements JoinBoxViewDelegate {
 		if (port.equals("")) {
 			// Requirement S01
 			portHost = defaultPort;
-			view.controller.showMessage("SERVER: Default Port is being used.");
+			view.getController().showMessage("SERVER: Default Port is being used.");
 		} else {
 			portHost = Integer.parseInt(port);
 		}
 		client.setPlayer(new PlayerModel(name));
-		client.ip = ip;
-		client.Port = portHost;
+		client.setIp(ip);
+		client.setPort(portHost);
 		Thread thread = new Thread(client);
 		thread.start();
 	}
