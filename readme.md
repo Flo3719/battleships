@@ -4,14 +4,7 @@
 To start the game run the **main.java** file. 
 <br>
 <br>
-**JavaFX must be properly setup following this
-tutorial:** 
-<br>
-**IntelliJ:** 
-https://drive.google.com/file/d/1OmuHJMOoMQedCfl5UnDfqdZfOkNH3jXs/view
-<br>
-**Eclipse:** 
-https://drive.google.com/file/d/1blJEZ86LWngViMPk0Xfdl6GrOQNmvg77/view
+**JavaFX must be properly setup in order to run the game**
 <br>
 <br>
 #### To play the game locally open three instances of the application.
